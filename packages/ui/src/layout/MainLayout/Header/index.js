@@ -132,9 +132,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
         </>
     )
 }
-
 Header.propTypes = {
     handleLeftDrawerToggle: PropTypes.func
 }
-
 export default Header

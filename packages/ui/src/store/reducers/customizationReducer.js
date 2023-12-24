@@ -8,9 +8,10 @@ export const initialState = {
     isOpen: [], // for active default menu
     fontFamily: config.fontFamily,
     borderRadius: config.borderRadius,
-    opened: true,
+    opened: false,
     isHorizontal: localStorage.getItem('isHorizontal') === 'true' ? true : false,
-    isDarkMode: localStorage.getItem('isDarkMode') === 'true' ? true : false
+    isDarkMode: localStorage.getItem('isDarkMode') === 'true' ? true : false,
+    chooseState: 'Chatflows'
 }
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -18,6 +19,11 @@ export const initialState = {
 const customizationReducer = (state = initialState, action) => {
     let id
     switch (action.type) {
+        case actionTypes.MAIN_STATE:
+            return {
+                ...state,
+                chooseState: action.state
+            }
         case actionTypes.MENU_OPEN:
             id = action.id
             return {

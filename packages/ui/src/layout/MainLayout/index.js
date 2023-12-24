@@ -1,106 +1,111 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Outlet } from 'react-router-dom'
-
-// material-ui
-import { styled, useTheme } from '@mui/material/styles'
-import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
-
-// project imports
-import Header from './Header'
-import Sidebar from './Sidebar'
-import { drawerWidth } from 'store/constant'
-import { SET_MENU } from 'store/actions'
-
-// styles
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-    ...theme.typography.mainContent,
-    ...(!open && {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        }),
-        [theme.breakpoints.up('md')]: {
-            marginLeft: -(drawerWidth - 20),
-            width: `calc(100% - ${drawerWidth}px)`
-        },
-        [theme.breakpoints.down('md')]: {
-            marginLeft: '20px',
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: '16px'
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: '10px',
-            width: `calc(100% - ${drawerWidth}px)`,
-            padding: '16px',
-            marginRight: '10px'
-        }
-    }),
-    ...(open && {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-        }),
-        marginLeft: 0,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-        width: `calc(100% - ${drawerWidth}px)`,
-        [theme.breakpoints.down('md')]: {
-            marginLeft: '20px'
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: '10px'
-        }
-    })
-}))
-
-// ==============================|| MAIN LAYOUT ||============================== //
+import { useDispatch } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router-dom'
+import './Main.css'
+import { MAIN_STATE } from '../../store/actions'
+import dashboard from '../../menu-items/dashboard'
+import ProfileSection from './ProfileSection'
+import { useState } from 'react'
+// import Breadcrumbs from '@mui/material/Breadcrumbs'
+// import Link from '@mui/material/Link'
+// import Typography from '@mui/material/Typography'
 
 const MainLayout = () => {
-    const theme = useTheme()
-    const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'))
-
-    // Handle left drawer
-    const leftDrawerOpened = useSelector((state) => state.customization.opened)
-    const dispatch = useDispatch()
-    const handleLeftDrawerToggle = () => {
-        dispatch({ type: SET_MENU, opened: !leftDrawerOpened })
+    let navigate = useNavigate()
+    let dispatch = useDispatch()
+    let [ModalState, SetModalState] = useState(false)
+    let [ShowComp, SetShowComp] = useState(null)
+    // let chooseState = useSelector((state) => state.chooseState)、
+    // const handleClick = (event) => {
+    //     event.preventDefault()
+    //     console.info('You clicked a breadcrumb')
+    //   }
+    const close = () => {
+        SetModalState(false)
+        SetShowComp(null)
     }
-
-    useEffect(() => {
-        setTimeout(() => dispatch({ type: SET_MENU, opened: !matchDownMd }), 0)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd])
-
+    const keyDownClose = (ev) => {
+        // esc键
+        if (ev.keyCode === 27) {
+            SetModalState(false)
+            SetShowComp(null)
+        } else {
+            return
+        }
+    }
+    const KeyDownContent = (ev) => {
+        return
+    }
+    const Content = (ev) => {
+        ev.stopPropagation()
+    }
+    const ChangePath = (item) => {
+        navigate(item.url)
+        dispatch({
+            type: MAIN_STATE,
+            state: item.id
+        })
+    }
+    const signOutClicked = () => {
+        localStorage.removeItem('username')
+        localStorage.removeItem('password')
+        navigate('/', { replace: true })
+        navigate(0)
+    }
+    const getComponent = (component, state) => {
+        SetModalState(state)
+        SetShowComp(component)
+    }
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            {/* header */}
-            <AppBar
-                enableColorOnDark
-                position='fixed'
-                color='inherit'
-                elevation={0}
-                sx={{
-                    bgcolor: theme.palette.background.default,
-                    transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
-                }}
-            >
-                <Toolbar>
-                    <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-                </Toolbar>
-            </AppBar>
-
-            {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
-
-            {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+        <div className='Main'>
+            <div className='Main_header'>
+                智能体
+                {/* <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" onClick={handleClick}>
+                Material-UI
+            </Link>
+            <Link color="inherit" href="/getting-started/installation/" onClick={handleClick}>
+                Core
+            </Link>
+            <Typography color="textPrimary">Breadcrumb</Typography>
+            </Breadcrumbs> */}
+            </div>
+            <div className='Header_Bar'>
+                {dashboard.children.slice(0, 2).map((item) => (
+                    <button onClick={() => ChangePath(item)} className='Header_BarItem' key={item.id}>
+                        <span>{item.icon}</span>
+                        <span>{item.title}</span>
+                    </button>
+                ))}
+                <div className='Header_BarItem'>
+                    <ProfileSection
+                        chooseComponent={getComponent}
+                        handleLogout={signOutClicked}
+                        username={localStorage.getItem('username') ?? ''}
+                    />
+                </div>
+            </div>
+            <div className='Content'>
                 <Outlet />
-            </Main>
-        </Box>
+            </div>
+            <div
+                role='button'
+                tabIndex={0}
+                onClick={() => close()}
+                onKeyDown={(ev) => keyDownClose(ev)}
+                style={ModalState === true ? { display: 'block' } : { display: 'none' }}
+                className='Modal'
+            >
+                <div
+                    role='button'
+                    tabIndex={0}
+                    onKeyDown={(ev) => KeyDownContent(ev)}
+                    onClick={(ev) => Content(ev)}
+                    className='ModalContent'
+                >
+                    {ShowComp}
+                </div>
+            </div>
+        </div>
     )
 }
 

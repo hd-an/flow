@@ -2,7 +2,16 @@
 import { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot } from '@tabler/icons'
 
 // constant
-const icons = { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot }
+// const icons = { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot }
+
+// apikey routing
+import APIKey from '../views/apikey'
+// tools routing
+import Tools from '../views/tools'
+// assistants routing
+import Assistants from '../views/assistants'
+// credentials routing
+import Credentials from '../views/credentials'
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -16,48 +25,54 @@ const dashboard = {
             title: 'Chatflows',
             type: 'item',
             url: '/chatflows',
-            icon: icons.IconHierarchy,
-            breadcrumbs: true
+            icon: <IconHierarchy />,
+            breadcrumbs: true,
+            component: null
         },
         {
             id: 'marketplaces',
             title: 'Marketplaces',
             type: 'item',
             url: '/marketplaces',
-            icon: icons.IconBuildingStore,
-            breadcrumbs: true
+            icon: <IconBuildingStore />,
+            breadcrumbs: true,
+            component: null
         },
         {
             id: 'tools',
             title: 'Tools',
             type: 'item',
             url: '/tools',
-            icon: icons.IconTool,
-            breadcrumbs: true
+            icon: <IconTool />,
+            breadcrumbs: true,
+            component: <Tools />
         },
         {
             id: 'assistants',
             title: 'Assistants',
             type: 'item',
             url: '/assistants',
-            icon: icons.IconRobot,
-            breadcrumbs: true
+            icon: <IconRobot />,
+            breadcrumbs: true,
+            component: <Assistants />
         },
         {
             id: 'credentials',
             title: 'Credentials',
             type: 'item',
             url: '/credentials',
-            icon: icons.IconLock,
-            breadcrumbs: true
+            icon: <IconLock />,
+            breadcrumbs: true,
+            component: <Credentials />
         },
         {
             id: 'apikey',
             title: 'API Keys',
             type: 'item',
             url: '/apikey',
-            icon: icons.IconKey,
-            breadcrumbs: true
+            icon: <IconKey />,
+            breadcrumbs: true,
+            component: <APIKey />
         }
     ]
 }

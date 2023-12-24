@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux'
 
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline, StyledEngineProvider } from '@mui/material'
-
 // routing
 import Routes from 'routes'
-
+import 'App.css'
 // defaultTheme
 import themes from 'themes'
 
@@ -20,6 +19,7 @@ const App = () => {
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes(customization)}>
+                {/*  CSS 样式重置和规范化 */}
                 <CssBaseline />
                 <NavigationScroll>
                     <Routes />

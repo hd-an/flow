@@ -1,0 +1,82 @@
+.Main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.Main .Main_header {
+    flex: 1;
+    line-height: 5vh;
+    box-sizing: border-box;
+    font-size: 20px;
+    margin-left: 1.5vw;
+}
+
+.Main .Header_Bar {
+    flex: 1;
+    overflow-x: scroll;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-bottom: 1px solid #cac4c4;
+}
+
+.Main .Header_Bar .Header_BarItem {
+    display: inline-block;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    text-align: center;
+    font-size: 18px;
+    overflow: hidden;
+    line-height: 5vh;
+    border: none;
+    background: none;
+}
+
+.Main .Header_Bar .Header_BarItem span:first-child {
+    margin-right: 0.5vw;
+}
+
+.Main .Header_Bar .Header_BarItem span {
+    font-size: 16px;
+}
+
+.Main .Header_Bar .Header_BarItem:last-child {
+    float: right;
+    margin-right: 1.5vw;
+}
+
+.Main .Content {
+    flex: 18;
+}
+
+.Main .Modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.Main .Modal .ModalContent {
+    width: 70%;
+    height: 90%;
+    margin-left: 15%;
+    margin-top: 5%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.MuiPopper-root {
+    transform: translate3d(-30px, 95px, 0px) !important;
+    z-index: 999;
+}

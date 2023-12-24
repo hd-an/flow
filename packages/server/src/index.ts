@@ -1260,6 +1260,13 @@ export class App {
             }
         })
 
+        this.app.get('/nihao', (req, res) => {
+            res.send({
+                code: 200,
+                msg: '123321'
+            })
+        })
+
         // ----------------------------------------
         // Serve UI static
         // ----------------------------------------
@@ -1621,6 +1628,7 @@ export class App {
             }
 
             const userMessage: Omit<IChatMessage, 'id'> = {
+                createdBy: 'sss',
                 role: 'userMessage',
                 content: incomingInput.question,
                 chatflowid,
@@ -1638,6 +1646,7 @@ export class App {
             else resultText = JSON.stringify(result, null, 2)
 
             const apiMessage: Omit<IChatMessage, 'id' | 'createdDate'> = {
+                createdBy: 'sss',
                 role: 'apiMessage',
                 content: resultText,
                 chatflowid,

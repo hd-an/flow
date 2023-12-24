@@ -26,18 +26,22 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
                     <LogoSection />
                 </Box>
             </Box>
+            {/* 移动端显示 */}
             <BrowserView>
+                {/* PerfectScrollbar 用来设置当元素超出高度则显示滚动条 */}
                 <PerfectScrollbar
                     component='div'
                     style={{
-                        height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
+                        // height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
                         paddingLeft: '16px',
                         paddingRight: '16px'
                     }}
                 >
+                    {/* MenuList组件用来显示左侧菜单的数据 */}
                     <MenuList />
                 </PerfectScrollbar>
             </BrowserView>
+            {/* 在手机端显示 */}
             <MobileView>
                 <Box sx={{ px: 2 }}>
                     <MenuList />
@@ -45,7 +49,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             </MobileView>
         </>
     )
-
+    // container 首先看在使用Sidebar时是否传递了window 如果没有 那么自己找window.document.body 如果也没有那么走undefined
     const container = window !== undefined ? () => window.document.body : undefined
 
     return (
@@ -70,6 +74,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
                 ModalProps={{ keepMounted: true }}
                 color='inherit'
             >
+                {/* 数据 */}
                 {drawer}
             </Drawer>
         </Box>

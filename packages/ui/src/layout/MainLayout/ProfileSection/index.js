@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-
 // material-ui
 import { useTheme } from '@mui/material/styles'
 import {
@@ -28,13 +27,12 @@ import Transitions from 'ui-component/extended/Transitions'
 import AboutDialog from 'ui-component/dialog/AboutDialog'
 
 // assets
-import { IconLogout, IconSettings, IconInfoCircle } from '@tabler/icons'
-
+import { IconLogout, IconSettings } from '@tabler/icons'
+import dashboard from '../../../menu-items/dashboard'
 import './index.css'
-
 // ==============================|| PROFILE MENU ||============================== //
 
-const ProfileSection = ({ username, handleLogout }) => {
+const ProfileSection = ({ username, handleLogout, chooseComponent }) => {
     const theme = useTheme()
 
     const customization = useSelector((state) => state.customization)
@@ -50,7 +48,6 @@ const ProfileSection = ({ username, handleLogout }) => {
         }
         setOpen(false)
     }
-
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen)
     }
@@ -135,18 +132,20 @@ const ProfileSection = ({ username, handleLogout }) => {
                                                     }
                                                 }}
                                             >
-                                                <ListItemButton
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    onClick={() => {
-                                                        setOpen(false)
-                                                        setAboutDialogOpen(true)
-                                                    }}
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconInfoCircle stroke={1.5} size='1.3rem' />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant='body2'>About Flowise</Typography>} />
-                                                </ListItemButton>
+                                                {dashboard.children.slice(2).map((item) => (
+                                                    <ListItemButton
+                                                        key={item.id}
+                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        onClick={() => {
+                                                            setOpen(false)
+                                                            chooseComponent(item.component, true)
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                                        <ListItemText primary={<Typography variant='body2'>{item.title}</Typography>} />
+                                                    </ListItemButton>
+                                                ))}
+
                                                 {localStorage.getItem('username') && localStorage.getItem('password') && (
                                                     <ListItemButton
                                                         sx={{ borderRadius: `${customization.borderRadius}px` }}
@@ -174,7 +173,8 @@ const ProfileSection = ({ username, handleLogout }) => {
 
 ProfileSection.propTypes = {
     username: PropTypes.string,
-    handleLogout: PropTypes.func
+    handleLogout: PropTypes.func,
+    chooseComponent: PropTypes.func
 }
 
 export default ProfileSection

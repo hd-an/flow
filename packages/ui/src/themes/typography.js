@@ -101,6 +101,7 @@ export default function themeTypography(theme) {
             fontWeight: 500,
             color: theme.heading,
             padding: '6px',
+            // 文本每个单词首字母大写
             textTransform: 'capitalize',
             marginTop: '10px'
         },

@@ -7,6 +7,9 @@ export class ChatFlow implements IChatFlow {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
+    @Column({ nullable: true })
+    createdBy: string
+
     @Column()
     name: string
 

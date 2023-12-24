@@ -7,6 +7,9 @@ export class ChatMessage implements IChatMessage {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
+    @Column({ nullable: true })
+    createdBy: string
+
     @Column()
     role: MessageType
 

@@ -5,6 +5,7 @@ export class AddAssistantEntity1699325775451 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS assistant (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "createdBy" varchar DEFAULT NULL,
                 "credential" varchar NOT NULL,
                 "details" text NOT NULL,
                 "iconSrc" varchar NULL,

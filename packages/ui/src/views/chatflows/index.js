@@ -54,7 +54,6 @@ const Chatflows = () => {
     const onSearchChange = (event) => {
         setSearch(event.target.value)
     }
-
     function filterFlows(data) {
         return (
             data.name.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
