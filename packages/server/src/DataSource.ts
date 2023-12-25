@@ -11,7 +11,6 @@ let appDataSource: DataSource
 
 export const init = async (): Promise<void> => {
     let homePath
-    console.log(process.env.DATABASE_TYPE)
     switch (process.env.DATABASE_TYPE) {
         case 'sqlite':
             homePath = process.env.DATABASE_PATH ?? path.join(getUserHome(), '.flowise')
@@ -25,7 +24,6 @@ export const init = async (): Promise<void> => {
             })
             break
         case 'mysql':
-            console.log('进入')
             appDataSource = new DataSource({
                 type: 'mysql',
                 host: process.env.DATABASE_HOST,
