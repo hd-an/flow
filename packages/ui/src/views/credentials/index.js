@@ -39,7 +39,6 @@ import useConfirm from 'hooks/useConfirm'
 
 // utils
 import useNotifier from 'utils/useNotifier'
-
 // Icons
 import { IconTrash, IconEdit, IconX, IconPlus, IconSearch } from '@tabler/icons'
 import CredentialEmptySVG from 'assets/images/credential_empty.svg'

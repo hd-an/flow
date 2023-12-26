@@ -22,6 +22,8 @@ import credentialsApi from 'api/credentials'
 // Hooks
 import useApi from 'hooks/useApi'
 
+import { orgId, createdBy } from 'store/constant'
+
 // utils
 import useNotifier from 'utils/useNotifier'
 
@@ -99,7 +101,9 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
             const obj = {
                 name,
                 credentialName: componentCredential.name,
-                plainDataObj: credentialData
+                plainDataObj: credentialData,
+                createdBy,
+                orgId
             }
             const createResp = await credentialsApi.createCredential(obj)
             if (createResp.data) {
@@ -140,7 +144,9 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
         try {
             const saveObj = {
                 name,
-                credentialName: componentCredential.name
+                credentialName: componentCredential.name,
+                createdBy,
+                orgId
             }
 
             let plainDataObj = {}

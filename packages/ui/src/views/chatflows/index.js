@@ -75,7 +75,6 @@ const Chatflows = () => {
 
     useEffect(() => {
         getUsersArray().then((res) => {
-            console.log(res)
             getAllChatflowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
         })
     }, [])

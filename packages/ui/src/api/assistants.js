@@ -1,6 +1,6 @@
 import client from './client'
 
-const getAllAssistants = () => client.get('/assistants')
+const getAllAssistants = (createdBy, orgId) => client.get(`/assistants/${createdBy}/${orgId}`)
 
 const getSpecificAssistant = (id) => client.get(`/assistants/${id}`)
 

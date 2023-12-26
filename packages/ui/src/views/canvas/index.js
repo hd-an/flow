@@ -188,7 +188,6 @@ const Canvas = () => {
         }
     }
     const handleSaveFlow = (chatflowName) => {
-        console.log('保存')
         if (reactFlowInstance) {
             const nodes = reactFlowInstance.getNodes().map((node) => {
                 const nodeData = cloneDeep(node.data)
@@ -216,14 +215,12 @@ const Canvas = () => {
                     createdBy,
                     orgId
                 }
-                console.log(newChatflowBody, '添加')
                 createNewChatflowApi.request(newChatflowBody)
             } else {
                 const updateBody = {
                     name: chatflowName,
                     flowData
                 }
-                console.log('修改')
                 updateChatflowApi.request(chatflow.id, updateBody)
             }
         }

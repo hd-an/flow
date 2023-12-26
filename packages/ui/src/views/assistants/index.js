@@ -20,6 +20,9 @@ import assistantsApi from 'api/assistants'
 // Hooks
 import useApi from 'hooks/useApi'
 
+// function
+import { getUsersArray } from '../../utils/GetUsersArr'
+
 // icons
 import { IconPlus, IconFileImport } from '@tabler/icons'
 
@@ -76,12 +79,15 @@ const Assistants = () => {
 
     const onConfirm = () => {
         setShowDialog(false)
-        getAllAssistantsApi.request()
+        getUsersArray().then((res) => {
+            getAllAssistantsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
     }
 
     useEffect(() => {
-        getAllAssistantsApi.request()
-
+        getUsersArray().then((res) => {
+            getAllAssistantsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

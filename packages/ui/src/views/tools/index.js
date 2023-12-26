@@ -13,6 +13,8 @@ import ToolEmptySVG from 'assets/images/tools_empty.svg'
 import { StyledButton } from 'ui-component/button/StyledButton'
 import ToolDialog from './ToolDialog'
 
+// function
+import { getUsersArray } from '../../utils/GetUsersArr'
 // API
 import toolsApi from 'api/tools'
 
@@ -92,11 +94,15 @@ const Tools = () => {
 
     const onConfirm = () => {
         setShowDialog(false)
-        getAllToolsApi.request()
+        getUsersArray().then((res) => {
+            getAllToolsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
     }
 
     useEffect(() => {
-        getAllToolsApi.request()
+        getUsersArray().then((res) => {
+            getAllToolsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

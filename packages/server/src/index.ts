@@ -388,13 +388,10 @@ export class App {
         // 创建新节点的接口
         this.app.post('/api/v1/chatflows', async (req: Request, res: Response) => {
             const body = req.body
-            console.log(body, 'i am body')
             const newChatFlow = new ChatFlow()
             Object.assign(newChatFlow, body)
-            console.log(newChatFlow, 'newChatFlow')
             // 因为create方法用来创建一个数据表的实体 只有当传入的字段和数据表中的字段相同时才会生成数据否则不会
             const chatflow = this.AppDataSource.getRepository(ChatFlow).create(newChatFlow)
-            console.log(chatflow, '123123')
             const results = await this.AppDataSource.getRepository(ChatFlow).save(chatflow)
 
             return res.json(results)
@@ -659,9 +656,17 @@ export class App {
         // ----------------------------------------
 
         // Get all tools
-        this.app.get('/api/v1/tools', async (req: Request, res: Response) => {
-            const tools = await this.AppDataSource.getRepository(Tool).find()
-            return res.json(tools)
+
+        this.app.get('/api/v1/tools/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
+            let orgId: string = req.params.orgId
+            let userIdArr: string[] = JSON.parse(req.params.userIdArr)
+            let Data = await this.AppDataSource.getRepository(Tool).find({
+                where: {
+                    orgId,
+                    createdBy: In(userIdArr)
+                }
+            })
+            return res.json(Data)
         })
 
         // Get specific tool
@@ -716,9 +721,29 @@ export class App {
         // ----------------------------------------
 
         // Get all assistants
-        this.app.get('/api/v1/assistants', async (req: Request, res: Response) => {
-            const assistants = await this.AppDataSource.getRepository(Assistant).find()
-            return res.json(assistants)
+
+        this.app.get('/api/v1/tools/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
+            let orgId: string = req.params.orgId
+            let userIdArr: string[] = JSON.parse(req.params.userIdArr)
+            let Data = await this.AppDataSource.getRepository(Tool).find({
+                where: {
+                    orgId,
+                    createdBy: In(userIdArr)
+                }
+            })
+            return res.json(Data)
+        })
+
+        this.app.get('/api/v1/assistants/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
+            let orgId: string = req.params.orgId
+            let userIdArr: string[] = JSON.parse(req.params.userIdArr)
+            let Data = await this.AppDataSource.getRepository(Assistant).find({
+                where: {
+                    orgId,
+                    createdBy: In(userIdArr)
+                }
+            })
+            return res.json(Data)
         })
 
         // Get specific assistant

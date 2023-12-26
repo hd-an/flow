@@ -14,6 +14,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ConfirmDialog from 'ui-component/dialog/ConfirmDialog'
 import { CodeEditor } from 'ui-component/editor/CodeEditor'
 
+// createdBy 和 orgId
+import { createdBy, orgId } from 'store/constant'
 // Icons
 import { IconX, IconFileExport } from '@tabler/icons'
 
@@ -247,7 +249,9 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 color: generateRandomGradient(),
                 schema: JSON.stringify(toolSchema),
                 func: toolFunc,
-                iconSrc: toolIcon
+                iconSrc: toolIcon,
+                createdBy,
+                orgId
             }
             const createResp = await toolsApi.createNewTool(obj)
             if (createResp.data) {
