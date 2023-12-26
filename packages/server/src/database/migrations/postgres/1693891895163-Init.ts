@@ -5,8 +5,8 @@ export class Init1693891895163 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS chat_flow (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "createdBy" varchar DEFAULT NULL,
-                "orgId" varchar DEFAULT NULL,
+                "createdBy" varchar NOT NULL,
+                "orgId" varchar NOT NULL,
                 "name" varchar NOT NULL,
                 "flowData" text NOT NULL,
                 deployed bool NULL,
@@ -21,8 +21,8 @@ export class Init1693891895163 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS chat_message (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "createdBy" varchar DEFAULT NULL,
-                "orgId" varchar DEFAULT NULL,
+                "createdBy" varchar NOT NULL,
+                "orgId" varchar NOT NULL,
                 "role" varchar NOT NULL,
                 chatflowid varchar NOT NULL,
                 "content" text NOT NULL,
@@ -35,8 +35,8 @@ export class Init1693891895163 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS credential (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "createdBy" varchar DEFAULT NULL,
-                "orgId" varchar DEFAULT NULL,
+                "createdBy" varchar NOT NULL,
+                "orgId" varchar NOT NULL,
                 "name" varchar NOT NULL,
                 "credentialName" varchar NOT NULL,
                 "encryptedData" varchar NOT NULL,
@@ -48,8 +48,8 @@ export class Init1693891895163 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS tool (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "createdBy" varchar DEFAULT NULL,
-                "orgId" varchar DEFAULT NULL,
+                "createdBy" varchar NOT NULL,
+                "orgId" varchar NOT NULL,
                 "name" varchar NOT NULL,
                 description text NOT NULL,
                 color varchar NOT NULL,

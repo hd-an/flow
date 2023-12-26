@@ -5,8 +5,8 @@ export class Init1693840429259 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS \`chat_flow\` (
                 \`id\` varchar(36) NOT NULL,
-                \`createdBy\` varchar(255) DEFAULT NULL,
-                \`orgId\` varchar(255) DEFAULT NULL,
+                \`createdBy\` varchar(255) NOT NULL,
+                \`orgId\` varchar(255) NOT NULL,
                 \`name\` varchar(255) NOT NULL,
                 \`flowData\` text NOT NULL,
                 \`deployed\` tinyint DEFAULT NULL,
@@ -21,8 +21,8 @@ export class Init1693840429259 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS \`chat_message\` (
                 \`id\` varchar(36) NOT NULL,
-                \`createdBy\` varchar(255) DEFAULT NULL,
-                \`orgId\` varchar(255) DEFAULT NULL,
+                \`createdBy\` varchar(255) NOT NULL,
+                \`orgId\` varchar(255) NOT NULL,
                 \`role\` varchar(255) NOT NULL,
                 \`chatflowid\` varchar(255) NOT NULL,
                 \`content\` text NOT NULL,
@@ -35,8 +35,8 @@ export class Init1693840429259 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS \`credential\` (
                 \`id\` varchar(36) NOT NULL,
-                \`createdBy\` varchar(255) DEFAULT NULL,
-                \`orgId\` varchar(255) DEFAULT NULL,
+                \`createdBy\` varchar(255) NOT NULL,
+                \`orgId\` varchar(255) NOT NULL,
                 \`name\` varchar(255) NOT NULL,
                 \`credentialName\` varchar(255) NOT NULL,
                 \`encryptedData\` varchar(255) NOT NULL,
@@ -48,8 +48,8 @@ export class Init1693840429259 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS \`tool\` (
                 \`id\` varchar(36) NOT NULL,
-                \`createdBy\` varchar(255) DEFAULT NULL,
-                \`orgId\` varchar(255) DEFAULT NULL,
+                \`createdBy\` varchar(255) NOT NULL,
+                \`orgId\` varchar(255) NOT NULL,
                 \`name\` varchar(255) NOT NULL,
                 \`description\` text NOT NULL,
                 \`color\` varchar(255) NOT NULL,

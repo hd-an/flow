@@ -20,7 +20,7 @@ export class AddChatHistory1694657778173 implements MigrationInterface {
             )
         }
         await queryRunner.query(
-            `CREATE TABLE "temp_chat_message" ("id" varchar PRIMARY KEY NOT NULL, "createdBy" varchar DEFAULT NULL, "orgId" varchar DEFAULT NULL,"role" varchar NOT NULL, "chatflowid" varchar NOT NULL, "content" text NOT NULL, "sourceDocuments" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "chatType" VARCHAR NOT NULL DEFAULT 'INTERNAL', "chatId" VARCHAR NOT NULL, "memoryType" VARCHAR, "sessionId" VARCHAR);`
+            `CREATE TABLE "temp_chat_message" ("id" varchar PRIMARY KEY NOT NULL, "createdBy" varchar NOT NULL, "orgId" varchar NOT NULL,"role" varchar NOT NULL, "chatflowid" varchar NOT NULL, "content" text NOT NULL, "sourceDocuments" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "chatType" VARCHAR NOT NULL DEFAULT 'INTERNAL', "chatId" VARCHAR NOT NULL, "memoryType" VARCHAR, "sessionId" VARCHAR);`
         )
         await queryRunner.query(
             `INSERT INTO "temp_chat_message" ("id","createdBy","orgId", "role", "chatflowid", "content", "sourceDocuments", "createdDate", "chatId") SELECT "id","createdBy","orgId","role", "chatflowid", "content", "sourceDocuments", "createdDate", "chatId" FROM "chat_message";`

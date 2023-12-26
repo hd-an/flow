@@ -7,10 +7,10 @@ export class ChatFlow implements IChatFlow {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ nullable: true })
+    @Column()
     createdBy: string
 
-    @Column({ nullable: true })
+    @Column()
     orgId: string
 
     @Column()

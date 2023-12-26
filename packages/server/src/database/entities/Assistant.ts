@@ -7,10 +7,10 @@ export class Assistant implements IAssistant {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ nullable: true })
+    @Column()
     createdBy: string
 
-    @Column({ nullable: true })
+    @Column()
     orgId: string
 
     @Column({ type: 'text' })

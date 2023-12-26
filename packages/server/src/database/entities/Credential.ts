@@ -7,10 +7,10 @@ export class Credential implements ICredential {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ nullable: true })
+    @Column()
     createdBy: string
 
-    @Column({ nullable: true })
+    @Column()
     orgId: string
 
     @Column()

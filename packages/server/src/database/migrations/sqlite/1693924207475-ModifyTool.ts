@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm'
 export class ModifyTool1693924207475 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `CREATE TABLE "temp_tool" ("id" varchar PRIMARY KEY NOT NULL,"createdBy" varchar DEFAULT NULL, "orgId" varchar DEFAULT NULL, "name" varchar NOT NULL, "description" text NOT NULL, "color" varchar NOT NULL, "iconSrc" varchar, "schema" text, "func" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "updatedDate" datetime NOT NULL DEFAULT (datetime('now')));`
+            `CREATE TABLE "temp_tool" ("id" varchar PRIMARY KEY NOT NULL,"createdBy" varchar NOT NULL, "orgId" varchar NOT NULL, "name" varchar NOT NULL, "description" text NOT NULL, "color" varchar NOT NULL, "iconSrc" varchar, "schema" text, "func" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "updatedDate" datetime NOT NULL DEFAULT (datetime('now')));`
         )
         await queryRunner.query(
             `INSERT INTO "temp_tool" ("id","createdBy","orgId","name", "description", "color", "iconSrc", "schema", "func", "createdDate", "updatedDate") SELECT "id","createdBy","orgId", "name", "description", "color", "iconSrc", "schema", "func", "createdDate", "updatedDate" FROM "tool";`

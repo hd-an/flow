@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm'
 export class ModifyChatMessage1693921865247 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `CREATE TABLE "temp_chat_message" ("id" varchar PRIMARY KEY NOT NULL, "createdBy" varchar DEFAULT NULL, "orgId" varchar DEFAULT NULL,"role" varchar NOT NULL, "chatflowid" varchar NOT NULL, "content" text NOT NULL, "sourceDocuments" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')));`
+            `CREATE TABLE "temp_chat_message" ("id" varchar PRIMARY KEY NOT NULL, "createdBy" varchar NOT NULL, "orgId" varchar NOT NULL,"role" varchar NOT NULL, "chatflowid" varchar NOT NULL, "content" text NOT NULL, "sourceDocuments" text, "createdDate" datetime NOT NULL DEFAULT (datetime('now')));`
         )
         await queryRunner.query(
             `INSERT INTO "temp_chat_message" ("id", "createdBy","orgId","role", "chatflowid", "content", "sourceDocuments", "createdDate") SELECT "id","createdBy","orgId", "role", "chatflowid", "content", "sourceDocuments", "createdDate" FROM "chat_message";`
