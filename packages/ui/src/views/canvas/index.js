@@ -17,7 +17,7 @@ import { omit, cloneDeep } from 'lodash'
 // material-ui
 import { Toolbar, Box, AppBar, Button } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-
+import { createdBy, orgId } from 'store/constant'
 // project imports
 import CanvasNode from './CanvasNode'
 import ButtonEdge from './ButtonEdge'
@@ -187,9 +187,8 @@ const Canvas = () => {
             }
         }
     }
-
     const handleSaveFlow = (chatflowName) => {
-        console.log('你好')
+        console.log('保存')
         if (reactFlowInstance) {
             const nodes = reactFlowInstance.getNodes().map((node) => {
                 const nodeData = cloneDeep(node.data)
@@ -213,14 +212,18 @@ const Canvas = () => {
                     name: chatflowName,
                     deployed: false,
                     isPublic: false,
-                    flowData
+                    flowData,
+                    createdBy,
+                    orgId
                 }
+                console.log(newChatflowBody, '添加')
                 createNewChatflowApi.request(newChatflowBody)
             } else {
                 const updateBody = {
                     name: chatflowName,
                     flowData
                 }
+                console.log('修改')
                 updateChatflowApi.request(chatflow.id, updateBody)
             }
         }
@@ -252,7 +255,6 @@ const Canvas = () => {
         event.preventDefault()
         event.dataTransfer.dropEffect = 'move'
     }, [])
-
     const onDrop = useCallback(
         (event) => {
             event.preventDefault()

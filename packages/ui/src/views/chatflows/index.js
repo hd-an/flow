@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 // material-ui
 import { Grid, Box, Stack, Toolbar, ToggleButton, ButtonGroup, InputAdornment, TextField } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-
 // project imports
 import MainCard from 'ui-component/cards/MainCard'
 import ItemCard from 'ui-component/cards/ItemCard'
@@ -13,10 +11,11 @@ import { gridSpacing } from 'store/constant'
 import WorkflowEmptySVG from 'assets/images/workflow_empty.svg'
 import LoginDialog from 'ui-component/dialog/LoginDialog'
 import ConfirmDialog from 'ui-component/dialog/ConfirmDialog'
-
 // API
 import chatflowsApi from 'api/chatflows'
 
+// GetParams
+import { getUsersArray } from '../../utils/GetUsersArr'
 // Hooks
 import useApi from 'hooks/useApi'
 
@@ -29,7 +28,6 @@ import * as React from 'react'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { FlowListTable } from '../../ui-component/table/FlowListTable'
 import { StyledButton } from '../../ui-component/button/StyledButton'
-
 // ==============================|| CHATFLOWS ||============================== //
 
 const Chatflows = () => {
@@ -42,7 +40,7 @@ const Chatflows = () => {
     const [search, setSearch] = useState('')
     const [loginDialogOpen, setLoginDialogOpen] = useState(false)
     const [loginDialogProps, setLoginDialogProps] = useState({})
-
+    // 修改api
     const getAllChatflowsApi = useApi(chatflowsApi.getAllChatflows)
     const [view, setView] = React.useState(localStorage.getItem('flowDisplayStyle') || 'card')
 
@@ -76,11 +74,11 @@ const Chatflows = () => {
     }
 
     useEffect(() => {
-        getAllChatflowsApi.request()
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        getUsersArray().then((res) => {
+            console.log(res)
+            getAllChatflowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
     }, [])
-
     useEffect(() => {
         if (getAllChatflowsApi.error) {
             if (getAllChatflowsApi.error?.response?.status === 401) {
