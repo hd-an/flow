@@ -6,6 +6,7 @@ export class AddAssistantEntity1699325775451 implements MigrationInterface {
             `CREATE TABLE IF NOT EXISTS \`assistant\` (
                 \`id\` varchar(36) NOT NULL,
                 \`createdBy\` varchar(255) DEFAULT NULL,
+                \`orgId\` varchar(255) DEFAULT NULL,
                 \`credential\` varchar(255) NOT NULL,
                 \`details\` text NOT NULL,
                 \`iconSrc\` varchar(255) DEFAULT NULL,

@@ -32,7 +32,7 @@ const MainLayout = () => {
             return
         }
     }
-    const KeyDownContent = (ev) => {
+    const KeyDownContent = () => {
         return
     }
     const Content = (ev) => {

@@ -10,6 +10,9 @@ export class Assistant implements IAssistant {
     @Column({ nullable: true })
     createdBy: string
 
+    @Column({ nullable: true })
+    orgId: string
+
     @Column({ type: 'text' })
     details: string
 

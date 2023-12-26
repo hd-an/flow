@@ -10,6 +10,9 @@ export class ChatMessage implements IChatMessage {
     @Column({ nullable: true })
     createdBy: string
 
+    @Column({ nullable: true })
+    orgId: string
+
     @Column()
     role: MessageType
 

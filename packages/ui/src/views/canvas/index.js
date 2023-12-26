@@ -95,7 +95,6 @@ const Canvas = () => {
     const getSpecificChatflowApi = useApi(chatflowsApi.getSpecificChatflow)
 
     // ==============================|| Events & Actions ||============================== //
-
     const onConnect = (params) => {
         const newEdge = {
             ...params,
@@ -190,6 +189,7 @@ const Canvas = () => {
     }
 
     const handleSaveFlow = (chatflowName) => {
+        console.log('你好')
         if (reactFlowInstance) {
             const nodes = reactFlowInstance.getNodes().map((node) => {
                 const nodeData = cloneDeep(node.data)

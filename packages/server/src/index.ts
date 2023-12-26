@@ -63,7 +63,7 @@ import { sanitizeMiddleware } from './utils/XSS'
 import axios from 'axios'
 import { Client } from 'langchainhub'
 import { parsePrompt } from './utils/hub'
-import { MySQL } from './utils/mysql'
+
 export class App {
     app: express.Application
     nodesPool: NodesPool
@@ -1260,32 +1260,6 @@ export class App {
             }
         })
 
-        this.app.get('/nihao', (req, res) => {
-            let obj = {
-                host: 'localhost',
-                user: 'root',
-                password: 'root',
-                port: 3306,
-                database: 'ceshi'
-            }
-            let MySql = new MySQL(obj)
-            MySql.Connect()
-            let sql = 'create table ceshi (id int,name varchar(10),age int);'
-            let data = MySql.GetData(sql)
-            res.send({
-                code: 200,
-                msg: '123321',
-                data
-            })
-        })
-        this.app.get('/getData', async (req, res) => {
-            const data = await this.AppDataSource.getRepository(ChatFlow).find()
-            res.send({
-                code: 200,
-                data,
-                msg: '成功'
-            })
-        })
         // ----------------------------------------
         // Serve UI static
         // ----------------------------------------
@@ -1647,7 +1621,8 @@ export class App {
             }
 
             const userMessage: Omit<IChatMessage, 'id'> = {
-                createdBy: 'sss',
+                createdBy: 'createdBy',
+                orgId: 'orgId',
                 role: 'userMessage',
                 content: incomingInput.question,
                 chatflowid,
@@ -1665,7 +1640,8 @@ export class App {
             else resultText = JSON.stringify(result, null, 2)
 
             const apiMessage: Omit<IChatMessage, 'id' | 'createdDate'> = {
-                createdBy: 'sss',
+                createdBy: 'createdBy',
+                orgId: 'orgId',
                 role: 'apiMessage',
                 content: resultText,
                 chatflowid,

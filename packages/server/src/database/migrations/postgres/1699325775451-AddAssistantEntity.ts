@@ -6,6 +6,7 @@ export class AddAssistantEntity1699325775451 implements MigrationInterface {
             `CREATE TABLE IF NOT EXISTS assistant (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
                 "createdBy" varchar DEFAULT NULL,
+                "orgId" varchar DEFAULT NULL,
                 "credential" varchar NOT NULL,
                 "details" text NOT NULL,
                 "iconSrc" varchar NULL,

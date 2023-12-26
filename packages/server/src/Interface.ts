@@ -12,6 +12,7 @@ export enum chatType {
 export interface IChatFlow {
     id: string
     createdBy: string
+    orgId: string
     name: string
     flowData: string
     updatedDate: Date
@@ -27,6 +28,7 @@ export interface IChatFlow {
 export interface IChatMessage {
     id: string
     createdBy: string
+    orgId: string
     role: MessageType
     content: string
     chatflowid: string
@@ -43,6 +45,7 @@ export interface IChatMessage {
 export interface ITool {
     id: string
     createdBy: string
+    orgId: string
     name: string
     description: string
     color: string
@@ -56,6 +59,7 @@ export interface ITool {
 export interface IAssistant {
     id: string
     createdBy: string
+    orgId: string
     details: string
     credential: string
     iconSrc?: string
@@ -66,6 +70,7 @@ export interface IAssistant {
 export interface ICredential {
     id: string
     createdBy: string
+    orgId: string
     name: string
     credentialName: string
     encryptedData: string

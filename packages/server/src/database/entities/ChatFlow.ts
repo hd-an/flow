@@ -10,6 +10,9 @@ export class ChatFlow implements IChatFlow {
     @Column({ nullable: true })
     createdBy: string
 
+    @Column({ nullable: true })
+    orgId: string
+
     @Column()
     name: string
 
