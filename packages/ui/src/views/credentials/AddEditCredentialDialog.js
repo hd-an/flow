@@ -97,13 +97,14 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
     }, [show, dispatch])
 
     const addNewCredential = async () => {
+        // console.log('添加成功了')
         try {
             const obj = {
+                createdBy,
+                orgId,
                 name,
                 credentialName: componentCredential.name,
-                plainDataObj: credentialData,
-                createdBy,
-                orgId
+                plainDataObj: credentialData
             }
             const createResp = await credentialsApi.createCredential(obj)
             if (createResp.data) {

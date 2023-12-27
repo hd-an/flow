@@ -573,6 +573,7 @@ export class App {
         // Create new credential
         this.app.post('/api/v1/credentials', async (req: Request, res: Response) => {
             const body = req.body
+            console.log(body, '我是/credentials的body-----------------------')
             const newCredential = await transformToCredentialEntity(body)
             const credential = this.AppDataSource.getRepository(Credential).create(newCredential)
             const results = await this.AppDataSource.getRepository(Credential).save(credential)
@@ -580,32 +581,41 @@ export class App {
         })
 
         // Get all credentials
-        this.app.get('/api/v1/credentials', async (req: Request, res: Response) => {
-            if (req.query.credentialName) {
-                let returnCredentials = []
-                if (Array.isArray(req.query.credentialName)) {
-                    for (let i = 0; i < req.query.credentialName.length; i += 1) {
-                        const name = req.query.credentialName[i] as string
-                        const credentials = await this.AppDataSource.getRepository(Credential).findBy({
-                            credentialName: name
-                        })
-                        returnCredentials.push(...credentials)
-                    }
-                } else {
-                    const credentials = await this.AppDataSource.getRepository(Credential).findBy({
-                        credentialName: req.query.credentialName as string
-                    })
-                    returnCredentials = [...credentials]
+        // 获取当前用户的全部凭证信息 并且如果带着参数来那么就走过滤
+
+        this.app.get('/api/v1/credentials/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
+            // if (req.query.credentialName) {
+            //     // 过滤
+            //     let returnCredentials = []
+            //     if (Array.isArray(req.query.credentialName)) {
+            //         for (let i = 0; i < req.query.credentialName.length; i += 1) {
+            //             const name = req.query.credentialName[i] as string
+            //             const credentials = await this.AppDataSource.getRepository(Credential).findBy({
+            //                 credentialName: name
+            //             })
+            //             returnCredentials.push(...credentials)
+            //         }
+            //     } else {
+            //         const credentials = await this.AppDataSource.getRepository(Credential).findBy({
+            //             credentialName: req.query.credentialName as string
+            //         })
+            //         returnCredentials = [...credentials]
+            //     }
+            //     return res.json(returnCredentials)
+            // 获取当前用户数据
+            let orgId: string = req.params.orgId
+            let userIdArr: string[] = JSON.parse(req.params.userIdArr)
+            const Data = await this.AppDataSource.getRepository(Credential).find({
+                where: {
+                    orgId,
+                    createdBy: In(userIdArr)
                 }
-                return res.json(returnCredentials)
-            } else {
-                const credentials = await this.AppDataSource.getRepository(Credential).find()
-                const returnCredentials = []
-                for (const credential of credentials) {
-                    returnCredentials.push(omit(credential, ['encryptedData']))
-                }
-                return res.json(returnCredentials)
+            })
+            const returnCredentials = []
+            for (const credential of Data) {
+                returnCredentials.push(omit(credential, ['encryptedData']))
             }
+            return res.json(returnCredentials)
         })
 
         // Get specific credential

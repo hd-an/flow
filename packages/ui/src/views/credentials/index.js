@@ -37,6 +37,8 @@ import credentialsApi from 'api/credentials'
 import useApi from 'hooks/useApi'
 import useConfirm from 'hooks/useConfirm'
 
+// function
+import { getUsersArray } from '../../utils/GetUsersArr'
 // utils
 import useNotifier from 'utils/useNotifier'
 // Icons
@@ -158,6 +160,7 @@ const Credentials = () => {
     }
 
     const onCredentialSelected = (credentialComponent) => {
+        // console.log('选择一个')
         setShowCredentialListDialog(false)
         addNew(credentialComponent)
     }
@@ -165,11 +168,17 @@ const Credentials = () => {
     const onConfirm = () => {
         setShowCredentialListDialog(false)
         setShowSpecificCredentialDialog(false)
-        getAllCredentialsApi.request()
+        // 1
+        getUsersArray().then((res) => {
+            getAllCredentialsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
     }
 
     useEffect(() => {
-        getAllCredentialsApi.request()
+        // 2
+        getUsersArray().then((res) => {
+            getAllCredentialsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
         getAllComponentsCredentialsApi.request()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

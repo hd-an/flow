@@ -6,10 +6,10 @@ import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackba
 import { v4 as uuidv4 } from 'uuid'
 
 import { Box, Typography, Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Stack, OutlinedInput } from '@mui/material'
-
+import './ass.css'
 import { StyledButton } from 'ui-component/button/StyledButton'
 import { TooltipWithParser } from 'ui-component/tooltip/TooltipWithParser'
-import { Dropdown } from 'ui-component/dropdown/Dropdown'
+// import { Dropdown } from 'ui-component/dropdown/Dropdown'
 import { MultiDropdown } from 'ui-component/dropdown/MultiDropdown'
 import CredentialInputHandler from 'views/canvas/CredentialInputHandler'
 import { File } from 'ui-component/file/File'
@@ -92,7 +92,8 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     const [loading, setLoading] = useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
     const [deleteDialogProps, setDeleteDialogProps] = useState({})
-
+    const [PopUpBoxState, SetPopUpBoxState] = useState(-1)
+    // const [ChooseModelContent, SetChooseModelContent] = useState('')
     useEffect(() => {
         if (show) dispatch({ type: SHOW_CANVAS_DIALOG })
         else dispatch({ type: HIDE_CANVAS_DIALOG })
@@ -398,6 +399,22 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         setAssistantFiles(assistantFiles.filter((file) => file.id !== fileId))
     }
 
+    const ChooseModel = (label) => {
+        SetPopUpBoxState(-1)
+        setAssistantModel(label)
+    }
+
+    const Touch = (label) => {
+        SetPopUpBoxState(-1)
+        setAssistantModel(label)
+    }
+
+    const ShowFirst = () => {
+        SetPopUpBoxState(1)
+    }
+    const ShowSecond = () => {
+        SetPopUpBoxState(2)
+    }
     const component = show ? (
         <Dialog
             fullWidth
@@ -407,12 +424,14 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
         >
+            {/* title */}
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
                 {dialogProps.title}
             </DialogTitle>
             <DialogContent>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
+                        {/* name */}
                         <Typography variant='overline'>
                             Assistant Name
                             <TooltipWithParser
@@ -421,6 +440,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             />
                         </Typography>
                     </Stack>
+                    {/* name的input框 */}
                     <OutlinedInput
                         id='assistantName'
                         type='string'
@@ -433,14 +453,17 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                 </Box>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
+                        {/* 助手描述信息 */}
                         <Typography variant='overline'>
                             Assistant Description
+                            {/*  */}
                             <TooltipWithParser
-                                style={{ marginLeft: 10 }}
+                                style={{ marginLeft: 10, position: 'absolute', zIndex: '99999999' }}
                                 title={'The description of the assistant. The maximum length is 512 characters.'}
                             />
                         </Typography>
                     </Stack>
+                    {/* 助手描述信息输入框 */}
                     <OutlinedInput
                         id='assistantDesc'
                         type='string'
@@ -455,6 +478,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                 </Box>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
+                        {/* 助手图标信息 */}
                         <Typography variant='overline'>Assistant Icon Src</Typography>
                     </Stack>
                     <div
@@ -465,6 +489,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             backgroundColor: 'white'
                         }}
                     >
+                        {/* 助手图片 */}
                         <img
                             style={{
                                 width: '100%',
@@ -477,6 +502,8 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             src={assistantIcon}
                         />
                     </div>
+                    {/* 助手图标输入框 */}
+                    {/* 可以切换机器人图标 */}
                     <OutlinedInput
                         id='assistantIcon'
                         type='string'
@@ -488,19 +515,61 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                     />
                 </Box>
                 <Box sx={{ p: 2 }}>
+                    {/* 助手模式选择 */}
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
                             Assistant Model
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                         </Typography>
                     </Stack>
-                    <Dropdown
+                    {/* <Dropdown
                         key={assistantModel}
                         name={assistantModel}
                         options={assistantAvailableModels}
                         onSelect={(newValue) => setAssistantModel(newValue)}
                         value={assistantModel ?? 'choose an option'}
+                    /> */}
+                    <OutlinedInput
+                        id='assistantModels'
+                        type='string'
+                        fullWidth
+                        placeholder='click here'
+                        multiline={true}
+                        rows={1}
+                        value={assistantModel}
+                        name='assistantModels'
+                        onClick={() => ShowFirst()}
                     />
+                    {/* 绝对定位解决层级问题 */}
+                    <div style={PopUpBoxState !== -1 ? { display: 'block' } : { display: 'none' }} className='DropDown'>
+                        <div style={PopUpBoxState === 1 ? { display: 'block' } : { display: 'none' }} className='DropDownContent'>
+                            {assistantAvailableModels.map((item) => (
+                                <div
+                                    onKeyDown={() => Touch(item.label)}
+                                    onClick={() => ChooseModel(item.label)}
+                                    className='assistantAvailableModelsItem'
+                                    key={item.name}
+                                    role='button'
+                                    tabIndex={0}
+                                >
+                                    {item.label}
+                                </div>
+                            ))}
+                        </div>
+                        <div style={PopUpBoxState === 2 ? { display: 'block' } : { display: 'none' }} className='DropDownContent'>
+                            <CredentialInputHandler
+                                key={assistantCredential}
+                                data={assistantCredential ? { credential: assistantCredential } : {}}
+                                inputParam={{
+                                    label: 'Connect Credential',
+                                    name: 'credential',
+                                    type: 'credential',
+                                    credentialNames: ['openAIApi']
+                                }}
+                                onSelect={(newValue) => setAssistantCredential(newValue)}
+                            />
+                        </div>
+                    </div>
                 </Box>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
@@ -509,16 +578,16 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                         </Typography>
                     </Stack>
-                    <CredentialInputHandler
-                        key={assistantCredential}
-                        data={assistantCredential ? { credential: assistantCredential } : {}}
-                        inputParam={{
-                            label: 'Connect Credential',
-                            name: 'credential',
-                            type: 'credential',
-                            credentialNames: ['openAIApi']
-                        }}
-                        onSelect={(newValue) => setAssistantCredential(newValue)}
+                    <OutlinedInput
+                        id='openaiCredential'
+                        type='string'
+                        fullWidth
+                        placeholder='click here'
+                        multiline={true}
+                        rows={1}
+                        value={assistantModel}
+                        name='assistantModels'
+                        onClick={() => ShowSecond()}
                     />
                 </Box>
                 <Box sx={{ p: 2 }}>
