@@ -72,13 +72,17 @@ const Credentials = () => {
 
     const getAllCredentialsApi = useApi(credentialsApi.getAllCredentials)
     const getAllComponentsCredentialsApi = useApi(credentialsApi.getAllComponentsCredentials)
-
-    const [search, setSearch] = useState('')
+    const [searchArr, setSearchArr] = useState([])
     const onSearchChange = (event) => {
-        setSearch(event.target.value)
-    }
-    function filterCredentials(data) {
-        return data.credentialName.toLowerCase().indexOf(search.toLowerCase()) > -1
+        let arr = []
+        credentials.filter((item) => {
+            console.log(item)
+            if (item.credentialName.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
+                console.log(item, '成功')
+                arr.push(item)
+            }
+        })
+        setSearchArr(arr)
     }
 
     const listCredential = () => {
@@ -186,6 +190,7 @@ const Credentials = () => {
     useEffect(() => {
         if (getAllCredentialsApi.data) {
             setCredentials(getAllCredentialsApi.data)
+            setSearchArr(getAllCredentialsApi.data)
         }
     }, [getAllCredentialsApi.data])
 
@@ -273,7 +278,7 @@ const Credentials = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {credentials.filter(filterCredentials).map((credential, index) => (
+                                {searchArr.map((credential, index) => (
                                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell component='th' scope='row'>
                                             <div
