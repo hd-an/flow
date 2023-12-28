@@ -5,43 +5,30 @@ import { useDispatch } from 'react-redux'
 import { enqueueSnackbar as enqueueSnackbarAction, closeSnackbar as closeSnackbarAction } from 'store/actions'
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-    Box,
-    Typography,
-    Button,
-    Select,
-    IconButton,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Stack,
-    OutlinedInput,
-    MenuItem
-} from '@mui/material'
+import { Box, Typography, Button, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Stack, OutlinedInput } from '@mui/material'
 
-// project import
-import AddEditCredentialDialog from 'views/credentials/AddEditCredentialDialog'
 import { StyledButton } from 'ui-component/button/StyledButton'
 import { TooltipWithParser } from 'ui-component/tooltip/TooltipWithParser'
+import { Dropdown } from 'ui-component/dropdown/Dropdown'
 import { MultiDropdown } from 'ui-component/dropdown/MultiDropdown'
+import CredentialInputHandler from 'views/canvas/CredentialInputHandler'
 import { File } from 'ui-component/file/File'
 import { BackdropLoader } from 'ui-component/loading/BackdropLoader'
 import DeleteConfirmDialog from './DeleteConfirmDialog'
-import { getUsersArray } from '../../utils/GetUsersArr'
+
 // Icons
 import { IconX } from '@tabler/icons'
 
 // API
 import assistantsApi from 'api/assistants'
-import credentialsApi from 'api/credentials'
+
 // Hooks
 import useApi from 'hooks/useApi'
 
 // utils
 import useNotifier from 'utils/useNotifier'
 import { HIDE_CANVAS_DIALOG, SHOW_CANVAS_DIALOG } from 'store/actions'
-// Model列表
+
 const assistantAvailableModels = [
     {
         label: 'gpt-4-1106-preview',
@@ -81,36 +68,14 @@ const assistantAvailableModels = [
     }
 ]
 
-const inputParam = {
-    label: 'Connect Credential',
-    name: 'credential',
-    type: 'credential',
-    credentialNames: ['openAIApi']
-}
-
 const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
-    // show 当前组件是否展示的状态
-    // dialogProps 由index文件传递过来的弹出框参数
-    // onCancel  关闭方法
-    // onConfirm 提交方法
-    console.log({ show, dialogProps, onCancel, onConfirm }, '进来了')
     const portalElement = document.getElementById('portal')
-
-    // 设置消息通知弹窗的
     useNotifier()
     const dispatch = useDispatch()
-
-    // 设置弹窗消息
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
-
-    // 设置手动关闭弹窗的消息
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
 
-    const getAllCredentialsApi = useApi(credentialsApi.getAllCredentials)
-    const getAllComponentsCredentialsApi = useApi(credentialsApi.getAllComponentsCredentials)
-    // 获取特定的助手 需要有id
     const getSpecificAssistantApi = useApi(assistantsApi.getSpecificAssistant)
-    // 获取助手对象 需要传递 凭证和id
     const getAssistantObjApi = useApi(assistantsApi.getAssistantObj)
 
     const [assistantId, setAssistantId] = useState('')
@@ -127,25 +92,19 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     const [loading, setLoading] = useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
     const [deleteDialogProps, setDeleteDialogProps] = useState({})
-    const [OpenAI, setOpenAI] = useState('')
-    const [AddEditCredentialDialogState, SetAddEditCredentialDialogState] = useState(false)
+
     useEffect(() => {
-        // 如果show为true那么就把store仓库中的 canvas仓库中的 dialog弹窗的状态改为true
         if (show) dispatch({ type: SHOW_CANVAS_DIALOG })
-        // 为false  则 改为false
         else dispatch({ type: HIDE_CANVAS_DIALOG })
-        // 当组件销毁时 改为false
         return () => dispatch({ type: HIDE_CANVAS_DIALOG })
     }, [show, dispatch])
 
     useEffect(() => {
-        // 特定的助手信息请求成功后
         if (getSpecificAssistantApi.data) {
-            console.log('获取特定的助手信息成功需要传递id')
             setAssistantId(getSpecificAssistantApi.data.id)
             setAssistantIcon(getSpecificAssistantApi.data.iconSrc)
             setAssistantCredential(getSpecificAssistantApi.data.credential)
-            // 将助手详细信息进行JSON.parse将字符串转为对象
+
             const assistantDetails = JSON.parse(getSpecificAssistantApi.data.details)
             setOpenAIAssistantId(assistantDetails.id)
             setAssistantName(assistantDetails.name)
@@ -158,16 +117,13 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     }, [getSpecificAssistantApi.data])
 
     useEffect(() => {
-        // 如果获取助手对象信息请求成功调用syncData方法
         if (getAssistantObjApi.data) {
             syncData(getAssistantObjApi.data)
         }
     }, [getAssistantObjApi.data])
 
     useEffect(() => {
-        // 如果传递过来的type类型是edit 修改 并且 props有data属性
         if (dialogProps.type === 'EDIT' && dialogProps.data) {
-            console.log('传递过来的type类型是edit 修改 并且 props有data属性')
             // When assistant dialog is opened from Assistants dashboard
             setAssistantId(dialogProps.data.id)
             setAssistantIcon(dialogProps.data.iconSrc)
@@ -182,20 +138,17 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             setAssistantTools(assistantDetails.tools ?? [])
             setAssistantFiles(assistantDetails.files ?? [])
         } else if (dialogProps.type === 'EDIT' && dialogProps.assistantId) {
-            console.log('当画布中的openAi打开助手对话框')
-            // 当画布中的openAi打开助手对话框
+            // When assistant dialog is opened from OpenAIAssistant node in canvas
             getSpecificAssistantApi.request(dialogProps.assistantId)
         } else if (dialogProps.type === 'ADD' && dialogProps.selectedOpenAIAssistantId && dialogProps.credential) {
-            console.log('当助手对话框是从现有的添加新的助手')
-            // 当助手对话框是从现有的添加新的助手
+            // When assistant dialog is to add new assistant from existing
             setAssistantId('')
             setAssistantIcon(`https://api.dicebear.com/7.x/bottts/svg?seed=${uuidv4()}`)
             setAssistantCredential(dialogProps.credential)
 
             getAssistantObjApi.request(dialogProps.selectedOpenAIAssistantId, dialogProps.credential)
         } else if (dialogProps.type === 'ADD' && !dialogProps.selectedOpenAIAssistantId) {
-            console.log('type是ADD并且弹出框的props的selectedOpenAI有助手id')
-            // 当助手对话框是添加一个空白的新助手
+            // When assistant dialog is to add a blank new assistant
             setAssistantId('')
             setAssistantIcon(`https://api.dicebear.com/7.x/bottts/svg?seed=${uuidv4()}`)
             setAssistantCredential('')
@@ -211,7 +164,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         }
 
         return () => {
-            console.log('组件销毁时 重置字段 (传递props type 或id 或凭证的 副作用函数)')
             setAssistantId('')
             setAssistantIcon(`https://api.dicebear.com/7.x/bottts/svg?seed=${uuidv4()}`)
             setAssistantCredential('')
@@ -228,17 +180,8 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dialogProps])
-    useEffect(() => {
-        getUsersArray().then((res) => {
-            getAllCredentialsApi.request(res.orgId, JSON.stringify(res.userIdArr))
-        })
-        getAllComponentsCredentialsApi.request()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
-    // 获取助手对象信息的方法
     const syncData = (data) => {
-        console.log('助手对象信息请求成功设置对象的详细信息')
         setOpenAIAssistantId(data.id)
         setAssistantName(data.name)
         setAssistantDesc(data.description)
@@ -254,15 +197,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         }
         setAssistantTools(tools)
     }
-    // 选择Model
-    const handleChange = (event) => {
-        setAssistantModel(event.target.value)
-    }
-    // 选择凭证
-    const Getcredential = (event) => {
-        setOpenAI(event.target.value)
-    }
-    // 添加新的助手方法 (是一个异步方法)
+
     const addNewAssistant = async () => {
         setLoading(true)
         try {
@@ -281,10 +216,9 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                 iconSrc: assistantIcon,
                 credential: assistantCredential
             }
-            // 通过获取的details信息和obj对象 进行数据添加
+
             const createResp = await assistantsApi.createNewAssistant(obj)
             if (createResp.data) {
-                // 如果添加信息成功 则弹出消息
                 enqueueSnackbar({
                     message: 'New Assistant added',
                     options: {
@@ -297,12 +231,10 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         )
                     }
                 })
-                // 调用index文件的onConfirm对新的内容进行实时更新
                 onConfirm(createResp.data.id)
             }
             setLoading(false)
         } catch (error) {
-            // 捕获报错信息 并且弹出报错信息弹窗
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
                 message: `Failed to add new Assistant: ${errorData}`,
@@ -321,7 +253,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             onCancel()
         }
     }
-    // 保存方法 当type是 edit时才会走这个 为修改方法 整体流程和add一样
+
     const saveAssistant = async () => {
         setLoading(true)
         try {
@@ -375,7 +307,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             onCancel()
         }
     }
-    // 当type为edit时 才会显示sync和delete按钮 这个就是用来保存的 流程和上边差不多
+
     const onSyncClick = async () => {
         setLoading(true)
         try {
@@ -414,7 +346,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             setLoading(false)
         }
     }
-    // 当type 为edit 显示的按钮的删除方法
+
     const onDeleteClick = () => {
         setDeleteDialogProps({
             title: `Delete Assistant`,
@@ -423,7 +355,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
         })
         setDeleteDialogOpen(true)
     }
-    // 专门的delete弹窗的删除方法
+
     const deleteAssistant = async (isDeleteBoth) => {
         setDeleteDialogOpen(false)
         try {
@@ -461,16 +393,11 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             onCancel()
         }
     }
-    // 删除上传文件的方法
+
     const onFileDeleteClick = async (fileId) => {
         setAssistantFiles(assistantFiles.filter((file) => file.id !== fileId))
     }
-    // 创建新的openAi凭证
-    const CreateOpenAICredentials = () => {
-        console.log('创建')
-        SetAddEditCredentialDialogState(true)
-        return
-    }
+
     const component = show ? (
         <Dialog
             fullWidth
@@ -479,27 +406,19 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             onClose={onCancel}
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
-            sx={{ position: 'relative' }}
         >
-            {/* 对话框的title标题信息 */}
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
                 {dialogProps.title}
             </DialogTitle>
-
-            {/* 对话框的内容组件 */}
             <DialogContent>
-                {/* 一个Box就是一行 */}
-                {/* sx={{p:2}} 设置内边距 */}
-                {/* 助手名称 */}
                 <Box sx={{ p: 2 }}>
-                    {/* 横向 从左到右布局 类似于flex */}
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
                             Assistant Name
-                            <div>
-                                最多可以包含256个字符
-                                {/* <TooltipWithParser title={"THE NAME OF THE ASSISTANT. THE MAXIMUM LENGTH IS 256 CHARACTERS."} /> */}
-                            </div>
+                            <TooltipWithParser
+                                style={{ marginLeft: 10 }}
+                                title={'The name of the assistant. The maximum length is 256 characters.'}
+                            />
                         </Typography>
                     </Stack>
                     <OutlinedInput
@@ -512,16 +431,14 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         onChange={(e) => setAssistantName(e.target.value)}
                     />
                 </Box>
-                {/* 助手描述信息 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
                             Assistant Description
-                            <div>最多可以包含512个字符</div>
-                            {/* <TooltipWithParser
+                            <TooltipWithParser
                                 style={{ marginLeft: 10 }}
                                 title={'The description of the assistant. The maximum length is 512 characters.'}
-                            /> */}
+                            />
                         </Typography>
                     </Stack>
                     <OutlinedInput
@@ -536,7 +453,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         onChange={(e) => setAssistantDesc(e.target.value)}
                     />
                 </Box>
-                {/* 机器人图片 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>Assistant Icon Src</Typography>
@@ -571,7 +487,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         onChange={(e) => setAssistantIcon(e.target.value)}
                     />
                 </Box>
-                {/* 助手模型 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
@@ -579,15 +494,14 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                         </Typography>
                     </Stack>
-                    <Select fullWidth value={assistantModel} onChange={handleChange}>
-                        {assistantAvailableModels.map((item) => (
-                            <MenuItem key={item.label} value={item.name}>
-                                {item.label}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <Dropdown
+                        key={assistantModel}
+                        name={assistantModel}
+                        options={assistantAvailableModels}
+                        onSelect={(newValue) => setAssistantModel(newValue)}
+                        value={assistantModel ?? 'choose an option'}
+                    />
                 </Box>
-                {/* openAi资格 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
@@ -595,7 +509,7 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                         </Typography>
                     </Stack>
-                    {/* <CredentialInputHandler
+                    <CredentialInputHandler
                         key={assistantCredential}
                         data={assistantCredential ? { credential: assistantCredential } : {}}
                         inputParam={{
@@ -605,22 +519,8 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                             credentialNames: ['openAIApi']
                         }}
                         onSelect={(newValue) => setAssistantCredential(newValue)}
-                    /> */}
-
-                    <Select fullWidth value={OpenAI} onChange={Getcredential}>
-                        {getAllCredentialsApi.data
-                            .filter((item) => item.credentialName === 'openAIApi')
-                            .map((item) => (
-                                <MenuItem key={item.id} value={item.name}>
-                                    {item.name}
-                                </MenuItem>
-                            ))}
-                        <MenuItem value={''} onClick={() => CreateOpenAICredentials()}>
-                            create New
-                        </MenuItem>
-                    </Select>
+                    />
                 </Box>
-                {/* 助手描述(类似说明书) */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
@@ -643,7 +543,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         onChange={(e) => setAssistantInstructions(e.target.value)}
                     />
                 </Box>
-                {/* 助手工具 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
@@ -671,7 +570,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         value={assistantTools ?? 'choose an option'}
                     />
                 </Box>
-                {/* 知识文件 上传文件 */}
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
@@ -716,8 +614,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                     />
                 </Box>
             </DialogContent>
-            {/* DialogActions 组件是 Material-UI 中的一个组件，用于在对话框中显示操作按钮。*/}
-            {/* 它通常与 Dialog 组件一起使用，用于在对话框底部显示按钮，以供用户进行交互。 */}
             <DialogActions>
                 {dialogProps.type === 'EDIT' && (
                     <StyledButton color='secondary' variant='contained' onClick={() => onSyncClick()}>
@@ -729,11 +625,9 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         Delete
                     </StyledButton>
                 )}
-                {/* 点开的表单的最后Add添加按钮 */}
                 <StyledButton
                     disabled={!(assistantModel && assistantCredential)}
                     variant='contained'
-                    // 点击事件当点击后如果type是ADD走addNew  如果不是走save 点开的表单的最后Add添加按钮
                     onClick={() => (dialogProps.type === 'ADD' ? addNewAssistant() : saveAssistant())}
                 >
                     {dialogProps.confirmButtonName}
@@ -747,10 +641,9 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                 onDeleteBoth={() => deleteAssistant(true)}
             />
             {loading && <BackdropLoader open={loading} />}
-            {AddEditCredentialDialogState && <AddEditCredentialDialog></AddEditCredentialDialog>}
         </Dialog>
     ) : null
-    // 将这个对话框组件通过Portal渲染到portal的节点上
+
     return createPortal(component, portalElement)
 }
 

@@ -81,7 +81,7 @@
     height: 100%;
 }
 
-.MuiPopper-root {
-    transform: translate3d(-30px, 95px, 0px) !important;
-    z-index: 999;
+.css-19tnktw-MuiPaper-root-MuiCard-root {
+    transform: translate3d(-130px, 0px, 0px) !important;
+    z-index: 99999;
 }

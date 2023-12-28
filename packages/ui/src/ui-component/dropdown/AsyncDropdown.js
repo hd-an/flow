@@ -27,6 +27,7 @@ const StyledPopper = styled(Popper)({
 })
 
 const fetchList = async ({ name, nodeData }) => {
+    console.log(name, nodeData, 'name,nodeData', 'fetchList')
     const loadMethod = nodeData.inputParams.find((param) => param.name === name)?.loadMethod
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
@@ -66,8 +67,10 @@ export const AsyncDropdown = ({
     const getDefaultOptionValue = () => ''
     const addNewOption = [{ label: '- Create New -', name: '-create-' }]
     let [internalValue, setInternalValue] = useState(value ?? 'choose an option')
-
+    // 3 最后走这个方法不点击任何地方的情况下
     const fetchCredentialList = async () => {
+        console.log('fetchCredentialList')
+
         try {
             let names = ''
             if (credentialNames.length > 1) {
@@ -91,11 +94,14 @@ export const AsyncDropdown = ({
             console.error(error)
         }
     }
-
+    // 1 进到add页面就走useEffect
     useEffect(() => {
+        console.log('useEffect')
         setLoading(true)
         ;(async () => {
+            // 2 然后走fetchData
             const fetchData = async () => {
+                console.log('fetchData,在useEffect里面的')
                 let response = credentialNames.length ? await fetchCredentialList() : await fetchList({ name, nodeData })
                 if (isCreateNewOption) setOptions([...response, ...addNewOption])
                 else setOptions([...response])
@@ -153,7 +159,9 @@ export const AsyncDropdown = ({
                 renderOption={(props, option) => (
                     <Box component='li' {...props}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography variant='h5'>{option.label}</Typography>
+                            <Typography key={option.label} variant='h5'>
+                                {option.label}
+                            </Typography>
                             {option.description && (
                                 <Typography sx={{ color: customization.isDarkMode ? '#9e9e9e' : '' }}>{option.description}</Typography>
                             )}
