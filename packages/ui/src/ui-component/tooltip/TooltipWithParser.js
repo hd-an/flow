@@ -10,9 +10,13 @@ export const TooltipWithParser = ({ title, style }) => {
                 <Info
                     style={{
                         ...style,
-                        background: 'transparent',
+                        // background: 'transparent',
                         height: 15,
-                        width: 15
+                        width: 15,
+                        position: 'absolute !important',
+                        top: '50%',
+                        left: '50%',
+                        zIndex: '99999'
                     }}
                 />
             </IconButton>

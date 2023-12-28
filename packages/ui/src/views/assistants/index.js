@@ -20,9 +20,6 @@ import assistantsApi from 'api/assistants'
 // Hooks
 import useApi from 'hooks/useApi'
 
-// function
-import { getUsersArray } from '../../utils/GetUsersArr'
-
 // icons
 import { IconPlus, IconFileImport } from '@tabler/icons'
 
@@ -34,6 +31,7 @@ const Assistants = () => {
 
     const getAllAssistantsApi = useApi(assistantsApi.getAllAssistants)
 
+    // 第一个弹框
     const [showDialog, setShowDialog] = useState(false)
     const [dialogProps, setDialogProps] = useState({})
     const [showLoadDialog, setShowLoadDialog] = useState(false)
@@ -48,11 +46,14 @@ const Assistants = () => {
     }
 
     const onAssistantSelected = (selectedOpenAIAssistantId, credential) => {
+        console.log('执行 selected')
         setShowLoadDialog(false)
         addNew(selectedOpenAIAssistantId, credential)
     }
 
     const addNew = (selectedOpenAIAssistantId, credential) => {
+        // 如果一开始通过点击add触发 那么没有selectedOpenAIAssistantId和 credential
+        // console.log('第一次点击触发')
         const dialogProp = {
             title: 'Add New Assistant',
             type: 'ADD',
@@ -61,6 +62,7 @@ const Assistants = () => {
             selectedOpenAIAssistantId,
             credential
         }
+        // console.log(dialogProp, 'props')
         setDialogProps(dialogProp)
         setShowDialog(true)
     }
@@ -79,15 +81,12 @@ const Assistants = () => {
 
     const onConfirm = () => {
         setShowDialog(false)
-        getUsersArray().then((res) => {
-            getAllAssistantsApi.request(res.orgId, JSON.stringify(res.userIdArr))
-        })
+        getAllAssistantsApi.request()
     }
 
     useEffect(() => {
-        getUsersArray().then((res) => {
-            getAllAssistantsApi.request(res.orgId, JSON.stringify(res.userIdArr))
-        })
+        getAllAssistantsApi.request()
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -102,8 +101,9 @@ const Assistants = () => {
                             <Button variant='outlined' sx={{ mr: 2 }} onClick={loadExisting} startIcon={<IconFileImport />}>
                                 Load
                             </Button>
+                            {/* 第一步 点击触发 */}
                             <StyledButton variant='contained' sx={{ color: 'white' }} onClick={addNew} startIcon={<IconPlus />}>
-                                Add
+                                Add123
                             </StyledButton>
                         </Grid>
                     </Grid>

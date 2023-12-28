@@ -744,15 +744,20 @@ export class App {
             return res.json(Data)
         })
 
-        this.app.get('/api/v1/assistants/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
-            let orgId: string = req.params.orgId
-            let userIdArr: string[] = JSON.parse(req.params.userIdArr)
-            let Data = await this.AppDataSource.getRepository(Assistant).find({
-                where: {
-                    orgId,
-                    createdBy: In(userIdArr)
-                }
-            })
+        // this.app.get('/api/v1/assistants/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
+        //     let orgId: string = req.params.orgId
+        //     let userIdArr: string[] = JSON.parse(req.params.userIdArr)
+        //     let Data = await this.AppDataSource.getRepository(Assistant).find({
+        //         where: {
+        //             orgId,
+        //             createdBy: In(userIdArr)
+        //         }
+        //     })
+        //     return res.json(Data)
+        // })
+        this.app.get('/api/v1/assistants', async (req: Request, res: Response) => {
+            let Data = await this.AppDataSource.getRepository(Assistant).find()
+            console.log(Data, 'assistantsData')
             return res.json(Data)
         })
 
@@ -789,7 +794,6 @@ export class App {
 
             return res.json(retrievedAssistant)
         })
-
         // List available assistants
         this.app.get('/api/v1/openai-assistants', async (req: Request, res: Response) => {
             const credentialId = req.query.credential as string
@@ -819,6 +823,7 @@ export class App {
             const assistantDetails = JSON.parse(body.details)
 
             try {
+                // 需要一个凭证
                 const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
                     id: body.credential
                 })
