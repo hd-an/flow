@@ -583,25 +583,34 @@ export class App {
         // Get all credentials
         // 获取当前用户的全部凭证信息 并且如果带着参数来那么就走过滤
 
+        this.app.get('/api/v1/credentialsByName', async (req: Request, res: Response) => {
+            console.log('调接口')
+            if (req.query.credentialName) {
+                console.log('进来了')
+                // 过滤
+                let returnCredentials = []
+                if (Array.isArray(req.query.credentialName)) {
+                    for (let i = 0; i < req.query.credentialName.length; i += 1) {
+                        const name = req.query.credentialName[i] as string
+                        const credentials = await this.AppDataSource.getRepository(Credential).findBy({
+                            credentialName: name
+                        })
+                        returnCredentials.push(...credentials)
+                    }
+                } else {
+                    const credentials = await this.AppDataSource.getRepository(Credential).findBy({
+                        credentialName: req.query.credentialName as string
+                    })
+                    returnCredentials = [...credentials]
+                }
+                console.log(returnCredentials, '机器人返回值')
+                return res.json(returnCredentials)
+            } else {
+                return res.json({ error: '没传递credentialName' })
+            }
+        })
+
         this.app.get('/api/v1/credentials/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
-            // if (req.query.credentialName) {
-            //     // 过滤
-            //     let returnCredentials = []
-            //     if (Array.isArray(req.query.credentialName)) {
-            //         for (let i = 0; i < req.query.credentialName.length; i += 1) {
-            //             const name = req.query.credentialName[i] as string
-            //             const credentials = await this.AppDataSource.getRepository(Credential).findBy({
-            //                 credentialName: name
-            //             })
-            //             returnCredentials.push(...credentials)
-            //         }
-            //     } else {
-            //         const credentials = await this.AppDataSource.getRepository(Credential).findBy({
-            //             credentialName: req.query.credentialName as string
-            //         })
-            //         returnCredentials = [...credentials]
-            //     }
-            //     return res.json(returnCredentials)
             // 获取当前用户数据
             let orgId: string = req.params.orgId
             let userIdArr: string[] = JSON.parse(req.params.userIdArr)
@@ -817,7 +826,8 @@ export class App {
         // Add assistant
         this.app.post('/api/v1/assistants', async (req: Request, res: Response) => {
             const body = req.body
-
+            console.log(body, '我是机器人助手要添加的body')
+            console.log(body.details, 'details')
             if (!body.details) return res.status(500).send(`Invalid request body`)
 
             const assistantDetails = JSON.parse(body.details)
@@ -827,12 +837,13 @@ export class App {
                 const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
                     id: body.credential
                 })
-
+                console.log('需要的凭证', credential)
                 if (!credential) return res.status(404).send(`Credential ${body.credential} not found`)
 
                 // Decrpyt credentialData
                 const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
                 const openAIApiKey = decryptedCredentialData['openAIApiKey']
+                console.log(openAIApiKey, '我是openAiKey')
                 if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
 
                 const openai = new OpenAI({ apiKey: openAIApiKey })
@@ -847,6 +858,7 @@ export class App {
                 }
 
                 if (assistantDetails.uploadFiles) {
+                    console.log(assistantDetails.uploadFiles, '上传的文件')
                     // Base64 strings
                     let files: string[] = []
                     const fileBase64 = assistantDetails.uploadFiles
@@ -881,6 +893,7 @@ export class App {
                 }
 
                 if (!assistantDetails.id) {
+                    // 没有id 就创建一个
                     const newAssistant = await openai.beta.assistants.create({
                         name: assistantDetails.name,
                         description: assistantDetails.description,
@@ -891,6 +904,7 @@ export class App {
                     })
                     assistantDetails.id = newAssistant.id
                 } else {
+                    // 有的话就
                     const retrievedAssistant = await openai.beta.assistants.retrieve(assistantDetails.id)
                     let filteredTools = uniqWith([...retrievedAssistant.tools, ...tools], isEqual)
                     filteredTools = filteredTools.filter((tool) => !(tool.type === 'function' && !(tool as any).function))
@@ -915,18 +929,19 @@ export class App {
                     ...assistantDetails
                 }
                 if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
-
+                console.log(body.details, '最后的details')
                 body.details = JSON.stringify(newAssistantDetails)
             } catch (error) {
                 return res.status(500).send(`Error creating new assistant: ${error}`)
             }
 
             const newAssistant = new Assistant()
+            console.log('创建机器人的body', body)
             Object.assign(newAssistant, body)
 
             const assistant = this.AppDataSource.getRepository(Assistant).create(newAssistant)
             const results = await this.AppDataSource.getRepository(Assistant).save(assistant)
-
+            console.log('创建成功啦！！！')
             return res.json(results)
         })
 
@@ -968,7 +983,6 @@ export class App {
                         })
                     }
                 }
-
                 if (assistantDetails.uploadFiles) {
                     // Base64 strings
                     let files: string[] = []

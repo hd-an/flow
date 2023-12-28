@@ -10,6 +10,8 @@ export const createdBy = document.cookie
     .find((row) => row.startsWith('LOWCODER_CE_SELFHOST_TOKEN='))
     .split('=')[1]
     .split(':')[2]
+// export const createdBy = '65536f412886657aeb845dc9'
+// export const orgId = '65536f422886657aeb845dca'
 export const orgId = document.cookie
     .split('; ')
     .find((row) => row.startsWith('LOWCODER_CE_SELFHOST_TOKEN='))

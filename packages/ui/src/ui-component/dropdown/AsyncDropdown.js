@@ -63,10 +63,16 @@ export const AsyncDropdown = ({
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const [loading, setLoading] = useState(false)
+    const [val, setVal] = useState([])
     const findMatchingOptions = (options = [], value) => options.find((option) => option.name === value)
     const getDefaultOptionValue = () => ''
     const addNewOption = [{ label: '- Create New -', name: '-create-' }]
     let [internalValue, setInternalValue] = useState(value ?? 'choose an option')
+
+    const getVal = (ev) => {
+        setVal(ev.target.value)
+    }
+
     // 3 最后走这个方法不点击任何地方的情况下
     const fetchCredentialList = async () => {
         console.log('fetchCredentialList')
@@ -123,14 +129,17 @@ export const AsyncDropdown = ({
                 sx={{ width: '100%' }}
                 open={open}
                 onOpen={() => {
+                    console.log('12345678')
                     setOpen(true)
                 }}
                 onClose={() => {
+                    console.log('87654321')
                     setOpen(false)
                 }}
                 options={options}
                 value={findMatchingOptions(options, internalValue) || getDefaultOptionValue()}
                 onChange={(e, selection) => {
+                    console.log('onChange')
                     const value = selection ? selection.name : ''
                     if (isCreateNewOption && value === '-create-') {
                         onCreateNew()
@@ -169,6 +178,16 @@ export const AsyncDropdown = ({
                     </Box>
                 )}
             />
+            {/* <Select fullWidth value={val} onChange={(ev) => getVal(ev)}>
+                <MenuItem value={123}>8756</MenuItem>
+                <MenuItem value={234}>542</MenuItem>
+                <MenuItem value={345}>2345</MenuItem>
+                <MenuItem value={456}>653</MenuItem>
+                <MenuItem value={789}>345</MenuItem>
+                <MenuItem value={6543}>534</MenuItem>
+                <MenuItem value={6354}>3456</MenuItem>
+                <MenuItem onClick={() => onCreateNew()}>create new</MenuItem>
+            </Select> */}
         </>
     )
 }

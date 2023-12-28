@@ -77,7 +77,7 @@ const Chatflows = () => {
         getUsersArray().then((res) => {
             getAllChatflowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
         })
-    }, [])
+    }, [document.cookie, getAllChatflowsApi])
     useEffect(() => {
         if (getAllChatflowsApi.error) {
             if (getAllChatflowsApi.error?.response?.status === 401) {
