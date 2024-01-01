@@ -2,23 +2,16 @@ import { useDispatch } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 import './Main.css'
 import { MAIN_STATE } from '../../store/actions'
-import dashboard from '../../menu-items/dashboard'
-import ProfileSection from './ProfileSection'
+// import ProfileSection from './ProfileSection'
 import { useState } from 'react'
-// import Breadcrumbs from '@mui/material/Breadcrumbs'
-// import Link from '@mui/material/Link'
-// import Typography from '@mui/material/Typography'
-
+import { IconSettings } from '@tabler/icons'
+import dashboard from '../../menu-items/dashboard'
 const MainLayout = () => {
     let navigate = useNavigate()
     let dispatch = useDispatch()
     let [ModalState, SetModalState] = useState(false)
     let [ShowComp, SetShowComp] = useState(null)
-    // let chooseState = useSelector((state) => state.chooseState)、
-    // const handleClick = (event) => {
-    //     event.preventDefault()
-    //     console.info('You clicked a breadcrumb')
-    //   }
+    let [chooseState, SetChooseState] = useState(false)
     const close = () => {
         SetModalState(false)
         SetShowComp(null)
@@ -45,30 +38,19 @@ const MainLayout = () => {
             state: item.id
         })
     }
-    const signOutClicked = () => {
-        localStorage.removeItem('username')
-        localStorage.removeItem('password')
-        navigate('/', { replace: true })
-        navigate(0)
+    const OpenList = (ev) => {
+        SetChooseState(true)
+        ev.stopPropagation()
     }
-    const getComponent = (component, state) => {
+    const chooseComponent = (component, state) => {
         SetModalState(state)
         SetShowComp(component)
     }
+    const Close = () => {
+        SetChooseState(false)
+    }
     return (
-        <div className='Main'>
-            <div className='Main_header'>
-                智能体
-                {/* <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/" onClick={handleClick}>
-                Material-UI
-            </Link>
-            <Link color="inherit" href="/getting-started/installation/" onClick={handleClick}>
-                Core
-            </Link>
-            <Typography color="textPrimary">Breadcrumb</Typography>
-            </Breadcrumbs> */}
-            </div>
+        <div className='Main' onClick={() => Close()} role='button' tabIndex={0} onKeyDown={() => KeyDownContent()}>
             <div className='Header_Bar'>
                 {dashboard.children.slice(0, 2).map((item) => (
                     <button onClick={() => ChangePath(item)} className='Header_BarItem' key={item.id}>
@@ -77,11 +59,12 @@ const MainLayout = () => {
                     </button>
                 ))}
                 <div className='Header_BarItem'>
-                    <ProfileSection
+                    {/* <ProfileSection
                         chooseComponent={getComponent}
                         handleLogout={signOutClicked}
                         username={localStorage.getItem('username') ?? ''}
-                    />
+                    /> */}
+                    <IconSettings stroke={1.5} size='1.3rem' onClick={(ev) => OpenList(ev)} />
                 </div>
             </div>
             <div className='Content'>
@@ -104,6 +87,24 @@ const MainLayout = () => {
                 >
                     {ShowComp}
                 </div>
+            </div>
+            <div style={chooseState === true ? { display: 'block' } : { display: 'none' }} className='RouterList'>
+                {dashboard.children.slice(2).map((item) => (
+                    <div
+                        role='button'
+                        tabIndex={0}
+                        onKeyDown={() => KeyDownContent()}
+                        onClick={() => {
+                            SetChooseState(false)
+                            chooseComponent(item.component, true)
+                        }}
+                        key={item.id}
+                        className='RouterItem'
+                    >
+                        <span>{item.icon}</span>
+                        <span>{item.title}</span>
+                    </div>
+                ))}
             </div>
         </div>
     )

@@ -5,16 +5,8 @@
     flex-direction: column;
 }
 
-.Main .Main_header {
-    flex: 1;
-    line-height: 5vh;
-    box-sizing: border-box;
-    font-size: 20px;
-    margin-left: 1.5vw;
-}
-
 .Main .Header_Bar {
-    flex: 1;
+    flex: 2;
     overflow-x: scroll;
     white-space: nowrap;
     overflow: hidden;
@@ -29,7 +21,7 @@
     text-align: center;
     font-size: 18px;
     overflow: hidden;
-    line-height: 5vh;
+    line-height: 10vh;
     border: none;
     background: none;
 }
@@ -43,8 +35,21 @@
 }
 
 .Main .Header_Bar .Header_BarItem:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     float: right;
     margin-right: 1.5vw;
+    position: relative;
+    top: 4vh;
+    width: 2vw;
+    height: 2vw;
+    border-radius: 10px;
+}
+
+.Main .Header_Bar .Header_BarItem:last-child:hover {
+    background-color: #3187d8;
+    color: white;
 }
 
 .Main .Content {
@@ -79,4 +84,41 @@
 .css-1kicrip {
     width: 100%;
     height: 100%;
+}
+
+.RouterList {
+    box-sizing: border-box;
+    border: 1px solid #3187d8;
+    border-radius: 10px;
+    position: absolute;
+    left: 88%;
+    top: 8%;
+    background: white;
+}
+
+.RouterList .RouterItem {
+    border-radius: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    line-height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.RouterList .RouterItem span:first-child {
+    margin-left: 5px;
+    position: relative;
+    top: 6px;
+    margin-right: 7px;
+}
+
+.RouterList .RouterItem span:last-child {
+    margin-right: 5px;
+}
+
+.RouterList .RouterItem:hover {
+    background: #3187d8;
+    color: white;
 }

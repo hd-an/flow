@@ -318,14 +318,12 @@ export class App {
             let orgId: string = req.params.orgId
             let userIdArr: string[] = JSON.parse(req.params.userIdArr)
 
-            console.log(userIdArr, 'userIdArr--------------------------------')
             let Data = await this.AppDataSource.getRepository(ChatFlow).find({
                 where: {
                     orgId,
                     createdBy: In(userIdArr)
                 }
             })
-            console.log(Data, '---Data---')
             return res.json(Data)
         })
 
@@ -571,9 +569,9 @@ export class App {
         // ----------------------------------------
 
         // Create new credential
+
         this.app.post('/api/v1/credentials', async (req: Request, res: Response) => {
             const body = req.body
-            console.log(body, '我是/credentials的body-----------------------')
             const newCredential = await transformToCredentialEntity(body)
             const credential = this.AppDataSource.getRepository(Credential).create(newCredential)
             const results = await this.AppDataSource.getRepository(Credential).save(credential)
@@ -582,11 +580,9 @@ export class App {
 
         // Get all credentials
         // 获取当前用户的全部凭证信息 并且如果带着参数来那么就走过滤
-
+        // 机器人助理请求返回结果
         this.app.get('/api/v1/credentialsByName', async (req: Request, res: Response) => {
-            console.log('调接口')
             if (req.query.credentialName) {
-                console.log('进来了')
                 // 过滤
                 let returnCredentials = []
                 if (Array.isArray(req.query.credentialName)) {
@@ -603,7 +599,6 @@ export class App {
                     })
                     returnCredentials = [...credentials]
                 }
-                console.log(returnCredentials, '机器人返回值')
                 return res.json(returnCredentials)
             } else {
                 return res.json({ error: '没传递credentialName' })
@@ -766,7 +761,7 @@ export class App {
         // })
         this.app.get('/api/v1/assistants', async (req: Request, res: Response) => {
             let Data = await this.AppDataSource.getRepository(Assistant).find()
-            console.log(Data, 'assistantsData')
+            console.log(Data, 'assistantsData获取全部的机器人助理已创建信息')
             return res.json(Data)
         })
 
@@ -827,7 +822,6 @@ export class App {
         this.app.post('/api/v1/assistants', async (req: Request, res: Response) => {
             const body = req.body
             console.log(body, '我是机器人助手要添加的body')
-            console.log(body.details, 'details')
             if (!body.details) return res.status(500).send(`Invalid request body`)
 
             const assistantDetails = JSON.parse(body.details)
@@ -837,17 +831,14 @@ export class App {
                 const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
                     id: body.credential
                 })
-                console.log('需要的凭证', credential)
                 if (!credential) return res.status(404).send(`Credential ${body.credential} not found`)
 
                 // Decrpyt credentialData
                 const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
                 const openAIApiKey = decryptedCredentialData['openAIApiKey']
-                console.log(openAIApiKey, '我是openAiKey')
                 if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
 
                 const openai = new OpenAI({ apiKey: openAIApiKey })
-
                 let tools = []
                 if (assistantDetails.tools) {
                     for (const tool of assistantDetails.tools ?? []) {
@@ -856,9 +847,7 @@ export class App {
                         })
                     }
                 }
-
                 if (assistantDetails.uploadFiles) {
-                    console.log(assistantDetails.uploadFiles, '上传的文件')
                     // Base64 strings
                     let files: string[] = []
                     const fileBase64 = assistantDetails.uploadFiles
@@ -893,6 +882,8 @@ export class App {
                 }
 
                 if (!assistantDetails.id) {
+                    console.log('没有id自己通过openai进行create一个')
+                    console.log('assistantDetails', assistantDetails)
                     // 没有id 就创建一个
                     const newAssistant = await openai.beta.assistants.create({
                         name: assistantDetails.name,
@@ -902,9 +893,14 @@ export class App {
                         tools,
                         file_ids: (assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
                     })
+                    console.log(newAssistant, 'newAssistant新建的')
+
+                    console.log('将id赋值上')
                     assistantDetails.id = newAssistant.id
+                    console.log('assistantDetails的内容', assistantDetails)
                 } else {
                     // 有的话就
+                    console.log('有id的情况')
                     const retrievedAssistant = await openai.beta.assistants.retrieve(assistantDetails.id)
                     let filteredTools = uniqWith([...retrievedAssistant.tools, ...tools], isEqual)
                     filteredTools = filteredTools.filter((tool) => !(tool.type === 'function' && !(tool as any).function))
@@ -928,13 +924,14 @@ export class App {
                 const newAssistantDetails = {
                     ...assistantDetails
                 }
+                console.log(newAssistantDetails, '我是newAssistantDeatils')
                 if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
                 console.log(body.details, '最后的details')
                 body.details = JSON.stringify(newAssistantDetails)
             } catch (error) {
                 return res.status(500).send(`Error creating new assistant: ${error}`)
             }
-
+            console.log(newAssistant, 'newAssistant')
             const newAssistant = new Assistant()
             console.log('创建机器人的body', body)
             Object.assign(newAssistant, body)
