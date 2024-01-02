@@ -94,34 +94,6 @@ const AssistantDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     const [deleteDialogProps, setDeleteDialogProps] = useState({})
 
     useEffect(() => {
-        enqueueSnackbar({
-            message: 'New Assistant added',
-            options: {
-                key: new Date().getTime() + Math.random(),
-                variant: 'success',
-                action: (key) => (
-                    <Button style={{ color: 'white' }} onClick={() => closeSnackbar(key)}>
-                        <IconX />
-                    </Button>
-                )
-            }
-        }),
-            enqueueSnackbar({
-                message: `Failed to delete Assistant: 123321`,
-                options: {
-                    key: new Date().getTime() + Math.random(),
-                    variant: 'error',
-                    persist: true,
-                    action: (key) => (
-                        <Button style={{ color: 'white' }} onClick={() => closeSnackbar(key)}>
-                            <IconX />
-                        </Button>
-                    )
-                }
-            })
-    }, [])
-
-    useEffect(() => {
         if (show) dispatch({ type: SHOW_CANVAS_DIALOG })
         else dispatch({ type: HIDE_CANVAS_DIALOG })
         return () => dispatch({ type: HIDE_CANVAS_DIALOG })
