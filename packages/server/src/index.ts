@@ -819,119 +819,183 @@ export class App {
         })
 
         // Add assistant
+        // this.app.post('/api/v1/assistants', async (req: Request, res: Response) => {
+        //     const body = req.body
+        //     if (!body.details) return res.status(500).send(`Invalid request body`)
+        //     const assistantDetails = JSON.parse(body.details)
+
+        //     try {
+        //         // 需要一个凭证
+        //         const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
+        //             id: body.credential
+        //         })
+        //         if (!credential) return res.status(404).send(`Credential ${body.credential} not found`)
+
+        //         // Decrpyt credentialData
+        //         const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
+        //         const openAIApiKey = decryptedCredentialData['openAIApiKey']
+        //         if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
+
+        //         const openai = new OpenAI({ apiKey: openAIApiKey })
+        //         let tools = []
+        //         if (assistantDetails.tools) {
+        //             for (const tool of assistantDetails.tools ?? []) {
+        //                 tools.push({
+        //                     type: tool
+        //                 })
+        //             }
+        //         }
+        //         if (assistantDetails.uploadFiles) {
+        //             // Base64 strings
+        //             let files: string[] = []
+        //             const fileBase64 = assistantDetails.uploadFiles
+        //             if (fileBase64.startsWith('[') && fileBase64.endsWith(']')) {
+        //                 files = JSON.parse(fileBase64)
+        //             } else {
+        //                 files = [fileBase64]
+        //             }
+
+        //             const uploadedFiles = []
+        //             for (const file of files) {
+        //                 const splitDataURI = file.split(',')
+        //                 const filename = splitDataURI.pop()?.split(':')[1] ?? ''
+        //                 const bf = Buffer.from(splitDataURI.pop() || '', 'base64')
+        //                 const filePath = path.join(getUserHome(), '.flowise', 'openai-assistant', filename)
+        //                 if (!fs.existsSync(path.join(getUserHome(), '.flowise', 'openai-assistant'))) {
+        //                     fs.mkdirSync(path.dirname(filePath), { recursive: true })
+        //                 }
+        //                 if (!fs.existsSync(filePath)) {
+        //                     fs.writeFileSync(filePath, bf)
+        //                 }
+
+        //                 const createdFile = await openai.files.create({
+        //                     file: fs.createReadStream(filePath),
+        //                     purpose: 'assistants'
+        //                 })
+        //                 uploadedFiles.push(createdFile)
+
+        //                 fs.unlinkSync(filePath)
+        //             }
+        //             assistantDetails.files = [...assistantDetails.files, ...uploadedFiles]
+        //         }
+
+        //         if (!assistantDetails.id) {
+        //             console.log('没有id自己通过openai进行create一个')
+        //             console.log('assistantDetails', assistantDetails)
+        //             // 没有id 就创建一个
+        //             const newAssistant = await openai.beta.assistants.create({
+        //                 name: assistantDetails.name,
+        //                 description: assistantDetails.description,
+        //                 instructions: assistantDetails.instructions,
+        //                 model: assistantDetails.model,
+        //                 tools,
+        //                 file_ids: (assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
+        //             })
+        //             // const OpenAiEntity = await openai.beta.assistants.create({
+        //             //     name: assistantDetails.name,
+        //             //     description: assistantDetails.description,
+        //             //     instructions: assistantDetails.instructions,
+        //             //     model: assistantDetails.model,
+        //             //     tools,
+        //             // })
+        //             console.log(newAssistant, 'newAssistant新建的')
+
+        //             console.log('将id赋值上')
+        //             assistantDetails.id = newAssistant.id
+        //         } else {
+        //             // 有的话就
+        //             console.log('有id的情况')
+        //             const retrievedAssistant = await openai.beta.assistants.retrieve(assistantDetails.id)
+        //             let filteredTools = uniqWith([...retrievedAssistant.tools, ...tools], isEqual)
+        //             filteredTools = filteredTools.filter((tool) => !(tool.type === 'function' && !(tool as any).function))
+
+        //             await openai.beta.assistants.update(assistantDetails.id, {
+        //                 name: assistantDetails.name,
+        //                 description: assistantDetails.description ?? '',
+        //                 instructions: assistantDetails.instructions ?? '',
+        //                 model: assistantDetails.model,
+        //                 tools: filteredTools,
+        //                 file_ids: uniqWith(
+        //                     [
+        //                         ...retrievedAssistant.file_ids,
+        //                         ...(assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
+        //                     ],
+        //                     isEqual
+        //                 )
+        //             })
+        //         }
+
+        //         const newAssistantDetails = {
+        //             ...assistantDetails
+        //         }
+        //         console.log(newAssistantDetails, '我是newAssistantDeatils')
+        //         if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
+        //         console.log(body.details, '最后的details')
+        //         body.details = JSON.stringify(newAssistantDetails)
+        //     } catch (error) {
+        //         return res.status(500).send(`Error creating new assistant: ${error}`)
+        //     }
+        //     const newAssistant = new Assistant()
+        //     console.log('创建机器人的body', body)
+        //     Object.assign(newAssistant, body)
+
+        //     const assistant = this.AppDataSource.getRepository(Assistant).create(newAssistant)
+        //     const results = await this.AppDataSource.getRepository(Assistant).save(assistant)
+        //     console.log('创建成功啦！！！')
+        //     return res.json(results)
+        // })
         this.app.post('/api/v1/assistants', async (req: Request, res: Response) => {
             const body = req.body
-            console.log(body, '我是机器人助手要添加的body')
-            if (!body.details) return res.status(500).send(`Invalid request body`)
-
             const assistantDetails = JSON.parse(body.details)
 
-            try {
-                // 需要一个凭证
-                const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
-                    id: body.credential
-                })
-                if (!credential) return res.status(404).send(`Credential ${body.credential} not found`)
+            // 需要一个凭证
+            const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
+                id: body.credential
+            })
+            console.log(credential, '凭证')
+            // Decrpyt credentialData
+            if (!credential) return
+            console.log('有凭证')
+            const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
+            const openAIApiKey = decryptedCredentialData['openAIApiKey']
+            if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
 
-                // Decrpyt credentialData
-                const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
-                const openAIApiKey = decryptedCredentialData['openAIApiKey']
-                if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
-
-                const openai = new OpenAI({ apiKey: openAIApiKey })
-                let tools = []
-                if (assistantDetails.tools) {
-                    for (const tool of assistantDetails.tools ?? []) {
-                        tools.push({
-                            type: tool
-                        })
-                    }
-                }
-                if (assistantDetails.uploadFiles) {
-                    // Base64 strings
-                    let files: string[] = []
-                    const fileBase64 = assistantDetails.uploadFiles
-                    if (fileBase64.startsWith('[') && fileBase64.endsWith(']')) {
-                        files = JSON.parse(fileBase64)
-                    } else {
-                        files = [fileBase64]
-                    }
-
-                    const uploadedFiles = []
-                    for (const file of files) {
-                        const splitDataURI = file.split(',')
-                        const filename = splitDataURI.pop()?.split(':')[1] ?? ''
-                        const bf = Buffer.from(splitDataURI.pop() || '', 'base64')
-                        const filePath = path.join(getUserHome(), '.flowise', 'openai-assistant', filename)
-                        if (!fs.existsSync(path.join(getUserHome(), '.flowise', 'openai-assistant'))) {
-                            fs.mkdirSync(path.dirname(filePath), { recursive: true })
-                        }
-                        if (!fs.existsSync(filePath)) {
-                            fs.writeFileSync(filePath, bf)
-                        }
-
-                        const createdFile = await openai.files.create({
-                            file: fs.createReadStream(filePath),
-                            purpose: 'assistants'
-                        })
-                        uploadedFiles.push(createdFile)
-
-                        fs.unlinkSync(filePath)
-                    }
-                    assistantDetails.files = [...assistantDetails.files, ...uploadedFiles]
-                }
-
-                if (!assistantDetails.id) {
-                    console.log('没有id自己通过openai进行create一个')
-                    console.log('assistantDetails', assistantDetails)
-                    // 没有id 就创建一个
-                    const newAssistant = await openai.beta.assistants.create({
-                        name: assistantDetails.name,
-                        description: assistantDetails.description,
-                        instructions: assistantDetails.instructions,
-                        model: assistantDetails.model,
-                        tools,
-                        file_ids: (assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
-                    })
-                    console.log(newAssistant, 'newAssistant新建的')
-
-                    console.log('将id赋值上')
-                    assistantDetails.id = newAssistant.id
-                    console.log('assistantDetails的内容', assistantDetails)
-                } else {
-                    // 有的话就
-                    console.log('有id的情况')
-                    const retrievedAssistant = await openai.beta.assistants.retrieve(assistantDetails.id)
-                    let filteredTools = uniqWith([...retrievedAssistant.tools, ...tools], isEqual)
-                    filteredTools = filteredTools.filter((tool) => !(tool.type === 'function' && !(tool as any).function))
-
-                    await openai.beta.assistants.update(assistantDetails.id, {
-                        name: assistantDetails.name,
-                        description: assistantDetails.description ?? '',
-                        instructions: assistantDetails.instructions ?? '',
-                        model: assistantDetails.model,
-                        tools: filteredTools,
-                        file_ids: uniqWith(
-                            [
-                                ...retrievedAssistant.file_ids,
-                                ...(assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
-                            ],
-                            isEqual
-                        )
+            const openai = new OpenAI({ apiKey: openAIApiKey })
+            console.log('openai', openai)
+            console.log('1233211234567')
+            let tools = []
+            if (assistantDetails.tools) {
+                for (const tool of assistantDetails.tools ?? []) {
+                    tools.push({
+                        type: tool
                     })
                 }
-
-                const newAssistantDetails = {
-                    ...assistantDetails
-                }
-                console.log(newAssistantDetails, '我是newAssistantDeatils')
-                if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
-                console.log(body.details, '最后的details')
-                body.details = JSON.stringify(newAssistantDetails)
-            } catch (error) {
-                return res.status(500).send(`Error creating new assistant: ${error}`)
             }
-            console.log(newAssistant, 'newAssistant')
+            if (!assistantDetails.id) {
+                console.log('没有id自己通过openai进行create一个')
+                console.log('assistantDetails', assistantDetails)
+                // 没有id 就创建一个
+                const newAssistant = await openai.beta.assistants.create({
+                    name: assistantDetails.name,
+                    description: assistantDetails.description,
+                    instructions: assistantDetails.instructions,
+                    model: assistantDetails.model,
+                    tools,
+                    file_ids: (assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
+                })
+                console.log(newAssistant, 'newAssistant新建的')
+
+                console.log('将id赋值上')
+                assistantDetails.id = newAssistant.id
+            }
+            const newAssistantDetails = {
+                ...assistantDetails
+            }
+            console.log(newAssistantDetails, '我是newAssistantDeatils')
+            if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
+            console.log(body.details, '最后的details')
+            body.details = JSON.stringify(newAssistantDetails)
+
             const newAssistant = new Assistant()
             console.log('创建机器人的body', body)
             Object.assign(newAssistant, body)
@@ -941,7 +1005,6 @@ export class App {
             console.log('创建成功啦！！！')
             return res.json(results)
         })
-
         // Update assistant
         this.app.put('/api/v1/assistants/:id', async (req: Request, res: Response) => {
             const assistant = await this.AppDataSource.getRepository(Assistant).findOneBy({

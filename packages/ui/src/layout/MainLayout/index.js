@@ -12,6 +12,7 @@ const MainLayout = () => {
     let [ModalState, SetModalState] = useState(false)
     let [ShowComp, SetShowComp] = useState(null)
     let [chooseState, SetChooseState] = useState(false)
+    let [headerState, SetHeaderState] = useState(0)
     const close = () => {
         SetModalState(false)
         SetShowComp(null)
@@ -31,7 +32,8 @@ const MainLayout = () => {
     const Content = (ev) => {
         ev.stopPropagation()
     }
-    const ChangePath = (item) => {
+    const ChangePath = (item, idx) => {
+        SetHeaderState(idx)
         navigate(item.url)
         dispatch({
             type: MAIN_STATE,
@@ -52,19 +54,30 @@ const MainLayout = () => {
     return (
         <div className='Main' onClick={() => Close()} role='button' tabIndex={0} onKeyDown={() => KeyDownContent()}>
             <div className='Header_Bar'>
-                {dashboard.children.slice(0, 2).map((item) => (
-                    <button onClick={() => ChangePath(item)} className='Header_BarItem' key={item.id}>
+                {dashboard.children.slice(0, 2).map((item, index) => (
+                    <button
+                        style={headerState === index ? { color: 'rgb(55,150,241)' } : {}}
+                        onClick={() => ChangePath(item, index)}
+                        className='Header_BarItem'
+                        key={item.id}
+                    >
                         <span>{item.icon}</span>
                         <span>{item.title}</span>
                     </button>
                 ))}
-                <div className='Header_BarItem'>
+                <div
+                    tabIndex={0}
+                    role='button'
+                    onKeyDown={() => KeyDownContent()}
+                    className='Header_BarItem'
+                    onClick={(ev) => OpenList(ev)}
+                >
                     {/* <ProfileSection
                         chooseComponent={getComponent}
                         handleLogout={signOutClicked}
                         username={localStorage.getItem('username') ?? ''}
                     /> */}
-                    <IconSettings stroke={1.5} size='1.3rem' onClick={(ev) => OpenList(ev)} />
+                    <IconSettings stroke={1.5} size='1.3rem' />
                 </div>
             </div>
             <div className='Content'>
@@ -101,8 +114,8 @@ const MainLayout = () => {
                         key={item.id}
                         className='RouterItem'
                     >
-                        <span>{item.icon}</span>
-                        <span>{item.title}</span>
+                        <div>{item.icon}</div>
+                        <div>{item.title}</div>
                     </div>
                 ))}
             </div>

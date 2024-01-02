@@ -1,5 +1,5 @@
 // assets
-import { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot } from '@tabler/icons'
+import { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock } from '@tabler/icons'
 
 // constant
 // const icons = { IconHierarchy, IconBuildingStore, IconKey, IconTool, IconLock, IconRobot }
@@ -9,7 +9,7 @@ import APIKey from '../views/apikey'
 // tools routing
 import Tools from '../views/tools'
 // assistants routing
-import Assistants from '../views/assistants'
+// import Assistants from '../views/assistants'
 // credentials routing
 import Credentials from '../views/credentials'
 
@@ -48,15 +48,6 @@ const dashboard = {
             component: <Tools />
         },
         {
-            id: 'assistants',
-            title: 'Assistants',
-            type: 'item',
-            url: '/assistants',
-            icon: <IconRobot />,
-            breadcrumbs: true,
-            component: <Assistants />
-        },
-        {
             id: 'credentials',
             title: 'Credentials',
             type: 'item',
@@ -74,6 +65,15 @@ const dashboard = {
             breadcrumbs: true,
             component: <APIKey />
         }
+        // {
+        //     id: 'assistants',
+        //     title: 'Assistants',
+        //     type: 'item',
+        //     url: '/assistants',
+        //     icon: <IconRobot />,
+        //     breadcrumbs: true,
+        //     component: <Assistants />
+        // },
     ]
 }
 
