@@ -76,9 +76,7 @@ const Credentials = () => {
     const onSearchChange = (event) => {
         let arr = []
         credentials.filter((item) => {
-            console.log(item)
             if (item.credentialName.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
-                console.log(item, '成功')
                 arr.push(item)
             }
         })
@@ -164,7 +162,6 @@ const Credentials = () => {
     }
 
     const onCredentialSelected = (credentialComponent) => {
-        // console.log('选择一个')
         setShowCredentialListDialog(false)
         addNew(credentialComponent)
     }

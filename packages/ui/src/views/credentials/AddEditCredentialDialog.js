@@ -97,7 +97,6 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
     }, [show, dispatch])
 
     const addNewCredential = async () => {
-        // console.log('添加成功了')
         try {
             const obj = {
                 createdBy,

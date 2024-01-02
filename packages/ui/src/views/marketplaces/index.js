@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 // material-ui
 import { Grid, Box, Stack, Tabs, Tab, Badge } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import { IconHierarchy, IconTool } from '@tabler/icons'
 
 // project imports
@@ -49,9 +47,6 @@ TabPanel.propTypes = {
 
 const Marketplace = () => {
     const navigate = useNavigate()
-
-    const theme = useTheme()
-    const customization = useSelector((state) => state.customization)
 
     const [isChatflowsLoading, setChatflowsLoading] = useState(true)
     const [isToolsLoading, setToolsLoading] = useState(true)
@@ -135,10 +130,8 @@ const Marketplace = () => {
 
     return (
         <>
-            <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
-                <Stack flexDirection='row'>
-                    <h1>Marketplace</h1>
-                </Stack>
+            <MainCard>
+                <Stack flexDirection='row'></Stack>
                 <Tabs sx={{ mb: 2 }} variant='fullWidth' value={value} onChange={handleChange} aria-label='tabs'>
                     {tabItems.map((item, index) => (
                         <Tab
@@ -152,32 +145,6 @@ const Marketplace = () => {
                 {tabItems.map((item, index) => (
                     <TabPanel key={index} value={value} index={index}>
                         {item === 'Chatflows' && (
-                            <Grid container spacing={gridSpacing}>
-                                {!isToolsLoading &&
-                                    getAllToolsMarketplacesApi.data &&
-                                    getAllToolsMarketplacesApi.data.map((data, index) => (
-                                        <Grid key={index} item lg={3} md={4} sm={6} xs={12}>
-                                            {data.badge && (
-                                                <Badge
-                                                    sx={{
-                                                        '& .MuiBadge-badge': {
-                                                            right: 20
-                                                        }
-                                                    }}
-                                                    badgeContent={data.badge}
-                                                    color={data.badge === 'POPULAR' ? 'primary' : 'error'}
-                                                >
-                                                    <ItemCard data={data} onClick={() => goToCanvas(data)} images={images[data.id]} />
-                                                </Badge>
-                                            )}
-                                            {!data.badge && (
-                                                <ItemCard onClick={() => goToCanvas(data)} data={data} images={images[data.id]} />
-                                            )}
-                                        </Grid>
-                                    ))}
-                            </Grid>
-                        )}
-                        {/* {item === 'Chatflows' && (
                             <Grid container spacing={gridSpacing}>
                                 {!isChatflowsLoading &&
                                     getAllChatflowsMarketplacesApi.data &&
@@ -202,7 +169,7 @@ const Marketplace = () => {
                                         </Grid>
                                     ))}
                             </Grid>
-                        )} */}
+                        )}
                         {item === 'Tools' && (
                             <Grid container spacing={gridSpacing}>
                                 {!isToolsLoading &&

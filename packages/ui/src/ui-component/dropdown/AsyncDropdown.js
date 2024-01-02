@@ -27,7 +27,6 @@ const StyledPopper = styled(Popper)({
 })
 
 const fetchList = async ({ name, nodeData }) => {
-    console.log(name, nodeData, 'name,nodeData', 'fetchList')
     const loadMethod = nodeData.inputParams.find((param) => param.name === name)?.loadMethod
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
@@ -59,24 +58,15 @@ export const AsyncDropdown = ({
     disableClearable = false
 }) => {
     const customization = useSelector((state) => state.customization)
-
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const [loading, setLoading] = useState(false)
-    const [val, setVal] = useState([])
     const findMatchingOptions = (options = [], value) => options.find((option) => option.name === value)
     const getDefaultOptionValue = () => ''
     const addNewOption = [{ label: '- Create New -', name: '-create-' }]
     let [internalValue, setInternalValue] = useState(value ?? 'choose an option')
-
-    const getVal = (ev) => {
-        setVal(ev.target.value)
-    }
-
     // 3 最后走这个方法不点击任何地方的情况下
     const fetchCredentialList = async () => {
-        console.log('fetchCredentialList')
-
         try {
             let names = ''
             if (credentialNames.length > 1) {
@@ -102,12 +92,10 @@ export const AsyncDropdown = ({
     }
     // 1 进到add页面就走useEffect
     useEffect(() => {
-        console.log('useEffect')
         setLoading(true)
         ;(async () => {
             // 2 然后走fetchData
             const fetchData = async () => {
-                console.log('fetchData,在useEffect里面的')
                 let response = credentialNames.length ? await fetchCredentialList() : await fetchList({ name, nodeData })
                 if (isCreateNewOption) setOptions([...response, ...addNewOption])
                 else setOptions([...response])
@@ -129,17 +117,14 @@ export const AsyncDropdown = ({
                 sx={{ width: '100%' }}
                 open={open}
                 onOpen={() => {
-                    console.log('12345678')
                     setOpen(true)
                 }}
                 onClose={() => {
-                    console.log('87654321')
                     setOpen(false)
                 }}
                 options={options}
                 value={findMatchingOptions(options, internalValue) || getDefaultOptionValue()}
                 onChange={(e, selection) => {
-                    console.log('onChange')
                     const value = selection ? selection.name : ''
                     if (isCreateNewOption && value === '-create-') {
                         onCreateNew()

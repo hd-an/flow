@@ -133,9 +133,9 @@ const Chatflows = () => {
                             width: '100%'
                         }}
                     >
-                        <h1>Chatflows</h1>
                         <TextField
                             size='small'
+                            style={{ position: 'relative', left: '-1.5%' }}
                             sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
                             variant='outlined'
                             placeholder='Search name or category'
