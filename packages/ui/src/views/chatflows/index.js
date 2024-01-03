@@ -190,7 +190,7 @@ const Chatflows = () => {
                 )}
                 {!isLoading && view === 'list' && getAllChatflowsApi.data && (
                     <FlowListTable
-                        sx={{ mt: 20 }}
+                        sx={{ mt: 20, fontSize: '12px' }}
                         data={getAllChatflowsApi.data}
                         images={images}
                         filterFunction={filterFlows}
@@ -202,9 +202,13 @@ const Chatflows = () => {
             {!isLoading && (!getAllChatflowsApi.data || getAllChatflowsApi.data.length === 0) && (
                 <Stack sx={{ alignItems: 'center', justifyContent: 'center' }} flexDirection='column'>
                     <Box sx={{ p: 2, height: 'auto' }}>
-                        <img style={{ objectFit: 'cover', height: '30vh', width: 'auto' }} src={WorkflowEmptySVG} alt='WorkflowEmptySVG' />
+                        <img
+                            style={{ objectFit: 'cover', height: '30vh', width: 'auto', fontSize: '12px' }}
+                            src={WorkflowEmptySVG}
+                            alt='WorkflowEmptySVG'
+                        />
                     </Box>
-                    <div>No Chatflows Yet</div>
+                    <div style={{ fontSize: '12px' }}>No Chatflows Yet</div>
                 </Stack>
             )}
             <LoginDialog show={loginDialogOpen} dialogProps={loginDialogProps} onConfirm={onLoginClick} />

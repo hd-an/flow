@@ -335,7 +335,7 @@ const APIKey = () => {
                                 width: '100%'
                             }}
                         >
-                            <h1>API Keys&nbsp;</h1>
+                            <h1 style={{ fontSize: '14px' }}>API Keys&nbsp;</h1>
                             <TextField
                                 size='small'
                                 sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
@@ -359,6 +359,7 @@ const APIKey = () => {
                             >
                                 <ButtonGroup disableElevation aria-label='outlined primary button group'>
                                     <StyledButton
+                                        style={{ fontSize: '14px' }}
                                         variant='contained'
                                         sx={{ color: 'white', mr: 1, height: 37 }}
                                         onClick={addNew}
@@ -380,8 +381,8 @@ const APIKey = () => {
                     </Stack>
                 )}
                 {apiKeys.length > 0 && (
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+                    <TableContainer component={Paper} style={{ maxHeight: 850, overflow: 'auto', fontSize: '12px' }}>
+                        <Table style={{ fontSize: '12px' }} sx={{ minWidth: 650 }} aria-label='simple table'>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Key Name</TableCell>

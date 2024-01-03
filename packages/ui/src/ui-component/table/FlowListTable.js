@@ -19,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: theme.palette.common.white
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14
+        fontSize: 12
     }
 }))
 
@@ -67,7 +67,7 @@ export const FlowListTable = ({ data, images, filterFunction, updateFlowsApi }) 
                             <StyledTableRow key={index}>
                                 <TableCell key='0'>
                                     <Typography
-                                        sx={{ fontSize: '1.2rem', fontWeight: 500, overflowWrap: 'break-word', whiteSpace: 'pre-line' }}
+                                        sx={{ fontSize: '12px', fontWeight: 500, overflowWrap: 'break-word', whiteSpace: 'pre-line' }}
                                     >
                                         <Button onClick={() => goToCanvas(row)} sx={{ textAlign: 'left' }}>
                                             {row.templateName || row.name}
@@ -123,7 +123,7 @@ export const FlowListTable = ({ data, images, filterFunction, updateFlowsApi }) 
                                             ))}
                                             {images[row.id].length > 5 && (
                                                 <Typography
-                                                    sx={{ alignItems: 'center', display: 'flex', fontSize: '.8rem', fontWeight: 200 }}
+                                                    sx={{ alignItems: 'center', display: 'flex', fontSize: '12px', fontWeight: 200 }}
                                                 >
                                                     + {images[row.id].length - 5} More
                                                 </Typography>

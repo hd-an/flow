@@ -214,7 +214,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                     <Stack flexDirection='row'>
                         <Typography
                             sx={{
-                                fontSize: '1.5rem',
+                                fontSize: '12px',
                                 fontWeight: 600,
                                 ml: 2
                             }}
@@ -240,7 +240,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                     color='inherit'
                                     onClick={() => setEditingFlowName(true)}
                                 >
-                                    <IconPencil stroke={1.5} size='1.3rem' />
+                                    <IconPencil stroke={1.5} size='12px' />
                                 </Avatar>
                             </ButtonBase>
                         )}
@@ -275,7 +275,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                 color='inherit'
                                 onClick={submitFlowName}
                             >
-                                <IconCheck stroke={1.5} size='1.3rem' />
+                                <IconCheck stroke={1.5} size='12px' />
                             </Avatar>
                         </ButtonBase>
                         <ButtonBase title='Cancel' sx={{ borderRadius: '50%' }}>
@@ -296,7 +296,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                 color='inherit'
                                 onClick={() => setEditingFlowName(false)}
                             >
-                                <IconX stroke={1.5} size='1.3rem' />
+                                <IconX stroke={1.5} size='12px' />
                             </Avatar>
                         </ButtonBase>
                     </Stack>
@@ -321,7 +321,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                             color='inherit'
                             onClick={onAPIDialogClick}
                         >
-                            <IconCode stroke={1.5} size='1.3rem' />
+                            <IconCode stroke={1.5} size='12px' />
                         </Avatar>
                     </ButtonBase>
                 )}
@@ -342,7 +342,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                         color='inherit'
                         onClick={onSaveChatflowClick}
                     >
-                        <IconDeviceFloppy stroke={1.5} size='1.3rem' />
+                        <IconDeviceFloppy stroke={1.5} size='12px' />
                     </Avatar>
                 </ButtonBase>
                 <ButtonBase ref={settingsRef} title='Settings' sx={{ borderRadius: '50%' }}>
@@ -361,7 +361,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                         }}
                         onClick={() => setSettingsOpen(!isSettingsOpen)}
                     >
-                        <IconSettings stroke={1.5} size='1.3rem' />
+                        <IconSettings stroke={1.5} size='12px' />
                     </Avatar>
                 </ButtonBase>
             </Box>

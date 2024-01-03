@@ -138,7 +138,7 @@ const Marketplace = () => {
                             key={index}
                             icon={index === 0 ? <IconHierarchy /> : <IconTool />}
                             iconPosition='start'
-                            label={<span style={{ fontSize: '1.1rem' }}>{item}</span>}
+                            label={<span style={{ fontSize: '14px' }}>{item}</span>}
                         />
                     ))}
                 </Tabs>
@@ -206,7 +206,7 @@ const Marketplace = () => {
                                 alt='WorkflowEmptySVG'
                             />
                         </Box>
-                        <div>No Marketplace Yet</div>
+                        <div style={{ fontSize: '12px' }}>No Marketplace Yet</div>
                     </Stack>
                 )}
             </MainCard>

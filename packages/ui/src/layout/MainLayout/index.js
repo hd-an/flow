@@ -72,12 +72,7 @@ const MainLayout = () => {
                     className='Header_BarItem'
                     onClick={(ev) => OpenList(ev)}
                 >
-                    {/* <ProfileSection
-                        chooseComponent={getComponent}
-                        handleLogout={signOutClicked}
-                        username={localStorage.getItem('username') ?? ''}
-                    /> */}
-                    <IconSettings stroke={1.5} size='1.3rem' />
+                    <IconSettings stroke={1.5} size='1rem' />
                 </div>
             </div>
             <div className='Content'>

@@ -68,9 +68,7 @@ const ItemCard = ({ isLoading, data, images, onClick }) => {
                                         }}
                                     ></div>
                                 )}
-                                <Typography
-                                    sx={{ fontSize: '1.5rem', fontWeight: 500, overflowWrap: 'break-word', whiteSpace: 'pre-line' }}
-                                >
+                                <Typography sx={{ fontSize: '12px', fontWeight: 500, overflowWrap: 'break-word', whiteSpace: 'pre-line' }}>
                                     {data.templateName || data.name}
                                 </Typography>
                             </div>

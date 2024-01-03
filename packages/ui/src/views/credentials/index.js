@@ -214,7 +214,7 @@ const Credentials = () => {
                                 width: '100%'
                             }}
                         >
-                            <h1>Credentials&nbsp;</h1>
+                            <h1 style={{ fontSize: '14px' }}>Credentials&nbsp;</h1>
                             <TextField
                                 size='small'
                                 sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
@@ -259,11 +259,11 @@ const Credentials = () => {
                                 alt='CredentialEmptySVG'
                             />
                         </Box>
-                        <div>No Credentials Yet</div>
+                        <div style={{ fontSize: '12px' }}>No Credentials Yet</div>
                     </Stack>
                 )}
                 {credentials.length > 0 && (
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} style={{ maxHeight: 850, overflow: 'auto' }}>
                         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                             <TableHead>
                                 <TableRow>

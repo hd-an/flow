@@ -111,7 +111,7 @@ const Tools = () => {
         <>
             <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
                 <Stack flexDirection='row'>
-                    <h1>Tools</h1>
+                    <h1 style={{ fontSize: '14px' }}>Tools</h1>
                     <Grid sx={{ mb: 1.25 }} container direction='row'>
                         <Box sx={{ flexGrow: 1 }} />
                         <Grid item>
@@ -124,7 +124,12 @@ const Tools = () => {
                                 Load
                             </Button>
                             <input ref={inputRef} type='file' hidden accept='.json' onChange={(e) => handleFileUpload(e)} />
-                            <StyledButton variant='contained' sx={{ color: 'white' }} onClick={addNew} startIcon={<IconPlus />}>
+                            <StyledButton
+                                variant='contained'
+                                sx={{ color: 'white', fontSize: '14px' }}
+                                onClick={addNew}
+                                startIcon={<IconPlus />}
+                            >
                                 Create
                             </StyledButton>
                         </Grid>
@@ -144,7 +149,7 @@ const Tools = () => {
                         <Box sx={{ p: 2, height: 'auto' }}>
                             <img style={{ objectFit: 'cover', height: '30vh', width: 'auto' }} src={ToolEmptySVG} alt='ToolEmptySVG' />
                         </Box>
-                        <div>No Tools Created Yet</div>
+                        <div style={{ fontSize: '12px' }}>No Tools Created Yet</div>
                     </Stack>
                 )}
             </MainCard>
