@@ -58,7 +58,7 @@ const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
             aria-describedby='category-dialog-description'
         >
             <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                Set Chatflow Category Tags
+                设置智能体的别名标签
             </DialogTitle>
             <DialogContent>
                 <Box>
@@ -81,19 +81,19 @@ const TagDialog = ({ isOpen, dialogProps, onClose, onSubmit }) => {
                             value={inputValue}
                             onChange={handleInputChange}
                             onKeyDown={handleInputKeyDown}
-                            label='Add a tag'
+                            label='添加一个标签'
                             variant='outlined'
                         />
                         <Typography variant='body2' sx={{ fontStyle: 'italic', mt: 1 }} color='text.secondary'>
-                            Enter a tag and press enter to add it to the list. You can add as many tags as you want.
+                            输入一个标签按下回车后会把他添加到你的列表中，您可以添加任意数量的标签。
                         </Typography>
                     </form>
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={onClose}>取消</Button>
                 <Button variant='contained' onClick={handleSubmit}>
-                    Submit
+                    提交
                 </Button>
             </DialogActions>
         </Dialog>

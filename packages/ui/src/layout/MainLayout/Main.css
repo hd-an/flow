@@ -7,46 +7,18 @@
 
 .Main .Header_Bar {
     flex: 2;
-    overflow-x: scroll;
-    white-space: nowrap;
-    overflow: hidden;
     box-sizing: border-box;
     border-bottom: 1px solid #cac4c4;
 }
 
 .Main .Header_Bar .Header_BarItem {
-    display: inline-block;
-    margin-left: 1.5vw;
-    margin-right: 1.5vw;
-    text-align: center;
-    overflow: hidden;
-    font-size: 14px;
-    line-height: 10vh;
-    border: none;
-    cursor: pointer;
-    background: none;
-}
-
-.Main .Header_Bar .Header_BarItem span:first-child {
-    margin-right: 0.5vw;
-}
-
-.Main .Header_Bar .Header_BarItem:last-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    float: right;
-    margin-right: 1.5vw;
     position: relative;
-    top: 4vh;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 10px;
+    left: 75%;
 }
 
-.Main .Header_Bar .Header_BarItem:last-child:hover {
-    background-color: #3187d8;
-    color: white;
+.Main .Header_Bar .Header_BarItem:hover {
+    color: #3187d8;
+    cursor: pointer;
 }
 
 .Main .Content {
@@ -89,8 +61,8 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     position: absolute;
-    left: 88%;
-    top: 8%;
+    left: 89%;
+    top: 6%;
     background: white;
 }
 

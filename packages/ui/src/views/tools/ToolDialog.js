@@ -334,10 +334,10 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
 
     const deleteTool = async () => {
         const confirmPayload = {
-            title: `Delete Tool`,
-            description: `Delete tool ${toolName}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: `删除工具`,
+            description: `删除工具 ${toolName}?`,
+            confirmButtonName: '删除',
+            cancelButtonName: '取消'
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -394,7 +394,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                     <div style={{ flex: 1 }} />
                     {dialogProps.type === 'EDIT' && (
                         <Button variant='outlined' onClick={() => exportTool()} startIcon={<IconFileExport />}>
-                            Export
+                            导出
                         </Button>
                     )}
                 </div>
@@ -403,7 +403,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Tool Name
+                            工具名称
                             <span style={{ color: 'red' }}>&nbsp;*</span>
                             <TooltipWithParser
                                 style={{ marginLeft: 10 }}
@@ -416,7 +416,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                         type='string'
                         fullWidth
                         disabled={dialogProps.type === 'TEMPLATE'}
-                        placeholder='My New Tool'
+                        placeholder='我的新工具'
                         value={toolName}
                         name='toolName'
                         onChange={(e) => setToolName(e.target.value)}
@@ -425,12 +425,9 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Tool description
+                            工具描述
                             <span style={{ color: 'red' }}>&nbsp;*</span>
-                            <TooltipWithParser
-                                style={{ marginLeft: 10 }}
-                                title={'Description of what the tool does. This is for ChatGPT to determine when to use this tool.'}
-                            />
+                            <TooltipWithParser style={{ marginLeft: 10 }} title={'工具功能的描述,这将由ChatGPT决定何时使用该工具.'} />
                         </Typography>
                     </Stack>
                     <OutlinedInput
@@ -438,7 +435,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                         type='string'
                         fullWidth
                         disabled={dialogProps.type === 'TEMPLATE'}
-                        placeholder='Description of what the tool does. This is for ChatGPT to determine when to use this tool.'
+                        placeholder='工具功能的描述,这将由ChatGPT决定何时使用该工具.'
                         multiline={true}
                         rows={3}
                         value={toolDesc}
@@ -448,7 +445,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 </Box>
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
-                        <Typography variant='overline'>Tool Icon Src</Typography>
+                        <Typography variant='overline'>工具图标地址</Typography>
                     </Stack>
                     <OutlinedInput
                         id='toolIcon'
@@ -464,7 +461,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Output Schema
+                            输出模式
                             <TooltipWithParser style={{ marginLeft: 10 }} title={'What should be the output response in JSON format?'} />
                         </Typography>
                     </Stack>
@@ -479,7 +476,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
                         <Typography variant='overline'>
-                            Javascript Function
+                            JavaScript函数
                             <TooltipWithParser
                                 style={{ marginLeft: 10 }}
                                 title='Function to execute when tool is being used. You can use properties specified in Output Schema as variables. For example, if the property is <code>userid</code>, you can use as <code>$userid</code>. Return value must be a string. You can also override the code from API by following this <a target="_blank" href="https://docs.flowiseai.com/tools/custom-tool#override-function-from-api">guide</a>'
@@ -488,7 +485,7 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                     </Stack>
                     {dialogProps.type !== 'TEMPLATE' && (
                         <Button style={{ marginBottom: 10 }} variant='outlined' onClick={() => setToolFunc(exampleAPIFunc)}>
-                            See Example
+                            看案例
                         </Button>
                     )}
                     <CodeEditor
@@ -504,12 +501,12 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
             <DialogActions>
                 {dialogProps.type === 'EDIT' && (
                     <StyledButton color='error' variant='contained' onClick={() => deleteTool()}>
-                        Delete
+                        删除
                     </StyledButton>
                 )}
                 {dialogProps.type === 'TEMPLATE' && (
                     <StyledButton color='secondary' variant='contained' onClick={useToolTemplate}>
-                        Use Template
+                        使用模板
                     </StyledButton>
                 )}
                 {dialogProps.type !== 'TEMPLATE' && (

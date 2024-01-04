@@ -78,9 +78,7 @@ export const JsonEditorInput = ({ value, onChange, inputParam, nodes, edges, nod
                                 setMyValue(edit.updated_src)
                                 onChange(JSON.stringify(edit.updated_src))
                             }}
-                            onAdd={() => {
-                                //console.log(add)
-                            }}
+                            onAdd={() => {}}
                             onDelete={(deleteobj) => {
                                 setMyValue(deleteobj.updated_src)
                                 onChange(JSON.stringify(deleteobj.updated_src))

@@ -46,19 +46,19 @@ export const FlowListTable = ({ data, images, filterFunction, updateFlowsApi }) 
                     <TableHead>
                         <TableRow sx={{ marginTop: '10', backgroundColor: 'primary' }}>
                             <StyledTableCell component='th' scope='row' style={{ width: '20%' }} key='0'>
-                                Name
+                                名称
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '25%' }} key='1'>
-                                Category
+                                别名
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '30%' }} key='2'>
-                                Nodes
+                                节点
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '15%' }} key='3'>
-                                Last Modified Date
+                                修改时间
                             </StyledTableCell>
                             <StyledTableCell style={{ width: '10%' }} key='4'>
-                                Actions
+                                操作
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -131,7 +131,7 @@ export const FlowListTable = ({ data, images, filterFunction, updateFlowsApi }) 
                                         </div>
                                     )}
                                 </TableCell>
-                                <TableCell key='3'>{moment(row.updatedDate).format('MMMM Do, YYYY')}</TableCell>
+                                <TableCell key='3'>{moment(row.updatedDate).format('YYYY年MM月DD日 HH:mm:ss')}</TableCell>
                                 <TableCell key='4'>
                                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent='center' alignItems='center'>
                                         <FlowListMenu chatflow={row} updateFlowsApi={updateFlowsApi} />

@@ -51,7 +51,7 @@ const Marketplace = () => {
     const [isChatflowsLoading, setChatflowsLoading] = useState(true)
     const [isToolsLoading, setToolsLoading] = useState(true)
     const [images, setImages] = useState({})
-    const tabItems = ['Chatflows', 'Tools']
+    const tabItems = ['模板', '工具']
     const [value, setValue] = useState(0)
     const [showToolDialog, setShowToolDialog] = useState(false)
     const [toolDialogProps, setToolDialogProps] = useState({})
@@ -144,7 +144,7 @@ const Marketplace = () => {
                 </Tabs>
                 {tabItems.map((item, index) => (
                     <TabPanel key={index} value={value} index={index}>
-                        {item === 'Chatflows' && (
+                        {item === '模板' && (
                             <Grid container spacing={gridSpacing}>
                                 {!isChatflowsLoading &&
                                     getAllChatflowsMarketplacesApi.data &&
@@ -170,7 +170,7 @@ const Marketplace = () => {
                                     ))}
                             </Grid>
                         )}
-                        {item === 'Tools' && (
+                        {item === '工具' && (
                             <Grid container spacing={gridSpacing}>
                                 {!isToolsLoading &&
                                     getAllToolsMarketplacesApi.data &&

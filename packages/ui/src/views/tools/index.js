@@ -40,10 +40,10 @@ const Tools = () => {
     const onUploadFile = (file) => {
         try {
             const dialogProp = {
-                title: 'Add New Tool',
+                title: '添加新的工具',
                 type: 'IMPORT',
-                cancelButtonName: 'Cancel',
-                confirmButtonName: 'Save',
+                cancelButtonName: '取消',
+                confirmButtonName: '保存',
                 data: JSON.parse(file)
             }
             setDialogProps(dialogProp)
@@ -71,10 +71,10 @@ const Tools = () => {
 
     const addNew = () => {
         const dialogProp = {
-            title: 'Add New Tool',
+            title: '添加新的工具',
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add'
+            cancelButtonName: '取消',
+            confirmButtonName: '添加'
         }
         setDialogProps(dialogProp)
         setShowDialog(true)
@@ -82,10 +82,10 @@ const Tools = () => {
 
     const edit = (selectedTool) => {
         const dialogProp = {
-            title: 'Edit Tool',
+            title: '修改工具',
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Save',
+            cancelButtonName: '取消',
+            confirmButtonName: '保存',
             data: selectedTool
         }
         setDialogProps(dialogProp)
@@ -111,7 +111,7 @@ const Tools = () => {
         <>
             <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
                 <Stack flexDirection='row'>
-                    <h1 style={{ fontSize: '14px' }}>Tools</h1>
+                    <h1 style={{ fontSize: '14px' }}>&nbsp;工&nbsp;具&nbsp;</h1>
                     <Grid sx={{ mb: 1.25 }} container direction='row'>
                         <Box sx={{ flexGrow: 1 }} />
                         <Grid item>
@@ -121,7 +121,7 @@ const Tools = () => {
                                 onClick={() => inputRef.current.click()}
                                 startIcon={<IconFileImport />}
                             >
-                                Load
+                                上传
                             </Button>
                             <input ref={inputRef} type='file' hidden accept='.json' onChange={(e) => handleFileUpload(e)} />
                             <StyledButton
@@ -130,7 +130,7 @@ const Tools = () => {
                                 onClick={addNew}
                                 startIcon={<IconPlus />}
                             >
-                                Create
+                                创建
                             </StyledButton>
                         </Grid>
                     </Grid>

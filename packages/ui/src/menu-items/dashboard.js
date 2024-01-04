@@ -22,7 +22,7 @@ const dashboard = {
     children: [
         {
             id: 'chatflows',
-            title: 'Chatflows',
+            title: '智能体',
             type: 'item',
             url: '/chatflows',
             icon: <IconHierarchy />,
@@ -31,7 +31,7 @@ const dashboard = {
         },
         {
             id: 'marketplaces',
-            title: 'Marketplaces',
+            title: '模板',
             type: 'item',
             url: '/marketplaces',
             icon: <IconBuildingStore />,
@@ -40,7 +40,7 @@ const dashboard = {
         },
         {
             id: 'tools',
-            title: 'Tools',
+            title: '工具',
             type: 'item',
             url: '/tools',
             icon: <IconTool />,
@@ -49,7 +49,7 @@ const dashboard = {
         },
         {
             id: 'credentials',
-            title: 'Credentials',
+            title: '凭证',
             type: 'item',
             url: '/credentials',
             icon: <IconLock />,
@@ -58,7 +58,7 @@ const dashboard = {
         },
         {
             id: 'apikey',
-            title: 'API Keys',
+            title: 'API密钥',
             type: 'item',
             url: '/apikey',
             icon: <IconKey />,
@@ -67,7 +67,7 @@ const dashboard = {
         }
         // {
         //     id: 'assistants',
-        //     title: 'Assistants',
+        //     title: '助理',
         //     type: 'item',
         //     url: '/assistants',
         //     icon: <IconRobot />,

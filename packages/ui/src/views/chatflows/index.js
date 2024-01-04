@@ -138,7 +138,7 @@ const Chatflows = () => {
                             style={{ position: 'relative', left: '-1.5%' }}
                             sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
                             variant='outlined'
-                            placeholder='Search name or category'
+                            placeholder='根据名称或者别名进行搜索'
                             onChange={onSearchChange}
                             InputProps={{
                                 startAdornment: (
@@ -173,7 +173,7 @@ const Chatflows = () => {
                             <Box sx={{ width: 5 }} />
                             <ButtonGroup disableElevation aria-label='outlined primary button group'>
                                 <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />}>
-                                    Add New
+                                    创建
                                 </StyledButton>
                             </ButtonGroup>
                         </ButtonGroup>

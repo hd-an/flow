@@ -147,7 +147,7 @@ const APIKeyDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             <DialogContent>
                 {dialogProps.type === 'EDIT' && (
                     <Box sx={{ p: 2 }}>
-                        <Typography variant='overline'>API Key</Typography>
+                        <Typography variant='overline'>API密钥</Typography>
                         <Stack direction='row' sx={{ mb: 1 }}>
                             <Typography
                                 sx={{
@@ -162,7 +162,7 @@ const APIKeyDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                                 {dialogProps.key.apiKey}
                             </Typography>
                             <IconButton
-                                title='Copy API Key'
+                                title='复制API密钥'
                                 color='success'
                                 onClick={(event) => {
                                     navigator.clipboard.writeText(dialogProps.key.apiKey)
@@ -188,7 +188,7 @@ const APIKeyDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                                 }}
                             >
                                 <Typography variant='h6' sx={{ pl: 1, pr: 1, color: 'white', background: theme.palette.success.dark }}>
-                                    Copied!
+                                    复制成功
                                 </Typography>
                             </Popover>
                         </Stack>
@@ -197,13 +197,13 @@ const APIKeyDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
 
                 <Box sx={{ p: 2 }}>
                     <Stack sx={{ position: 'relative' }} direction='row'>
-                        <Typography variant='overline'>Key Name</Typography>
+                        <Typography variant='overline'>密钥名称</Typography>
                     </Stack>
                     <OutlinedInput
                         id='keyName'
                         type='string'
                         fullWidth
-                        placeholder='My New Key'
+                        placeholder='我的新密钥名称'
                         value={keyName}
                         name='keyName'
                         onChange={(e) => setKeyName(e.target.value)}

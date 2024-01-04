@@ -99,7 +99,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
     const handleFlowStarterPrompts = () => {
         setAnchorEl(null)
         setConversationStartersDialogProps({
-            title: 'Starter Prompts - ' + chatflow.name,
+            title: chatflow.name + '的起始提示 ',
             chatflow: chatflow
         })
         setConversationStartersDialogOpen(true)
@@ -247,7 +247,7 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
             >
-                Options
+                选项
             </Button>
             <StyledMenu
                 id='demo-customized-menu'
@@ -260,37 +260,37 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
             >
                 <MenuItem onClick={handleFlowRename} disableRipple>
                     <EditIcon />
-                    Rename
+                    重命名
                 </MenuItem>
                 <MenuItem onClick={handleDuplicate} disableRipple>
                     <FileCopyIcon />
-                    Duplicate
+                    复制
                 </MenuItem>
                 <MenuItem onClick={handleExport} disableRipple>
                     <FileDownloadIcon />
-                    Export
+                    下载
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleFlowStarterPrompts} disableRipple>
                     <PictureInPictureAltIcon />
-                    Starter Prompts
+                    起始提示
                 </MenuItem>
                 <MenuItem onClick={handleFlowCategory} disableRipple>
                     <FileCategoryIcon />
-                    Update Category
+                    修改别名
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleDelete} disableRipple>
                     <FileDeleteIcon />
-                    Delete
+                    删除
                 </MenuItem>
             </StyledMenu>
             <SaveChatflowDialog
                 show={flowDialogOpen}
                 dialogProps={{
-                    title: `Rename Chatflow`,
-                    confirmButtonName: 'Rename',
-                    cancelButtonName: 'Cancel'
+                    title: `重命名 智能体`,
+                    confirmButtonName: '重命名',
+                    cancelButtonName: '取消'
                 }}
                 onCancel={() => setFlowDialogOpen(false)}
                 onConfirm={saveFlowRename}

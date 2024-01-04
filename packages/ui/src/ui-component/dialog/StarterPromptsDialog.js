@@ -180,9 +180,7 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                         }}
                     >
                         <IconBulb size={30} color='#2d6a4f' />
-                        <span style={{ color: '#2d6a4f', marginLeft: 10, fontWeight: 500 }}>
-                            Starter prompts will only be shown when there is no messages on the chat
-                        </span>
+                        <span style={{ color: '#2d6a4f', marginLeft: 10, fontWeight: 500 }}>只有在聊天记录为空时，才会显示起始提示</span>
                     </div>
                 </div>
                 <Box sx={{ '& > :not(style)': { m: 1 }, pt: 2 }}>
@@ -231,9 +229,9 @@ const StarterPromptsDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onCancel}>Cancel</Button>
+                <Button onClick={onCancel}>取消</Button>
                 <StyledButton variant='contained' onClick={onSave}>
-                    Save
+                    保存
                 </StyledButton>
             </DialogActions>
         </Dialog>

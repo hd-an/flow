@@ -85,7 +85,7 @@ const Credentials = () => {
 
     const listCredential = () => {
         const dialogProp = {
-            title: 'Add New Credential',
+            title: '添加新凭证',
             componentsCredentials
         }
         setCredentialListDialogProps(dialogProp)
@@ -95,8 +95,8 @@ const Credentials = () => {
     const addNew = (credentialComponent) => {
         const dialogProp = {
             type: 'ADD',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
+            cancelButtonName: '取消',
+            confirmButtonName: '添加',
             credentialComponent
         }
         setSpecificCredentialDialogProps(dialogProp)
@@ -106,8 +106,8 @@ const Credentials = () => {
     const edit = (credential) => {
         const dialogProp = {
             type: 'EDIT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Save',
+            cancelButtonName: '取消',
+            confirmButtonName: '保存',
             data: credential
         }
         setSpecificCredentialDialogProps(dialogProp)
@@ -116,10 +116,10 @@ const Credentials = () => {
 
     const deleteCredential = async (credential) => {
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete credential ${credential.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: `删除`,
+            description: `删除凭证 ${credential.name}?`,
+            confirmButtonName: '删除',
+            cancelButtonName: '取消'
         }
         const isConfirmed = await confirm(confirmPayload)
 
@@ -214,12 +214,12 @@ const Credentials = () => {
                                 width: '100%'
                             }}
                         >
-                            <h1 style={{ fontSize: '14px' }}>Credentials&nbsp;</h1>
+                            <h1 style={{ fontSize: '14px' }}>凭证&nbsp;</h1>
                             <TextField
                                 size='small'
                                 sx={{ display: { xs: 'none', sm: 'block' }, ml: 3 }}
                                 variant='outlined'
-                                placeholder='Search credential name'
+                                placeholder='根据凭证类型搜索'
                                 onChange={onSearchChange}
                                 InputProps={{
                                     startAdornment: (
@@ -243,7 +243,7 @@ const Credentials = () => {
                                         onClick={listCredential}
                                         startIcon={<IconPlus />}
                                     >
-                                        Add Credential
+                                        添加凭证
                                     </StyledButton>
                                 </ButtonGroup>
                             </ButtonGroup>
@@ -259,7 +259,7 @@ const Credentials = () => {
                                 alt='CredentialEmptySVG'
                             />
                         </Box>
-                        <div style={{ fontSize: '12px' }}>No Credentials Yet</div>
+                        <div style={{ fontSize: '12px' }}>还没有凭证</div>
                     </Stack>
                 )}
                 {credentials.length > 0 && (
@@ -267,9 +267,9 @@ const Credentials = () => {
                         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Last Updated</TableCell>
-                                    <TableCell>Created</TableCell>
+                                    <TableCell>凭证名称</TableCell>
+                                    <TableCell>修改时间</TableCell>
+                                    <TableCell>创建时间</TableCell>
                                     <TableCell> </TableCell>
                                     <TableCell> </TableCell>
                                 </TableRow>
@@ -307,15 +307,15 @@ const Credentials = () => {
                                                 {credential.name}
                                             </div>
                                         </TableCell>
-                                        <TableCell>{moment(credential.updatedDate).format('DD-MMM-YY')}</TableCell>
-                                        <TableCell>{moment(credential.createdDate).format('DD-MMM-YY')}</TableCell>
+                                        <TableCell>{moment(credential.updatedDate).format('YYYY年MM月DD日 HH时mm分ss秒')}</TableCell>
+                                        <TableCell>{moment(credential.createdDate).format('YYYY年MM月DD日 HH时mm分ss秒')}</TableCell>
                                         <TableCell>
-                                            <IconButton title='Edit' color='primary' onClick={() => edit(credential)}>
+                                            <IconButton title='修改' color='primary' onClick={() => edit(credential)}>
                                                 <IconEdit />
                                             </IconButton>
                                         </TableCell>
                                         <TableCell>
-                                            <IconButton title='Delete' color='error' onClick={() => deleteCredential(credential)}>
+                                            <IconButton title='删除' color='error' onClick={() => deleteCredential(credential)}>
                                                 <IconTrash />
                                             </IconButton>
                                         </TableCell>

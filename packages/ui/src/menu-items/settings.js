@@ -13,49 +13,49 @@ const settings = {
     children: [
         {
             id: 'conversationStarters',
-            title: 'Starter Prompts',
+            title: '初始提示',
             type: 'item',
             url: '',
             icon: icons.IconPictureInPictureOff
         },
         {
             id: 'viewMessages',
-            title: 'View Messages',
+            title: '视图信息',
             type: 'item',
             url: '',
             icon: icons.IconMessage
         },
         {
             id: 'duplicateChatflow',
-            title: 'Duplicate Chatflow',
+            title: '复制',
             type: 'item',
             url: '',
             icon: icons.IconCopy
         },
         {
             id: 'loadChatflow',
-            title: 'Load Chatflow',
+            title: '上传',
             type: 'item',
             url: '',
             icon: icons.IconFileUpload
         },
         {
             id: 'exportChatflow',
-            title: 'Export Chatflow',
+            title: '下载',
             type: 'item',
             url: '',
             icon: icons.IconFileExport
         },
         {
             id: 'analyseChatflow',
-            title: 'Analyse Chatflow',
+            title: '分析智能体',
             type: 'item',
             url: '',
             icon: icons.IconSearch
         },
         {
             id: 'deleteChatflow',
-            title: 'Delete Chatflow',
+            title: '删除',
             type: 'item',
             url: '',
             icon: icons.IconTrash

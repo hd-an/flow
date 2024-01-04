@@ -148,7 +148,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
         }
 
         setAPIDialogProps({
-            title: 'Embed in website or use as API',
+            title: '嵌入在网站或作为API使用',
             chatflowid: chatflow.id,
             chatflowApiKeyId: chatflow.apikeyid,
             isFormDataRequired,
@@ -186,7 +186,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
     return (
         <>
             <Box>
-                <ButtonBase title='Back' sx={{ borderRadius: '50%' }}>
+                <ButtonBase title='返回' sx={{ borderRadius: '50%' }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -214,7 +214,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                     <Stack flexDirection='row'>
                         <Typography
                             sx={{
-                                fontSize: '12px',
+                                fontSize: '1.5rem',
                                 fontWeight: 600,
                                 ml: 2
                             }}
@@ -222,7 +222,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                             {canvas.isDirty && <strong style={{ color: theme.palette.orange.main }}>*</strong>} {flowName}
                         </Typography>
                         {chatflow?.id && (
-                            <ButtonBase title='Edit Name' sx={{ borderRadius: '50%' }}>
+                            <ButtonBase title='修改名称' sx={{ borderRadius: '50%' }}>
                                 <Avatar
                                     variant='rounded'
                                     sx={{
@@ -240,7 +240,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                     color='inherit'
                                     onClick={() => setEditingFlowName(true)}
                                 >
-                                    <IconPencil stroke={1.5} size='12px' />
+                                    <IconPencil stroke={1.5} size='1.3rem' />
                                 </Avatar>
                             </ButtonBase>
                         )}
@@ -257,7 +257,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                             }}
                             defaultValue={flowName}
                         />
-                        <ButtonBase title='Save Name' sx={{ borderRadius: '50%' }}>
+                        <ButtonBase title='保存名称' sx={{ borderRadius: '50%' }}>
                             <Avatar
                                 variant='rounded'
                                 sx={{
@@ -275,10 +275,10 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                 color='inherit'
                                 onClick={submitFlowName}
                             >
-                                <IconCheck stroke={1.5} size='12px' />
+                                <IconCheck stroke={1.5} size='1.3rem' />
                             </Avatar>
                         </ButtonBase>
-                        <ButtonBase title='Cancel' sx={{ borderRadius: '50%' }}>
+                        <ButtonBase title='取消' sx={{ borderRadius: '50%' }}>
                             <Avatar
                                 variant='rounded'
                                 sx={{
@@ -296,7 +296,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                                 color='inherit'
                                 onClick={() => setEditingFlowName(false)}
                             >
-                                <IconX stroke={1.5} size='12px' />
+                                <IconX stroke={1.5} size='1.3rem' />
                             </Avatar>
                         </ButtonBase>
                     </Stack>
@@ -304,7 +304,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
             </Box>
             <Box>
                 {chatflow?.id && (
-                    <ButtonBase title='API Endpoint' sx={{ borderRadius: '50%', mr: 2 }}>
+                    <ButtonBase title='API端点' sx={{ borderRadius: '50%', mr: 2 }}>
                         <Avatar
                             variant='rounded'
                             sx={{
@@ -321,11 +321,11 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                             color='inherit'
                             onClick={onAPIDialogClick}
                         >
-                            <IconCode stroke={1.5} size='12px' />
+                            <IconCode stroke={1.5} size='1.3rem' />
                         </Avatar>
                     </ButtonBase>
                 )}
-                <ButtonBase title='Save Chatflow' sx={{ borderRadius: '50%', mr: 2 }}>
+                <ButtonBase title='保存' sx={{ borderRadius: '50%', mr: 2 }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -342,10 +342,10 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                         color='inherit'
                         onClick={onSaveChatflowClick}
                     >
-                        <IconDeviceFloppy stroke={1.5} size='12px' />
+                        <IconDeviceFloppy stroke={1.5} size='1.3rem' />
                     </Avatar>
                 </ButtonBase>
-                <ButtonBase ref={settingsRef} title='Settings' sx={{ borderRadius: '50%' }}>
+                <ButtonBase ref={settingsRef} title='设置' sx={{ borderRadius: '50%' }}>
                     <Avatar
                         variant='rounded'
                         sx={{
@@ -361,7 +361,7 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
                         }}
                         onClick={() => setSettingsOpen(!isSettingsOpen)}
                     >
-                        <IconSettings stroke={1.5} size='12px' />
+                        <IconSettings stroke={1.5} size='1.3rem' />
                     </Avatar>
                 </ButtonBase>
             </Box>
@@ -376,9 +376,9 @@ const CanvasHeader = ({ chatflow, handleSaveFlow, handleDeleteFlow, handleLoadFl
             <SaveChatflowDialog
                 show={flowDialogOpen}
                 dialogProps={{
-                    title: `Save New Chatflow`,
-                    confirmButtonName: 'Save',
-                    cancelButtonName: 'Cancel'
+                    title: `保存新的智能体`,
+                    confirmButtonName: '保存',
+                    cancelButtonName: '取消'
                 }}
                 onCancel={() => setFlowDialogOpen(false)}
                 onConfirm={onConfirmSaveName}
