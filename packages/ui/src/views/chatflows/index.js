@@ -208,7 +208,7 @@ const Chatflows = () => {
                             alt='WorkflowEmptySVG'
                         />
                     </Box>
-                    <div style={{ fontSize: '12px' }}>No Chatflows Yet</div>
+                    <div style={{ fontSize: '12px' }}>还没有创建智能体</div>
                 </Stack>
             )}
             <LoginDialog show={loginDialogOpen} dialogProps={loginDialogProps} onConfirm={onLoginClick} />

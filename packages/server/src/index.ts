@@ -407,20 +407,16 @@ export class App {
             const body = req.body
             const updateChatFlow = new ChatFlow()
             Object.assign(updateChatFlow, body)
-
             updateChatFlow.id = chatflow.id
             createRateLimiter(updateChatFlow)
-
             this.AppDataSource.getRepository(ChatFlow).merge(chatflow, updateChatFlow)
             const result = await this.AppDataSource.getRepository(ChatFlow).save(chatflow)
-
             // chatFlowPool is initialized only when a flow is opened
             // if the user attempts to rename/update category without opening any flow, chatFlowPool will be undefined
             if (this.chatflowPool) {
                 // Update chatflowpool inSync to false, to build Langchain again because data has been changed
                 this.chatflowPool.updateInSync(chatflow.id, false)
             }
-
             return res.json(result)
         })
 
@@ -1274,6 +1270,7 @@ export class App {
 
         // Send input message and get prediction result (Internal)
         this.app.post('/api/v1/internal-prediction/:id', async (req: Request, res: Response) => {
+            console.log('123321')
             await this.buildChatflow(req, res, socketIO, true)
         })
 
@@ -1522,7 +1519,6 @@ export class App {
                 id: chatflowid
             })
             if (!chatflow) return res.status(404).send(`Chatflow ${chatflowid} not found`)
-
             const chatId = incomingInput.chatId ?? incomingInput.overrideConfig?.sessionId ?? uuidv4()
             const userMessageDateTime = new Date()
 
@@ -1530,9 +1526,7 @@ export class App {
                 const isKeyValidated = await this.validateKey(req, chatflow)
                 if (!isKeyValidated) return res.status(401).send('Unauthorized')
             }
-
             let isStreamValid = false
-
             const files = (req.files as any[]) || []
 
             if (files.length) {
@@ -1556,7 +1550,6 @@ export class App {
                     stopNodeId: req.body.stopNodeId
                 }
             }
-
             /*** Get chatflows and prepare data  ***/
             const flowData = chatflow.flowData
             const parsedFlowData: IReactFlowObject = JSON.parse(flowData)
@@ -1585,7 +1578,6 @@ export class App {
                     !isUpsert
                 )
             }
-
             if (isFlowReusable()) {
                 nodeToExecuteData = this.chatflowPool.activeChatflows[chatflowid].endingNodeData as INodeData
                 isStreamValid = isFlowValidForStream(nodes, nodeToExecuteData)
@@ -1703,7 +1695,7 @@ export class App {
 
                 this.chatflowPool.add(chatflowid, nodeToExecuteData, startingNodes, incomingInput?.overrideConfig)
             }
-
+            console.log('第六步')
             const nodeInstanceFilePath = this.nodesPool.componentNodes[nodeToExecuteData.name].filePath as string
             const nodeModule = await import(nodeInstanceFilePath)
             const nodeInstance = new nodeModule.nodeClass()
@@ -1712,15 +1704,15 @@ export class App {
 
             let sessionId = undefined
             if (nodeToExecuteData.instance) sessionId = checkMemorySessionId(nodeToExecuteData.instance, chatId)
-
+            console.log('第七步')
             const memoryNode = this.findMemoryLabel(nodes, edges)
             const memoryType = memoryNode?.data.label
-
+            console.log('第八步')
             let chatHistory: IMessage[] | string = incomingInput.history
             if (memoryNode && !incomingInput.history && (incomingInput.chatId || incomingInput.overrideConfig?.sessionId)) {
                 chatHistory = await replaceChatHistory(memoryNode, incomingInput, this.AppDataSource, databaseEntities, logger)
             }
-
+            console.log('第九步')
             let result = isStreamValid
                 ? await nodeInstance.run(nodeToExecuteData, incomingInput.question, {
                       chatflowid,
@@ -1789,9 +1781,10 @@ export class App {
 
             // Only return ChatId when its Internal OR incoming input has ChatId, to avoid confusion when calling API
             if (incomingInput.chatId || isInternal) result.chatId = chatId
-
+            console.log('终于成功了')
             return res.json(result)
         } catch (e: any) {
+            console.log('报错了')
             logger.error('[server]: Error:', e)
             return res.status(500).send(e.message)
         }

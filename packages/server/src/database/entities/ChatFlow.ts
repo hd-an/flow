@@ -16,7 +16,7 @@ export class ChatFlow implements IChatFlow {
     @Column()
     name: string
 
-    @Column({ type: 'text' })
+    @Column({ type: 'longtext' })
     flowData: string
 
     @Column({ nullable: true })

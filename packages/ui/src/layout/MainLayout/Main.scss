@@ -18,6 +18,8 @@
     }
     .Content {
         flex: 18;
+        height: 90vh;
+        overflow: auto;
     }
     .Modal {
         width: 100%;
@@ -27,6 +29,7 @@
         top: 0;
         left: 0;
         overflow: hidden;
+        z-index: 999;
         .ModalContent {
             width: 70%;
             height: 90%;

@@ -8,7 +8,7 @@ export class Init1693891895163 implements MigrationInterface {
                 "createdBy" varchar NOT NULL,
                 "orgId" varchar NOT NULL,
                 "name" varchar NOT NULL,
-                "flowData" text NOT NULL,
+                "flowData" longtext NOT NULL,
                 deployed bool NULL,
                 "isPublic" bool NULL,
                 apikeyid varchar NULL,

@@ -23,6 +23,8 @@
 
 .Main .Content {
     flex: 18;
+    height: 90vh;
+    overflow: auto;
 }
 
 .Main .Modal {
@@ -33,6 +35,7 @@
     top: 0;
     left: 0;
     overflow: hidden;
+    z-index: 999;
 }
 
 .Main .Modal .ModalContent {
