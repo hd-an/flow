@@ -178,17 +178,20 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
     const handleDelete = async () => {
         setAnchorEl(null)
         const confirmPayload = {
-            title: `Delete`,
-            description: `Delete chatflow ${chatflow.name}?`,
-            confirmButtonName: 'Delete',
-            cancelButtonName: 'Cancel'
+            title: `删除`,
+            description: `删除智能体 ${chatflow.name}?`,
+            confirmButtonName: '删除',
+            cancelButtonName: '取消'
         }
         const isConfirmed = await confirm(confirmPayload)
 
         if (isConfirmed) {
             try {
+                console.log('进来了')
                 await chatflowsApi.deleteChatflow(chatflow.id)
+                console.log('删除成功')
                 await updateFlowsApi.request()
+                console.log('重新请求获取删除后的数据')
             } catch (error) {
                 const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
                 enqueueSnackbar({

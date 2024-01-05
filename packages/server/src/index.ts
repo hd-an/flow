@@ -423,6 +423,7 @@ export class App {
         // Delete chatflow via id
         this.app.delete('/api/v1/chatflows/:id', async (req: Request, res: Response) => {
             const results = await this.AppDataSource.getRepository(ChatFlow).delete({ id: req.params.id })
+            console.log(results, '删除完毕')
             return res.json(results)
         })
 
@@ -1270,7 +1271,6 @@ export class App {
 
         // Send input message and get prediction result (Internal)
         this.app.post('/api/v1/internal-prediction/:id', async (req: Request, res: Response) => {
-            console.log('123321')
             await this.buildChatflow(req, res, socketIO, true)
         })
 
@@ -1695,7 +1695,6 @@ export class App {
 
                 this.chatflowPool.add(chatflowid, nodeToExecuteData, startingNodes, incomingInput?.overrideConfig)
             }
-            console.log('第六步')
             const nodeInstanceFilePath = this.nodesPool.componentNodes[nodeToExecuteData.name].filePath as string
             const nodeModule = await import(nodeInstanceFilePath)
             const nodeInstance = new nodeModule.nodeClass()
@@ -1704,15 +1703,12 @@ export class App {
 
             let sessionId = undefined
             if (nodeToExecuteData.instance) sessionId = checkMemorySessionId(nodeToExecuteData.instance, chatId)
-            console.log('第七步')
             const memoryNode = this.findMemoryLabel(nodes, edges)
             const memoryType = memoryNode?.data.label
-            console.log('第八步')
             let chatHistory: IMessage[] | string = incomingInput.history
             if (memoryNode && !incomingInput.history && (incomingInput.chatId || incomingInput.overrideConfig?.sessionId)) {
                 chatHistory = await replaceChatHistory(memoryNode, incomingInput, this.AppDataSource, databaseEntities, logger)
             }
-            console.log('第九步')
             let result = isStreamValid
                 ? await nodeInstance.run(nodeToExecuteData, incomingInput.question, {
                       chatflowid,
@@ -1781,10 +1777,8 @@ export class App {
 
             // Only return ChatId when its Internal OR incoming input has ChatId, to avoid confusion when calling API
             if (incomingInput.chatId || isInternal) result.chatId = chatId
-            console.log('终于成功了')
             return res.json(result)
         } catch (e: any) {
-            console.log('报错了')
             logger.error('[server]: Error:', e)
             return res.status(500).send(e.message)
         }
