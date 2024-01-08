@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 // material-ui
 import { Grid, Box, Stack, Toolbar, ToggleButton, ButtonGroup, InputAdornment, TextField } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 // project imports
 import MainCard from 'ui-component/cards/MainCard'
 import ItemCard from 'ui-component/cards/ItemCard'
@@ -32,9 +30,6 @@ import { StyledButton } from '../../ui-component/button/StyledButton'
 
 const Chatflows = () => {
     const navigate = useNavigate()
-    const theme = useTheme()
-    const customization = useSelector((state) => state.customization)
-
     const [isLoading, setLoading] = useState(true)
     const [images, setImages] = useState({})
     const [search, setSearch] = useState('')
@@ -119,7 +114,7 @@ const Chatflows = () => {
     }, [getAllChatflowsApi.data])
 
     return (
-        <MainCard sx={{ background: customization.isDarkMode ? theme.palette.common.black : '' }}>
+        <MainCard>
             <Stack flexDirection='column'>
                 <Box sx={{ flexGrow: 1 }}>
                     <Toolbar
@@ -152,20 +147,10 @@ const Chatflows = () => {
                         <ButtonGroup sx={{ maxHeight: 40 }} disableElevation variant='contained' aria-label='outlined primary button group'>
                             <ButtonGroup disableElevation variant='contained' aria-label='outlined primary button group'>
                                 <ToggleButtonGroup sx={{ maxHeight: 40 }} value={view} color='primary' exclusive onChange={handleChange}>
-                                    <ToggleButton
-                                        sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
-                                        variant='contained'
-                                        value='card'
-                                        title='Card View'
-                                    >
+                                    <ToggleButton variant='contained' value='card' title='Card View'>
                                         <IconLayoutGrid />
                                     </ToggleButton>
-                                    <ToggleButton
-                                        sx={{ color: theme?.customization?.isDarkMode ? 'white' : 'inherit' }}
-                                        variant='contained'
-                                        value='list'
-                                        title='List View'
-                                    >
+                                    <ToggleButton variant='contained' value='list' title='List View'>
                                         <IconList />
                                     </ToggleButton>
                                 </ToggleButtonGroup>

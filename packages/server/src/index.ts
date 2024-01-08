@@ -400,11 +400,13 @@ export class App {
             const chatflow = await this.AppDataSource.getRepository(ChatFlow).findOneBy({
                 id: req.params.id
             })
+            console.log('chatflow', chatflow)
             if (!chatflow) {
                 res.status(404).send(`Chatflow ${req.params.id} not found`)
                 return
             }
             const body = req.body
+            console.log('body', body)
             const updateChatFlow = new ChatFlow()
             Object.assign(updateChatFlow, body)
             updateChatFlow.id = chatflow.id

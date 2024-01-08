@@ -15,7 +15,7 @@ import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt'
 import Button from '@mui/material/Button'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { IconX } from '@tabler/icons'
-
+import { getUsersArray } from '../../utils/GetUsersArr'
 import chatflowsApi from 'api/chatflows'
 
 import useApi from '../../hooks/useApi'
@@ -107,7 +107,9 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
 
     const saveFlowStarterPrompts = async () => {
         setConversationStartersDialogOpen(false)
-        await updateFlowsApi.request()
+        await getUsersArray().then((res) => {
+            updateFlowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+        })
     }
 
     const saveFlowRename = async (chatflowName) => {
@@ -117,7 +119,9 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
         }
         try {
             await updateChatflowApi.request(chatflow.id, updateBody)
-            await updateFlowsApi.request()
+            await getUsersArray().then((res) => {
+                updateFlowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+            })
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
@@ -156,7 +160,9 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
         }
         try {
             await updateChatflowApi.request(chatflow.id, updateBody)
-            await updateFlowsApi.request()
+            await getUsersArray().then((res) => {
+                updateFlowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+            })
         } catch (error) {
             const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
             enqueueSnackbar({
@@ -190,7 +196,9 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
                 console.log('进来了')
                 await chatflowsApi.deleteChatflow(chatflow.id)
                 console.log('删除成功')
-                await updateFlowsApi.request()
+                await getUsersArray().then((res) => {
+                    updateFlowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
+                })
                 console.log('重新请求获取删除后的数据')
             } catch (error) {
                 const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
