@@ -4,7 +4,7 @@ export const drawerWidth = 260
 export const appDrawerWidth = 320
 export const maxScroll = 100000
 export const baseURL = 'http://localhost:3100'
-// process.env.NODE_ENV === 'production' ? window.location.origin : window.location.origin.replace(':8080', ':3000')
+process.env.NODE_ENV === 'production' ? window.location.origin : window.location.origin.replace(':8080', ':3000')
 export const createdBy = document.cookie
     .split('; ')
     .find((row) => row.startsWith('LOWCODER_CE_SELFHOST_TOKEN='))
