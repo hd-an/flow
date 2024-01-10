@@ -14,6 +14,7 @@ RUN apk add --no-cache chromium
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV REACT_APP_LOWCODE_SERVER_API_URL=https://experimental.cloudladder.net.cn
 
 WORKDIR /usr/src/packages
 
