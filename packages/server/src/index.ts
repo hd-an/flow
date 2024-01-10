@@ -317,14 +317,17 @@ export class App {
         this.app.get('/api/v1/chatflows/:orgId/:userIdArr', async (req: Request<Params>, res: Response) => {
             let orgId: string = req.params.orgId
             let userIdArr: string[] = JSON.parse(req.params.userIdArr)
-
-            let Data = await this.AppDataSource.getRepository(ChatFlow).find({
-                where: {
-                    orgId,
-                    createdBy: In(userIdArr)
-                }
-            })
-            return res.json(Data)
+            try {
+                let data = await this.AppDataSource.getRepository(ChatFlow).find({
+                    where: {
+                        orgId,
+                        createdBy: In(userIdArr)
+                    }
+                })
+                return res.json(data)
+            } catch (e) {
+                return res.status(500).send(e)
+            }
         })
 
         // Get specific chatflow via api key

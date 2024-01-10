@@ -17,7 +17,7 @@ import { omit, cloneDeep } from 'lodash'
 // material-ui
 import { Toolbar, Box, AppBar, Button } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { createdBy, orgId } from 'store/constant'
+import { LOW_CODER_CREATED_BY, LOW_CODER_ORG_ID } from 'store/constant'
 // project imports
 import CanvasNode from './CanvasNode'
 import ButtonEdge from './ButtonEdge'
@@ -212,8 +212,8 @@ const Canvas = () => {
                     deployed: false,
                     isPublic: false,
                     flowData,
-                    createdBy,
-                    orgId
+                    createdBy: LOW_CODER_CREATED_BY,
+                    orgId: LOW_CODER_ORG_ID
                 }
                 createNewChatflowApi.request(newChatflowBody)
             } else {

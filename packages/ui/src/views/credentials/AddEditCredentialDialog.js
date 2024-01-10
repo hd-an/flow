@@ -22,7 +22,7 @@ import credentialsApi from 'api/credentials'
 // Hooks
 import useApi from 'hooks/useApi'
 
-import { orgId, createdBy } from 'store/constant'
+import { LOW_CODER_ORG_ID, LOW_CODER_CREATED_BY } from 'store/constant'
 
 // utils
 import useNotifier from 'utils/useNotifier'
@@ -99,8 +99,8 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
     const addNewCredential = async () => {
         try {
             const obj = {
-                createdBy,
-                orgId,
+                createdBy: LOW_CODER_CREATED_BY,
+                orgId: LOW_CODER_ORG_ID,
                 name,
                 credentialName: componentCredential.name,
                 plainDataObj: credentialData
@@ -145,8 +145,8 @@ const AddEditCredentialDialog = ({ show, dialogProps, onCancel, onConfirm }) => 
             const saveObj = {
                 name,
                 credentialName: componentCredential.name,
-                createdBy,
-                orgId
+                createdBy: LOW_CODER_CREATED_BY,
+                orgId: LOW_CODER_ORG_ID
             }
 
             let plainDataObj = {}

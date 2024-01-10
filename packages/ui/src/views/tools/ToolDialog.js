@@ -15,7 +15,7 @@ import ConfirmDialog from 'ui-component/dialog/ConfirmDialog'
 import { CodeEditor } from 'ui-component/editor/CodeEditor'
 
 // createdBy 和 orgId
-import { createdBy, orgId } from 'store/constant'
+import { LOW_CODER_CREATED_BY, LOW_CODER_ORG_ID } from 'store/constant'
 // Icons
 import { IconX, IconFileExport } from '@tabler/icons'
 
@@ -250,8 +250,8 @@ const ToolDialog = ({ show, dialogProps, onUseTemplate, onCancel, onConfirm }) =
                 schema: JSON.stringify(toolSchema),
                 func: toolFunc,
                 iconSrc: toolIcon,
-                createdBy,
-                orgId
+                createdBy: LOW_CODER_CREATED_BY,
+                orgId: LOW_CODER_ORG_ID
             }
             const createResp = await toolsApi.createNewTool(obj)
             if (createResp.data) {

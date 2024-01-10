@@ -12,7 +12,6 @@ import themes from 'themes'
 import NavigationScroll from 'layout/NavigationScroll'
 
 // ==============================|| APP ||============================== //
-
 const App = () => {
     const customization = useSelector((state) => state.customization)
 
