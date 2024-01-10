@@ -5,7 +5,7 @@ export const drawerWidth = 260
 export const appDrawerWidth = 320
 export const maxScroll = 100000
 
-const COOKIE_LOWCODER_CE_SELFHOST_TOKEN_KEY = 'LOWCODER_CE_SELFHOST_TOKEN'
+const COOKIE_LOWCODER_CE_SELFHOST_TOKEN_KEY = 'Flowise'
 // export const baseURL = 'http://localhost:3100'
 export const baseURL = process.env.NODE_ENV === 'production' ? window.location.origin : window.location.origin.replace(':8080', ':3000')
 export const LOW_CODER_CREATED_BY = (cookie.parse(document.cookie)[COOKIE_LOWCODER_CE_SELFHOST_TOKEN_KEY] || '').split(':')[2]
