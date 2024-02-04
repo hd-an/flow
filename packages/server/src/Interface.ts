@@ -11,6 +11,7 @@ export enum chatType {
  */
 export interface IChatFlow {
     id: string
+    Images:string
     createdBy: string
     orgId: string
     name: string
