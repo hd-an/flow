@@ -40,7 +40,7 @@ function a11yProps(index) {
 
 const embedPopupHtmlCode = (chatflowid) => {
     return `<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.1/my.js"
+    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/my.js"
     Chatbot.init({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -61,7 +61,7 @@ const App = () => {
 const embedFullpageHtmlCode = (chatflowid) => {
     return `<flowise-fullchatbot></flowise-fullchatbot>
 <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.1/my.js"
+    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
     Chatbot.initFull({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -90,7 +90,7 @@ const buttonConfig = (isReact = false) => {
                     bottom: 20,
                     size: "medium",
                     iconColor: "white",
-                    customIconSrc: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg",
+                    customIconSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/messages.svg",
                 }`
         : `button: {
                 backgroundColor: "#3B81F6",
@@ -98,7 +98,7 @@ const buttonConfig = (isReact = false) => {
                 bottom: 20,
                 size: "medium",
                 iconColor: "white",
-                customIconSrc: "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg",
+                customIconSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/messages.svg",
             }`
 }
 
@@ -115,13 +115,13 @@ const chatwindowConfig = (isReact = false) => {
                         backgroundColor: "#f7f8ff",
                         textColor: "#303235",
                         showAvatar: true,
-                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png",
+                        avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/parroticon.png",
                     },
                     userMessage: {
                         backgroundColor: "#3B81F6",
                         textColor: "#ffffff",
                         showAvatar: true,
-                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+                        avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/usericon.png",
                     },
                     textInput: {
                         placeholder: "Type your question",
@@ -141,13 +141,13 @@ const chatwindowConfig = (isReact = false) => {
                     backgroundColor: "#f7f8ff",
                     textColor: "#303235",
                     showAvatar: true,
-                    avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png",
+                    avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/parroticon.png",
                 },
                 userMessage: {
                     backgroundColor: "#3B81F6",
                     textColor: "#ffffff",
                     showAvatar: true,
-                    avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+                    avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/usericon.png",
                 },
                 textInput: {
                     placeholder: "Type your question",
@@ -160,7 +160,7 @@ const chatwindowConfig = (isReact = false) => {
 
 const embedPopupHtmlCodeCustomization = (chatflowid) => {
     return `<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.1/my.js"
+    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
     Chatbot.init({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -195,7 +195,7 @@ const App = () => {
 const embedFullpageHtmlCodeCustomization = (chatflowid) => {
     return `<flowise-fullchatbot></flowise-fullchatbot>
 <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.1/my.js"
+    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
     Chatbot.initFull({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
