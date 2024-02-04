@@ -18,7 +18,7 @@ import { getUsersArray } from '../../utils/GetUsersArr'
 import useApi from 'hooks/useApi'
 
 // const
-import { baseURL } from 'store/constant'
+// import { baseURL } from 'store/constant'
 
 // icons
 import { IconPlus, IconSearch, IconLayoutGrid, IconList } from '@tabler/icons'
@@ -95,16 +95,19 @@ const Chatflows = () => {
                 const chatflows = getAllChatflowsApi.data
                 const images = {}
                 for (let i = 0; i < chatflows.length; i += 1) {
-                    const flowDataStr = chatflows[i].flowData
-                    const flowData = JSON.parse(flowDataStr)
-                    const nodes = flowData.nodes || []
-                    images[chatflows[i].id] = []
-                    for (let j = 0; j < nodes.length; j += 1) {
-                        const imageSrc = `${baseURL}/api/v1/node-icon/${nodes[j].data.name}`
-                        if (!images[chatflows[i].id].includes(imageSrc)) {
-                            images[chatflows[i].id].push(imageSrc)
-                        }
-                    }
+                    images[chatflows[i].id] = JSON.parse(chatflows[i].Images)
+
+                    // const flowDataStr = chatflows[i].flowData
+                    // const flowData = JSON.parse(flowDataStr)
+                    // console.log(flowData, 'i am flowDATA')
+                    // const nodes = flowData.nodes || []
+                    // images[chatflows[i].id] = []
+                    // for (let j = 0; j < nodes.length; j += 1) {
+                    //     const imageSrc = `${baseURL}/api/v1/node-icon/${nodes[j].data.name}`
+                    //     if (!images[chatflows[i].id].includes(imageSrc)) {
+                    //         images[chatflows[i].id].push(imageSrc)
+                    //     }
+                    // }
                 }
                 setImages(images)
             } catch (e) {
