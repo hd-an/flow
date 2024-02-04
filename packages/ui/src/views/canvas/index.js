@@ -221,8 +221,8 @@ const Canvas = () => {
                     deployed: false,
                     isPublic: false,
                     flowData,
-                    createdBy,
-                    orgId,
+                    createdBy: LOW_CODER_CREATED_BY,
+                    orgId: LOW_CODER_ORG_ID,
                     Images
                 }
                 createNewChatflowApi.request(newChatflowBody)
