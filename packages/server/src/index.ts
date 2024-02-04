@@ -404,13 +404,13 @@ export class App {
             const chatflow = await this.AppDataSource.getRepository(ChatFlow).findOneBy({
                 id: req.params.id
             })
-            console.log('chatflow', chatflow)
+            // console.log('chatflow', chatflow)
             if (!chatflow) {
                 res.status(404).send(`Chatflow ${req.params.id} not found`)
                 return
             }
             const body = req.body
-            console.log('body', body)
+            // console.log('body', body)
             const updateChatFlow = new ChatFlow()
             Object.assign(updateChatFlow, body)
             updateChatFlow.id = chatflow.id
@@ -429,7 +429,7 @@ export class App {
         // Delete chatflow via id
         this.app.delete('/api/v1/chatflows/:id', async (req: Request, res: Response) => {
             const results = await this.AppDataSource.getRepository(ChatFlow).delete({ id: req.params.id })
-            console.log(results, '删除完毕')
+            // console.log(results, '删除完毕')
             return res.json(results)
         })
 
@@ -762,7 +762,7 @@ export class App {
         // })
         this.app.get('/api/v1/assistants', async (req: Request, res: Response) => {
             let Data = await this.AppDataSource.getRepository(Assistant).find()
-            console.log(Data, 'assistantsData获取全部的机器人助理已创建信息')
+            // console.log(Data, 'assistantsData获取全部的机器人助理已创建信息')
             return res.json(Data)
         })
 
@@ -881,8 +881,8 @@ export class App {
         //         }
 
         //         if (!assistantDetails.id) {
-        //             console.log('没有id自己通过openai进行create一个')
-        //             console.log('assistantDetails', assistantDetails)
+                    // console.log('没有id自己通过openai进行create一个')
+                    // console.log('assistantDetails', assistantDetails)
         //             // 没有id 就创建一个
         //             const newAssistant = await openai.beta.assistants.create({
         //                 name: assistantDetails.name,
@@ -953,17 +953,17 @@ export class App {
             const credential = await this.AppDataSource.getRepository(Credential).findOneBy({
                 id: body.credential
             })
-            console.log(credential, '凭证')
+            // console.log(credential, '凭证')
             // Decrpyt credentialData
             if (!credential) return
-            console.log('有凭证')
+            // console.log('有凭证')
             const decryptedCredentialData = await decryptCredentialData(credential.encryptedData)
             const openAIApiKey = decryptedCredentialData['openAIApiKey']
             if (!openAIApiKey) return res.status(404).send(`OpenAI ApiKey not found`)
 
             const openai = new OpenAI({ apiKey: openAIApiKey })
-            console.log('openai', openai)
-            console.log('1233211234567')
+            // console.log('openai', openai)
+            // console.log('1233211234567')
             let tools = []
             if (assistantDetails.tools) {
                 for (const tool of assistantDetails.tools ?? []) {
@@ -973,8 +973,8 @@ export class App {
                 }
             }
             if (!assistantDetails.id) {
-                console.log('没有id自己通过openai进行create一个')
-                console.log('assistantDetails', assistantDetails)
+                // console.log('没有id自己通过openai进行create一个')
+                // console.log('assistantDetails', assistantDetails)
                 // 没有id 就创建一个
                 const newAssistant = await openai.beta.assistants.create({
                     name: assistantDetails.name,
@@ -984,26 +984,26 @@ export class App {
                     tools,
                     file_ids: (assistantDetails.files ?? []).map((file: OpenAI.Files.FileObject) => file.id)
                 })
-                console.log(newAssistant, 'newAssistant新建的')
+                // console.log(newAssistant, 'newAssistant新建的')
 
-                console.log('将id赋值上')
+                // console.log('将id赋值上')
                 assistantDetails.id = newAssistant.id
             }
             const newAssistantDetails = {
                 ...assistantDetails
             }
-            console.log(newAssistantDetails, '我是newAssistantDeatils')
+            // console.log(newAssistantDetails, '我是newAssistantDeatils')
             if (newAssistantDetails.uploadFiles) delete newAssistantDetails.uploadFiles
-            console.log(body.details, '最后的details')
+            // console.log(body.details, '最后的details')
             body.details = JSON.stringify(newAssistantDetails)
 
             const newAssistant = new Assistant()
-            console.log('创建机器人的body', body)
+            // console.log('创建机器人的body', body)
             Object.assign(newAssistant, body)
 
             const assistant = this.AppDataSource.getRepository(Assistant).create(newAssistant)
             const results = await this.AppDataSource.getRepository(Assistant).save(assistant)
-            console.log('创建成功啦！！！')
+            // console.log('创建成功啦！！！')
             return res.json(results)
         })
         // Update assistant
