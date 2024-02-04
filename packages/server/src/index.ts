@@ -319,12 +319,13 @@ export class App {
             let userIdArr: string[] = JSON.parse(req.params.userIdArr)
             try {
                 let data = await this.AppDataSource.getRepository(ChatFlow).find({
+                    select:['id','Images','name'],
                     where: {
                         orgId,
                         createdBy: In(userIdArr)
                     }
                 })
-                return res.json(data)
+                res.json(data)
             } catch (e) {
                 return res.status(500).send(e)
             }
