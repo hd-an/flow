@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm'
 export class Init1693835579790 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `CREATE TABLE IF NOT EXISTS "chat_flow" ("id" varchar PRIMARY KEY NOT NULL,"createdBy" varchar NOT NULL,"orgId" varchar NOT NULL,"name" varchar NOT NULL, "flowData" longtext NOT NULL, "deployed" boolean, "isPublic" boolean, "apikeyid" varchar, "chatbotConfig" varchar, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "updatedDate" datetime NOT NULL DEFAULT (datetime('now')));`
+            `CREATE TABLE IF NOT EXISTS "chat_flow" ("id" varchar PRIMARY KEY NOT NULL,"Images" longtext NOT NULL,"createdBy" varchar NOT NULL,"orgId" varchar NOT NULL,"name" varchar NOT NULL, "flowData" longtext NOT NULL, "deployed" boolean, "isPublic" boolean, "apikeyid" varchar, "chatbotConfig" varchar, "createdDate" datetime NOT NULL DEFAULT (datetime('now')), "updatedDate" datetime NOT NULL DEFAULT (datetime('now')));`
         )
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS "chat_message" ("id" varchar PRIMARY KEY NOT NULL,"createdBy" varchar NOT NULL, "orgId" varchar NOT NULL, "role" varchar NOT NULL, "chatflowid" varchar NOT NULL, "content" text NOT NULL, "sourceDocuments" varchar, "createdDate" datetime NOT NULL DEFAULT (datetime('now')));`
