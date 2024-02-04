@@ -193,13 +193,10 @@ export default function FlowListMenu({ chatflow, updateFlowsApi }) {
 
         if (isConfirmed) {
             try {
-                console.log('进来了')
                 await chatflowsApi.deleteChatflow(chatflow.id)
-                console.log('删除成功')
                 await getUsersArray().then((res) => {
                     updateFlowsApi.request(res.orgId, JSON.stringify(res.userIdArr))
                 })
-                console.log('重新请求获取删除后的数据')
             } catch (error) {
                 const errorData = error.response.data || `${error.response.status}: ${error.response.statusText}`
                 enqueueSnackbar({
