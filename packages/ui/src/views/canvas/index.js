@@ -44,7 +44,7 @@ import { getUniqueNodeId, initNode, rearrangeToolsOrdering, getUpsertDetails } f
 import useNotifier from 'utils/useNotifier'
 
 // const
-import { FLOWISE_CREDENTIAL_ID } from 'store/constant'
+import { FLOWISE_CREDENTIAL_ID, baseURL } from 'store/constant'
 
 const nodeTypes = { customNode: CanvasNode }
 const edgeTypes = { buttonedge: ButtonEdge }
@@ -204,6 +204,15 @@ const Canvas = () => {
 
             const rfInstanceObject = reactFlowInstance.toObject()
             rfInstanceObject.nodes = nodes
+
+            const images = []
+            const flowDataStr = rfInstanceObject
+            const Nodes = flowDataStr.nodes || []
+            for (let j = 0; j < Nodes.length; j += 1) {
+                const imageSrc = `${baseURL}/api/v1/node-icon/${Nodes[j].data.name}`
+                images.push(imageSrc)
+            }
+            const Images = JSON.stringify(images)
             const flowData = JSON.stringify(rfInstanceObject)
 
             if (!chatflow.id) {
@@ -212,14 +221,16 @@ const Canvas = () => {
                     deployed: false,
                     isPublic: false,
                     flowData,
-                    createdBy: LOW_CODER_CREATED_BY,
-                    orgId: LOW_CODER_ORG_ID
+                    createdBy,
+                    orgId,
+                    Images
                 }
                 createNewChatflowApi.request(newChatflowBody)
             } else {
                 const updateBody = {
                     name: chatflowName,
-                    flowData
+                    flowData,
+                    Images
                 }
                 updateChatflowApi.request(chatflow.id, updateBody)
             }
