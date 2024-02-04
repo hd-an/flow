@@ -5,6 +5,7 @@ export class Init1693891895163 implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE IF NOT EXISTS chat_flow (
                 id uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "Images" varchar NOT NULL,
                 "createdBy" varchar NOT NULL,
                 "orgId" varchar NOT NULL,
                 "name" varchar NOT NULL,
