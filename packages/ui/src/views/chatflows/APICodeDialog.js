@@ -1,9 +1,9 @@
 import { createPortal } from 'react-dom'
-import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-
+// API key
+import APIKey from '../../views/apikey'
 import {
     Tabs,
     Tab,
@@ -81,9 +81,9 @@ function a11yProps(index) {
 
 const APICodeDialog = ({ show, dialogProps, onCancel }) => {
     const portalElement = document.getElementById('portal')
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    // 控制key展示的变量
+    const [keyState, SetKeyState] = useState(false)
     const codes = ['Embed', 'Python', 'JavaScript', 'cURL', 'Share Chatbot', 'Configuration']
     const [value, setValue] = useState(0)
     const [keyOptions, setKeyOptions] = useState([])
@@ -108,7 +108,7 @@ const APICodeDialog = ({ show, dialogProps, onCancel }) => {
 
     const onApiKeySelected = (keyValue) => {
         if (keyValue === 'addnewkey') {
-            navigate('/apikey')
+            SetKeyState(true)
             return
         }
         setChatflowApiKeyId(keyValue)
@@ -535,6 +535,7 @@ formData.append("openAIApiKey[openAIEmbeddings_0]", "sk-my-openai-2nd-key")`
     }, [dialogProps, getAllAPIKeysApi.data])
 
     useEffect(() => {
+        SetKeyState(false)
         if (show) {
             getAllAPIKeysApi.request()
             getIsChatflowStreamingApi.request(dialogProps.chatflowid)
@@ -544,188 +545,202 @@ formData.append("openAIApiKey[openAIEmbeddings_0]", "sk-my-openai-2nd-key")`
     }, [show])
 
     const component = show ? (
-        <Dialog
-            open={show}
-            fullWidth
-            maxWidth='md'
-            onClose={onCancel}
-            aria-labelledby='alert-dialog-title'
-            aria-describedby='alert-dialog-description'
-        >
-            <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
-                {dialogProps.title}
-            </DialogTitle>
-            <DialogContent>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <div style={{ flex: 80 }}>
-                        <Tabs value={value} onChange={handleChange} aria-label='tabs'>
-                            {codes.map((codeLang, index) => (
-                                <Tab
-                                    icon={
-                                        <img style={{ objectFit: 'cover', height: 15, width: 'auto' }} src={getSVG(codeLang)} alt='code' />
-                                    }
-                                    iconPosition='start'
-                                    key={index}
-                                    label={codeLang}
-                                    {...a11yProps(index)}
-                                ></Tab>
-                            ))}
-                        </Tabs>
-                    </div>
-                    <div style={{ flex: 20 }}>
-                        <Dropdown
-                            name='SelectKey'
-                            disableClearable={true}
-                            options={keyOptions}
-                            onSelect={(newValue) => onApiKeySelected(newValue)}
-                            value={dialogProps.chatflowApiKeyId ?? chatflowApiKeyId ?? 'Choose an API key'}
-                        />
-                    </div>
-                </div>
-                <div style={{ marginTop: 10 }}></div>
-                {codes.map((codeLang, index) => (
-                    <TabPanel key={index} value={value} index={index}>
-                        {(codeLang === 'Embed' || codeLang === 'Share Chatbot') && chatflowApiKeyId && (
-                            <>
-                                <p>You cannot use API key while embedding/sharing chatbot.</p>
-                                <p>
-                                    Please select <b>&quot;No Authorization&quot;</b> from the dropdown at the top right corner.
-                                </p>
-                            </>
-                        )}
-                        {codeLang === 'Embed' && !chatflowApiKeyId && <EmbedChat chatflowid={dialogProps.chatflowid} />}
-                        {codeLang !== 'Embed' && codeLang !== 'Share Chatbot' && codeLang !== 'Configuration' && (
-                            <>
-                                <CopyBlock
-                                    theme={atomOneDark}
-                                    text={chatflowApiKeyId ? getCodeWithAuthorization(codeLang) : getCode(codeLang)}
-                                    language={getLang(codeLang)}
-                                    showLineNumbers={false}
-                                    wrapLines
+        <div>
+            <Dialog
+                open={show}
+                fullWidth
+                maxWidth='md'
+                onClose={onCancel}
+                aria-labelledby='alert-dialog-title'
+                aria-describedby='alert-dialog-description'
+            >
+                <div style={keyState === false ? { display: 'block' } : { display: 'none' }}>
+                    <DialogTitle sx={{ fontSize: '1rem' }} id='alert-dialog-title'>
+                        {dialogProps.title}
+                    </DialogTitle>
+                    <DialogContent>
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <div style={{ flex: 80 }}>
+                                <Tabs value={value} onChange={handleChange} aria-label='tabs'>
+                                    {codes.map((codeLang, index) => (
+                                        <Tab
+                                            icon={
+                                                <img
+                                                    style={{ objectFit: 'cover', height: 15, width: 'auto' }}
+                                                    src={getSVG(codeLang)}
+                                                    alt='code'
+                                                />
+                                            }
+                                            iconPosition='start'
+                                            key={index}
+                                            label={codeLang}
+                                            {...a11yProps(index)}
+                                        ></Tab>
+                                    ))}
+                                </Tabs>
+                            </div>
+                            <div style={{ flex: 20 }}>
+                                <Dropdown
+                                    name='SelectKey'
+                                    disableClearable={true}
+                                    options={keyOptions}
+                                    onSelect={(newValue) => onApiKeySelected(newValue)}
+                                    value={dialogProps.chatflowApiKeyId ?? chatflowApiKeyId ?? 'Choose an API key'}
                                 />
-                                <CheckboxInput label='Show Input Config' value={checkboxVal} onChange={onCheckBoxChanged} />
-                                {checkboxVal && getConfigApi.data && getConfigApi.data.length > 0 && (
+                            </div>
+                        </div>
+                        <div style={{ marginTop: 10 }}></div>
+                        {codes.map((codeLang, index) => (
+                            <TabPanel key={index} value={value} index={index}>
+                                {(codeLang === 'Embed' || codeLang === 'Share Chatbot') && chatflowApiKeyId && (
                                     <>
-                                        {Object.keys(nodeConfig)
-                                            .sort()
-                                            .map((nodeLabel) => (
-                                                <Accordion
-                                                    expanded={nodeConfigExpanded[nodeLabel] || false}
-                                                    onChange={handleAccordionChange(nodeLabel)}
-                                                    key={nodeLabel}
-                                                    disableGutters
-                                                >
-                                                    <AccordionSummary
-                                                        expandIcon={<ExpandMoreIcon />}
-                                                        aria-controls={`nodes-accordian-${nodeLabel}`}
-                                                        id={`nodes-accordian-header-${nodeLabel}`}
-                                                    >
-                                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                                            <Typography variant='h5'>{nodeLabel}</Typography>
-                                                            <div
-                                                                style={{
-                                                                    display: 'flex',
-                                                                    flexDirection: 'row',
-                                                                    width: 'max-content',
-                                                                    borderRadius: 15,
-                                                                    background: 'rgb(254,252,191)',
-                                                                    padding: 5,
-                                                                    paddingLeft: 10,
-                                                                    paddingRight: 10,
-                                                                    marginLeft: 10
-                                                                }}
-                                                            >
-                                                                <span style={{ color: 'rgb(116,66,16)', fontSize: '0.825rem' }}>
-                                                                    {nodeConfig[nodeLabel][0].nodeId}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </AccordionSummary>
-                                                    <AccordionDetails>
-                                                        <TableViewOnly
-                                                            rows={nodeConfig[nodeLabel].map((obj) => {
-                                                                // eslint-disable-next-line
-                                                                const { node, nodeId, ...rest } = obj
-                                                                return rest
-                                                            })}
-                                                            columns={Object.keys(nodeConfig[nodeLabel][0]).slice(-3)}
-                                                        />
-                                                    </AccordionDetails>
-                                                </Accordion>
-                                            ))}
+                                        <p>You cannot use API key while embedding/sharing chatbot.</p>
+                                        <p>
+                                            Please select <b>&quot;No Authorization&quot;</b> from the dropdown at the top right corner.
+                                        </p>
+                                    </>
+                                )}
+                                {codeLang === 'Embed' && !chatflowApiKeyId && <EmbedChat chatflowid={dialogProps.chatflowid} />}
+                                {codeLang !== 'Embed' && codeLang !== 'Share Chatbot' && codeLang !== 'Configuration' && (
+                                    <>
                                         <CopyBlock
                                             theme={atomOneDark}
-                                            text={
-                                                chatflowApiKeyId
-                                                    ? dialogProps.isFormDataRequired
-                                                        ? getConfigCodeWithFormDataWithAuth(codeLang, getConfigApi.data)
-                                                        : getConfigCodeWithAuthorization(codeLang, getConfigApi.data)
-                                                    : dialogProps.isFormDataRequired
-                                                    ? getConfigCodeWithFormData(codeLang, getConfigApi.data)
-                                                    : getConfigCode(codeLang, getConfigApi.data)
-                                            }
+                                            text={chatflowApiKeyId ? getCodeWithAuthorization(codeLang) : getCode(codeLang)}
                                             language={getLang(codeLang)}
                                             showLineNumbers={false}
                                             wrapLines
                                         />
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                borderRadius: 10,
-                                                background: '#d8f3dc',
-                                                padding: 10,
-                                                marginTop: 10,
-                                                marginBottom: 10
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'row',
-                                                    alignItems: 'center'
-                                                }}
-                                            >
-                                                <IconBulb size={30} color='#2d6a4f' />
-                                                <span style={{ color: '#2d6a4f', marginLeft: 10, fontWeight: 500 }}>
-                                                    You can also specify multiple values for a config parameter by specifying the node id
-                                                </span>
-                                            </div>
-                                            <div style={{ padding: 10 }}>
+                                        <CheckboxInput label='Show Input Config' value={checkboxVal} onChange={onCheckBoxChanged} />
+                                        {checkboxVal && getConfigApi.data && getConfigApi.data.length > 0 && (
+                                            <>
+                                                {Object.keys(nodeConfig)
+                                                    .sort()
+                                                    .map((nodeLabel) => (
+                                                        <Accordion
+                                                            expanded={nodeConfigExpanded[nodeLabel] || false}
+                                                            onChange={handleAccordionChange(nodeLabel)}
+                                                            key={nodeLabel}
+                                                            disableGutters
+                                                        >
+                                                            <AccordionSummary
+                                                                expandIcon={<ExpandMoreIcon />}
+                                                                aria-controls={`nodes-accordian-${nodeLabel}`}
+                                                                id={`nodes-accordian-header-${nodeLabel}`}
+                                                            >
+                                                                <div
+                                                                    style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                                                                >
+                                                                    <Typography variant='h5'>{nodeLabel}</Typography>
+                                                                    <div
+                                                                        style={{
+                                                                            display: 'flex',
+                                                                            flexDirection: 'row',
+                                                                            width: 'max-content',
+                                                                            borderRadius: 15,
+                                                                            background: 'rgb(254,252,191)',
+                                                                            padding: 5,
+                                                                            paddingLeft: 10,
+                                                                            paddingRight: 10,
+                                                                            marginLeft: 10
+                                                                        }}
+                                                                    >
+                                                                        <span style={{ color: 'rgb(116,66,16)', fontSize: '0.825rem' }}>
+                                                                            {nodeConfig[nodeLabel][0].nodeId}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </AccordionSummary>
+                                                            <AccordionDetails>
+                                                                <TableViewOnly
+                                                                    rows={nodeConfig[nodeLabel].map((obj) => {
+                                                                        // eslint-disable-next-line
+                                                                        const { node, nodeId, ...rest } = obj
+                                                                        return rest
+                                                                    })}
+                                                                    columns={Object.keys(nodeConfig[nodeLabel][0]).slice(-3)}
+                                                                />
+                                                            </AccordionDetails>
+                                                        </Accordion>
+                                                    ))}
                                                 <CopyBlock
                                                     theme={atomOneDark}
                                                     text={
-                                                        dialogProps.isFormDataRequired
-                                                            ? getMultiConfigCodeWithFormData(codeLang)
-                                                            : getMultiConfigCode()
+                                                        chatflowApiKeyId
+                                                            ? dialogProps.isFormDataRequired
+                                                                ? getConfigCodeWithFormDataWithAuth(codeLang, getConfigApi.data)
+                                                                : getConfigCodeWithAuthorization(codeLang, getConfigApi.data)
+                                                            : dialogProps.isFormDataRequired
+                                                            ? getConfigCodeWithFormData(codeLang, getConfigApi.data)
+                                                            : getConfigCode(codeLang, getConfigApi.data)
                                                     }
                                                     language={getLang(codeLang)}
                                                     showLineNumbers={false}
                                                     wrapLines
                                                 />
-                                            </div>
-                                        </div>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        borderRadius: 10,
+                                                        background: '#d8f3dc',
+                                                        padding: 10,
+                                                        marginTop: 10,
+                                                        marginBottom: 10
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            flexDirection: 'row',
+                                                            alignItems: 'center'
+                                                        }}
+                                                    >
+                                                        <IconBulb size={30} color='#2d6a4f' />
+                                                        <span style={{ color: '#2d6a4f', marginLeft: 10, fontWeight: 500 }}>
+                                                            You can also specify multiple values for a config parameter by specifying the
+                                                            node id
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ padding: 10 }}>
+                                                        <CopyBlock
+                                                            theme={atomOneDark}
+                                                            text={
+                                                                dialogProps.isFormDataRequired
+                                                                    ? getMultiConfigCodeWithFormData(codeLang)
+                                                                    : getMultiConfigCode()
+                                                            }
+                                                            language={getLang(codeLang)}
+                                                            showLineNumbers={false}
+                                                            wrapLines
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                        {getIsChatflowStreamingApi.data?.isStreaming && (
+                                            <p>
+                                                Read&nbsp;
+                                                <a rel='noreferrer' target='_blank' href='https://docs.flowiseai.com/how-to-use#streaming'>
+                                                    here
+                                                </a>
+                                                &nbsp;on how to stream response back to application
+                                            </p>
+                                        )}
                                     </>
                                 )}
-                                {getIsChatflowStreamingApi.data?.isStreaming && (
-                                    <p>
-                                        Read&nbsp;
-                                        <a rel='noreferrer' target='_blank' href='https://docs.flowiseai.com/how-to-use#streaming'>
-                                            here
-                                        </a>
-                                        &nbsp;on how to stream response back to application
-                                    </p>
+                                {codeLang === 'Share Chatbot' && !chatflowApiKeyId && (
+                                    <ShareChatbot isSessionMemory={dialogProps.isSessionMemory} />
                                 )}
-                            </>
-                        )}
-                        {codeLang === 'Share Chatbot' && !chatflowApiKeyId && (
-                            <ShareChatbot isSessionMemory={dialogProps.isSessionMemory} />
-                        )}
-                        {codeLang === 'Configuration' && <Configuration />}
-                    </TabPanel>
-                ))}
-            </DialogContent>
-        </Dialog>
+                                {codeLang === 'Configuration' && <Configuration />}
+                            </TabPanel>
+                        ))}
+                    </DialogContent>
+                </div>
+                <div style={keyState === true ? { display: 'block' } : { display: 'none' }}>
+                    <APIKey />
+                </div>
+            </Dialog>
+        </div>
     ) : null
 
     return createPortal(component, portalElement)

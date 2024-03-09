@@ -319,7 +319,7 @@ export class App {
             let userIdArr: string[] = JSON.parse(req.params.userIdArr)
             try {
                 let data = await this.AppDataSource.getRepository(ChatFlow).find({
-                    select:['id','Images','name'],
+                    select: ['id', 'Images', 'name'],
                     where: {
                         orgId,
                         createdBy: In(userIdArr)
@@ -881,8 +881,8 @@ export class App {
         //         }
 
         //         if (!assistantDetails.id) {
-                    // console.log('没有id自己通过openai进行create一个')
-                    // console.log('assistantDetails', assistantDetails)
+        // console.log('没有id自己通过openai进行create一个')
+        // console.log('assistantDetails', assistantDetails)
         //             // 没有id 就创建一个
         //             const newAssistant = await openai.beta.assistants.create({
         //                 name: assistantDetails.name,

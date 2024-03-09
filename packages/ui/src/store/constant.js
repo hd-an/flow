@@ -7,7 +7,7 @@ export const maxScroll = 100000
 
 const COOKIE_LOWCODER_CE_SELFHOST_TOKEN_KEY = 'Flowise'
 // export const baseURL = 'http://localhost:3000'
-export const baseURL = process.env.NODE_ENV === 'production' ? window.location.origin : window.location.origin.replace(':8080', ':3000')
+export const baseURL = process.env.NODE_ENV === 'production' ? window.location.origin : window.location.origin.replace(':8080', ':8083')
 export const LOW_CODER_CREATED_BY =
     process.env.NODE_ENV === 'production'
         ? (cookie.parse(document.cookie)[COOKIE_LOWCODER_CE_SELFHOST_TOKEN_KEY] || '').split(':')[2]

@@ -1,223 +1,224 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import PropTypes from 'prop-types'
+// import { useEffect, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
+// import PropTypes from 'prop-types'
 
 // material-ui
-import { Grid, Box, Stack, Tabs, Tab, Badge } from '@mui/material'
-import { IconHierarchy, IconTool } from '@tabler/icons'
+// import { Grid, Box, Stack, Tabs, Tab, Badge } from '@mui/material'
+// import { IconHierarchy, IconTool } from '@tabler/icons'
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard'
-import ItemCard from 'ui-component/cards/ItemCard'
-import { gridSpacing } from 'store/constant'
-import WorkflowEmptySVG from 'assets/images/workflow_empty.svg'
-import ToolDialog from 'views/tools/ToolDialog'
+// import MainCard from 'ui-component/cards/MainCard'
+// import ItemCard from 'ui-component/cards/ItemCard'
+// import { gridSpacing } from 'store/constant'
+// import WorkflowEmptySVG from 'assets/images/workflow_empty.svg'
+// import ToolDialog from 'views/tools/ToolDialog'
 
-// API
-import marketplacesApi from 'api/marketplaces'
+// // API
+// import marketplacesApi from 'api/marketplaces'
 
-// Hooks
-import useApi from 'hooks/useApi'
+// // Hooks
+// import useApi from 'hooks/useApi'
 
-// const
-import { baseURL } from 'store/constant'
+// // const
+// import { baseURL } from 'store/constant'
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props
-    return (
-        <div
-            role='tabpanel'
-            hidden={value !== index}
-            id={`attachment-tabpanel-${index}`}
-            aria-labelledby={`attachment-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box sx={{ p: 1 }}>{children}</Box>}
-        </div>
-    )
-}
+// function TabPanel(props) {
+//     const { children, value, index, ...other } = props
+//     return (
+//         <div
+//             role='tabpanel'
+//             hidden={value !== index}
+//             id={`attachment-tabpanel-${index}`}
+//             aria-labelledby={`attachment-tab-${index}`}
+//             {...other}
+//         >
+//             {value === index && <Box sx={{ p: 1 }}>{children}</Box>}
+//         </div>
+//     )
+// }
 
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired
-}
+// TabPanel.propTypes = {
+//     children: PropTypes.node,
+//     index: PropTypes.number.isRequired,
+//     value: PropTypes.number.isRequired
+// }
 
 // ==============================|| Marketplace ||============================== //
 
 const Marketplace = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
-    const [isChatflowsLoading, setChatflowsLoading] = useState(true)
-    const [isToolsLoading, setToolsLoading] = useState(true)
-    const [images, setImages] = useState({})
-    const tabItems = ['模板', '工具']
-    const [value, setValue] = useState(0)
-    const [showToolDialog, setShowToolDialog] = useState(false)
-    const [toolDialogProps, setToolDialogProps] = useState({})
+    // const [isChatflowsLoading, setChatflowsLoading] = useState(true)
+    // const [isToolsLoading, setToolsLoading] = useState(true)
+    // const [images, setImages] = useState({})
+    // const tabItems = ['模板', '工具']
+    // const [value, setValue] = useState(0)
+    // const [showToolDialog, setShowToolDialog] = useState(false)
+    // const [toolDialogProps, setToolDialogProps] = useState({})
 
-    const getAllChatflowsMarketplacesApi = useApi(marketplacesApi.getAllChatflowsMarketplaces)
-    const getAllToolsMarketplacesApi = useApi(marketplacesApi.getAllToolsMarketplaces)
+    // const getAllChatflowsMarketplacesApi = useApi(marketplacesApi.getAllChatflowsMarketplaces)
+    // const getAllToolsMarketplacesApi = useApi(marketplacesApi.getAllToolsMarketplaces)
 
-    const onUseTemplate = (selectedTool) => {
-        const dialogProp = {
-            title: 'Add New Tool',
-            type: 'IMPORT',
-            cancelButtonName: 'Cancel',
-            confirmButtonName: 'Add',
-            data: selectedTool
-        }
-        setToolDialogProps(dialogProp)
-        setShowToolDialog(true)
-    }
+    // const onUseTemplate = (selectedTool) => {
+    //     const dialogProp = {
+    //         title: 'Add New Tool',
+    //         type: 'IMPORT',
+    //         cancelButtonName: 'Cancel',
+    //         confirmButtonName: 'Add',
+    //         data: selectedTool
+    //     }
+    //     setToolDialogProps(dialogProp)
+    //     setShowToolDialog(true)
+    // }
 
-    const goToTool = (selectedTool) => {
-        const dialogProp = {
-            title: selectedTool.templateName,
-            type: 'TEMPLATE',
-            data: selectedTool
-        }
-        setToolDialogProps(dialogProp)
-        setShowToolDialog(true)
-    }
+    // const goToTool = (selectedTool) => {
+    //     const dialogProp = {
+    //         title: selectedTool.templateName,
+    //         type: 'TEMPLATE',
+    //         data: selectedTool
+    //     }
+    //     setToolDialogProps(dialogProp)
+    //     setShowToolDialog(true)
+    // }
 
-    const goToCanvas = (selectedChatflow) => {
-        navigate(`/marketplace/${selectedChatflow.id}`, { state: selectedChatflow })
-    }
+    // const goToCanvas = (selectedChatflow) => {
+    //     navigate(`/marketplace/${selectedChatflow.id}`, { state: selectedChatflow })
+    // }
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue)
-    }
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue)
+    // }
 
-    useEffect(() => {
-        getAllChatflowsMarketplacesApi.request()
-        getAllToolsMarketplacesApi.request()
+    // useEffect(() => {
+    //     getAllChatflowsMarketplacesApi.request()
+    //     getAllToolsMarketplacesApi.request()
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
-    useEffect(() => {
-        setChatflowsLoading(getAllChatflowsMarketplacesApi.loading)
-    }, [getAllChatflowsMarketplacesApi.loading])
+    // useEffect(() => {
+    //     setChatflowsLoading(getAllChatflowsMarketplacesApi.loading)
+    // }, [getAllChatflowsMarketplacesApi.loading])
 
-    useEffect(() => {
-        setToolsLoading(getAllToolsMarketplacesApi.loading)
-    }, [getAllToolsMarketplacesApi.loading])
+    // useEffect(() => {
+    //     setToolsLoading(getAllToolsMarketplacesApi.loading)
+    // }, [getAllToolsMarketplacesApi.loading])
 
-    useEffect(() => {
-        if (getAllChatflowsMarketplacesApi.data) {
-            try {
-                const chatflows = getAllChatflowsMarketplacesApi.data
-                const images = {}
-                for (let i = 0; i < chatflows.length; i += 1) {
-                    const flowDataStr = chatflows[i].flowData
-                    const flowData = JSON.parse(flowDataStr)
-                    const nodes = flowData.nodes || []
-                    images[chatflows[i].id] = []
-                    for (let j = 0; j < nodes.length; j += 1) {
-                        const imageSrc = `${baseURL}/api/v1/node-icon/${nodes[j].data.name}`
-                        if (!images[chatflows[i].id].includes(imageSrc)) {
-                            images[chatflows[i].id].push(imageSrc)
-                        }
-                    }
-                }
-                setImages(images)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-    }, [getAllChatflowsMarketplacesApi.data])
+    // useEffect(() => {
+    //     if (getAllChatflowsMarketplacesApi.data) {
+    //         try {
+    //             const chatflows = getAllChatflowsMarketplacesApi.data
+    //             const images = {}
+    //             for (let i = 0; i < chatflows.length; i += 1) {
+    //                 const flowDataStr = chatflows[i].flowData
+    //                 const flowData = JSON.parse(flowDataStr)
+    //                 const nodes = flowData.nodes || []
+    //                 images[chatflows[i].id] = []
+    //                 for (let j = 0; j < nodes.length; j += 1) {
+    //                     const imageSrc = `${baseURL}/api/v1/node-icon/${nodes[j].data.name}`
+    //                     if (!images[chatflows[i].id].includes(imageSrc)) {
+    //                         images[chatflows[i].id].push(imageSrc)
+    //                     }
+    //                 }
+    //             }
+    //             setImages(images)
+    //         } catch (e) {
+    //             console.error(e)
+    //         }
+    //     }
+    // }, [getAllChatflowsMarketplacesApi.data])
 
     return (
-        <>
-            <MainCard>
-                <Stack flexDirection='row'></Stack>
-                <Tabs sx={{ mb: 2 }} variant='fullWidth' value={value} onChange={handleChange} aria-label='tabs'>
-                    {tabItems.map((item, index) => (
-                        <Tab
-                            key={index}
-                            icon={index === 0 ? <IconHierarchy /> : <IconTool />}
-                            iconPosition='start'
-                            label={<span style={{ fontSize: '14px' }}>{item}</span>}
-                        />
-                    ))}
-                </Tabs>
-                {tabItems.map((item, index) => (
-                    <TabPanel key={index} value={value} index={index}>
-                        {item === '模板' && (
-                            <Grid container spacing={gridSpacing}>
-                                {!isChatflowsLoading &&
-                                    getAllChatflowsMarketplacesApi.data &&
-                                    getAllChatflowsMarketplacesApi.data.map((data, index) => (
-                                        <Grid key={index} item lg={3} md={4} sm={6} xs={12}>
-                                            {data.badge && (
-                                                <Badge
-                                                    sx={{
-                                                        '& .MuiBadge-badge': {
-                                                            right: 20
-                                                        }
-                                                    }}
-                                                    badgeContent={data.badge}
-                                                    color={data.badge === 'POPULAR' ? 'primary' : 'error'}
-                                                >
-                                                    <ItemCard onClick={() => goToCanvas(data)} data={data} images={images[data.id]} />
-                                                </Badge>
-                                            )}
-                                            {!data.badge && (
-                                                <ItemCard onClick={() => goToCanvas(data)} data={data} images={images[data.id]} />
-                                            )}
-                                        </Grid>
-                                    ))}
-                            </Grid>
-                        )}
-                        {item === '工具' && (
-                            <Grid container spacing={gridSpacing}>
-                                {!isToolsLoading &&
-                                    getAllToolsMarketplacesApi.data &&
-                                    getAllToolsMarketplacesApi.data.map((data, index) => (
-                                        <Grid key={index} item lg={3} md={4} sm={6} xs={12}>
-                                            {data.badge && (
-                                                <Badge
-                                                    sx={{
-                                                        '& .MuiBadge-badge': {
-                                                            right: 20
-                                                        }
-                                                    }}
-                                                    badgeContent={data.badge}
-                                                    color={data.badge === 'POPULAR' ? 'primary' : 'error'}
-                                                >
-                                                    <ItemCard data={data} onClick={() => goToTool(data)} />
-                                                </Badge>
-                                            )}
-                                            {!data.badge && <ItemCard data={data} onClick={() => goToTool(data)} />}
-                                        </Grid>
-                                    ))}
-                            </Grid>
-                        )}
-                    </TabPanel>
-                ))}
-                {((!isChatflowsLoading && (!getAllChatflowsMarketplacesApi.data || getAllChatflowsMarketplacesApi.data.length === 0)) ||
-                    (!isToolsLoading && (!getAllToolsMarketplacesApi.data || getAllToolsMarketplacesApi.data.length === 0))) && (
-                    <Stack sx={{ alignItems: 'center', justifyContent: 'center' }} flexDirection='column'>
-                        <Box sx={{ p: 2, height: 'auto' }}>
-                            <img
-                                style={{ objectFit: 'cover', height: '30vh', width: 'auto' }}
-                                src={WorkflowEmptySVG}
-                                alt='WorkflowEmptySVG'
-                            />
-                        </Box>
-                        <div style={{ fontSize: '12px' }}>No Marketplace Yet</div>
-                    </Stack>
-                )}
-            </MainCard>
-            <ToolDialog
-                show={showToolDialog}
-                dialogProps={toolDialogProps}
-                onCancel={() => setShowToolDialog(false)}
-                onConfirm={() => setShowToolDialog(false)}
-                onUseTemplate={(tool) => onUseTemplate(tool)}
-            ></ToolDialog>
-        </>
+        // <>
+        //     <MainCard>
+        //         <Stack flexDirection='row'></Stack>
+        //         <Tabs sx={{ mb: 2 }} variant='fullWidth' value={value} onChange={handleChange} aria-label='tabs'>
+        //             {tabItems.map((item, index) => (
+        //                 <Tab
+        //                     key={index}
+        //                     icon={index === 0 ? <IconHierarchy /> : <IconTool />}
+        //                     iconPosition='start'
+        //                     label={<span style={{ fontSize: '14px' }}>{item}</span>}
+        //                 />
+        //             ))}
+        //         </Tabs>
+        //         {tabItems.map((item, index) => (
+        //             <TabPanel key={index} value={value} index={index}>
+        //                 {item === '模板' && (
+        //                     <Grid container spacing={gridSpacing}>
+        //                         {!isChatflowsLoading &&
+        //                             getAllChatflowsMarketplacesApi.data &&
+        //                             getAllChatflowsMarketplacesApi.data.map((data, index) => (
+        //                                 <Grid key={index} item lg={3} md={4} sm={6} xs={12}>
+        //                                     {data.badge && (
+        //                                         <Badge
+        //                                             sx={{
+        //                                                 '& .MuiBadge-badge': {
+        //                                                     right: 20
+        //                                                 }
+        //                                             }}
+        //                                             badgeContent={data.badge}
+        //                                             color={data.badge === 'POPULAR' ? 'primary' : 'error'}
+        //                                         >
+        //                                             <ItemCard onClick={() => goToCanvas(data)} data={data} images={images[data.id]} />
+        //                                         </Badge>
+        //                                     )}
+        //                                     {!data.badge && (
+        //                                         <ItemCard onClick={() => goToCanvas(data)} data={data} images={images[data.id]} />
+        //                                     )}
+        //                                 </Grid>
+        //                             ))}
+        //                     </Grid>
+        //                 )}
+        //                 {item === '工具' && (
+        //                     <Grid container spacing={gridSpacing}>
+        //                         {!isToolsLoading &&
+        //                             getAllToolsMarketplacesApi.data &&
+        //                             getAllToolsMarketplacesApi.data.map((data, index) => (
+        //                                 <Grid key={index} item lg={3} md={4} sm={6} xs={12}>
+        //                                     {data.badge && (
+        //                                         <Badge
+        //                                             sx={{
+        //                                                 '& .MuiBadge-badge': {
+        //                                                     right: 20
+        //                                                 }
+        //                                             }}
+        //                                             badgeContent={data.badge}
+        //                                             color={data.badge === 'POPULAR' ? 'primary' : 'error'}
+        //                                         >
+        //                                             <ItemCard data={data} onClick={() => goToTool(data)} />
+        //                                         </Badge>
+        //                                     )}
+        //                                     {!data.badge && <ItemCard data={data} onClick={() => goToTool(data)} />}
+        //                                 </Grid>
+        //                             ))}
+        //                     </Grid>
+        //                 )}
+        //             </TabPanel>
+        //         ))}
+        //         {((!isChatflowsLoading && (!getAllChatflowsMarketplacesApi.data || getAllChatflowsMarketplacesApi.data.length === 0)) ||
+        //             (!isToolsLoading && (!getAllToolsMarketplacesApi.data || getAllToolsMarketplacesApi.data.length === 0))) && (
+        //             <Stack sx={{ alignItems: 'center', justifyContent: 'center' }} flexDirection='column'>
+        //                 <Box sx={{ p: 2, height: 'auto' }}>
+        //                     <img
+        //                         style={{ objectFit: 'cover', height: '30vh', width: 'auto' }}
+        //                         src={WorkflowEmptySVG}
+        //                         alt='WorkflowEmptySVG'
+        //                     />
+        //                 </Box>
+        //                 <div style={{ fontSize: '12px' }}>No Marketplace Yet</div>
+        //             </Stack>
+        //         )}
+        //     </MainCard>
+        //     <ToolDialog
+        //         show={showToolDialog}
+        //         dialogProps={toolDialogProps}
+        //         onCancel={() => setShowToolDialog(false)}
+        //         onConfirm={() => setShowToolDialog(false)}
+        //         onUseTemplate={(tool) => onUseTemplate(tool)}
+        //     ></ToolDialog>
+        // </>
+        <h1 style={{ textAlign: 'center' }}>开发中 ···</h1>
     )
 }
 
