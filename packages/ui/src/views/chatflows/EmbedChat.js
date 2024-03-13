@@ -9,6 +9,11 @@ import { CheckboxInput } from 'ui-component/checkbox/Checkbox'
 
 // Const
 import { baseURL } from 'store/constant'
+// 设置地址
+const usericon = 'https://registry.npmmirror.com/test-my-test/1.0.0/files/usericon.png'
+const myjs = 'https://registry.npmmirror.com/test-my-test/1.0.0/files/my.js'
+const messageSVG = 'https://registry.npmmirror.com/test-my-test/1.0.0/files/messages.svg'
+const parroticon = 'https://registry.npmmirror.com/test-my-test/1.0.0/files/parroticon.png?'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -40,7 +45,7 @@ function a11yProps(index) {
 
 const embedPopupHtmlCode = (chatflowid) => {
     return `<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/my.js"
+    import Chatbot from '${myjs}'
     Chatbot.init({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -61,7 +66,7 @@ const App = () => {
 const embedFullpageHtmlCode = (chatflowid) => {
     return `<flowise-fullchatbot></flowise-fullchatbot>
 <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
+    import Chatbot from "${myjs}"
     Chatbot.initFull({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -90,7 +95,7 @@ const buttonConfig = (isReact = false) => {
                     bottom: 20,
                     size: "medium",
                     iconColor: "white",
-                    customIconSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/messages.svg",
+                    customIconSrc: "${messageSVG}",
                 }`
         : `button: {
                 backgroundColor: "#3B81F6",
@@ -98,7 +103,7 @@ const buttonConfig = (isReact = false) => {
                 bottom: 20,
                 size: "medium",
                 iconColor: "white",
-                customIconSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/messages.svg",
+                customIconSrc: "${messageSVG}",
             }`
 }
 
@@ -115,13 +120,13 @@ const chatwindowConfig = (isReact = false) => {
                         backgroundColor: "#f7f8ff",
                         textColor: "#303235",
                         showAvatar: true,
-                        avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/parroticon.png",
+                        avatarSrc: "${parroticon}",
                     },
                     userMessage: {
                         backgroundColor: "#3B81F6",
                         textColor: "#ffffff",
                         showAvatar: true,
-                        avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/usericon.png",
+                        avatarSrc: "${usericon}",
                     },
                     textInput: {
                         placeholder: "Type your question",
@@ -141,13 +146,13 @@ const chatwindowConfig = (isReact = false) => {
                     backgroundColor: "#f7f8ff",
                     textColor: "#303235",
                     showAvatar: true,
-                    avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/parroticon.png",
+                    avatarSrc: "${parroticon}",
                 },
                 userMessage: {
                     backgroundColor: "#3B81F6",
                     textColor: "#ffffff",
                     showAvatar: true,
-                    avatarSrc: "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@v1.0.1/usericon.png",
+                    avatarSrc: "${usericon}",
                 },
                 textInput: {
                     placeholder: "Type your question",
@@ -160,7 +165,7 @@ const chatwindowConfig = (isReact = false) => {
 
 const embedPopupHtmlCodeCustomization = (chatflowid) => {
     return `<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
+    import Chatbot from "${myjs}"
     Chatbot.init({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
@@ -195,7 +200,7 @@ const App = () => {
 const embedFullpageHtmlCodeCustomization = (chatflowid) => {
     return `<flowise-fullchatbot></flowise-fullchatbot>
 <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/gh/hd-an/jsdelivr-cdn@1.0.1/my.js"
+    import Chatbot from "${myjs}"
     Chatbot.initFull({
         chatflowid: "${chatflowid}",
         apiHost: "${baseURL}",
