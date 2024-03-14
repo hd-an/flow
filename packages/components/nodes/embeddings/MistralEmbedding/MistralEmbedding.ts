@@ -1,6 +1,6 @@
+import { MistralAIEmbeddings, MistralAIEmbeddingsParams } from '@langchain/mistralai'
 import { ICommonObject, INode, INodeData, INodeParams } from '../../../src/Interface'
 import { getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
-import { MistralAIEmbeddings, MistralAIEmbeddingsParams } from '@langchain/mistralai'
 
 class MistralEmbedding_Embeddings implements INode {
     label: string
@@ -19,7 +19,7 @@ class MistralEmbedding_Embeddings implements INode {
         this.name = 'mistralAI Embeddings'
         this.version = 1.0
         this.type = 'MistralAIEmbeddings'
-        this.icon = 'mistralai.png'
+        this.icon = 'MistralAI.svg'
         this.category = 'Embeddings'
         this.description = 'MistralAI API to generate embeddings for a given text'
         this.baseClasses = [this.type, ...getBaseClasses(MistralAIEmbeddings)]

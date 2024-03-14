@@ -11,7 +11,7 @@ export enum chatType {
  */
 export interface IChatFlow {
     id: string
-    Images:string
+    Images: string
     createdBy: string
     orgId: string
     name: string
@@ -75,6 +75,15 @@ export interface ICredential {
     name: string
     credentialName: string
     encryptedData: string
+    updatedDate: Date
+    createdDate: Date
+}
+
+export interface IVariable {
+    id: string
+    name: string
+    value: string
+    type: string
     updatedDate: Date
     createdDate: Date
 }

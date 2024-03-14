@@ -1,4 +1,4 @@
-import { Tool } from 'langchain/tools'
+import { Tool } from '@langchain/core/tools'
 import fetch from 'node-fetch'
 
 export const desc = `Use this when you want to POST to a website.
@@ -56,6 +56,9 @@ export class RequestsPostTool extends Tool {
             }
 
             if (process.env.DEBUG === 'true') console.info(`Making POST API call to ${inputUrl} with body ${JSON.stringify(inputBody)}`)
+
+            // console.log(`\x1b[34m log text inputBody`)
+            // console.log(inputBody)
 
             const res = await fetch(inputUrl, {
                 method: 'POST',

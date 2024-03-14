@@ -15,6 +15,7 @@ export class NodesPool {
      */
     async initialize() {
         await this.initializeNodes()
+
         await this.initializeCredentials()
     }
 

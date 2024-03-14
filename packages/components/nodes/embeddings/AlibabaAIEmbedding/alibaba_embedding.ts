@@ -187,6 +187,14 @@ export class AlibabaAIEmbeddings extends Embeddings implements AlibabaAIEmbeddin
      * @returns Promise that resolves to the response from the API.
      */
     private async embeddingWithRetry(body: EmbeddingCreateParams) {
+        console.log('[ body ]-190-「」', {
+            ...body,
+            input: {
+                ...body.input,
+                texts: body.input.texts.length,
+                testsLen: body.input.texts.map((item) => item.length)
+            }
+        })
         return fetch('https://dashscope.aliyuncs.com/api/v1/services/embeddings/text-embedding/text-embedding', {
             method: 'POST',
             headers: {

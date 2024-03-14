@@ -287,15 +287,12 @@ class ChatAlibabaAI_ChatModels implements INode {
         const topP = nodeData.inputs?.topP as string
         const topK = nodeData.inputs?.topK as string
         const repetitionPenalty = nodeData.inputs?.repetitionPenalty as string
-        const enableSearch = nodeData.inputs?.enableSearch
+        const enableSearch = nodeData.inputs?.enableSearch || false
         const streaming = nodeData.inputs?.streaming as boolean
         const baseOptions = nodeData.inputs?.baseOptions
 
-        console.log('[ nodeData ]-295- : ', nodeData)
         const credentialData = await getCredentialData(nodeData.credential ?? '', options)
-        console.log('[ credentialData ]-295- : ', credentialData)
         const alibabaApiKey = getCredentialParam('alibabaAIApiKey', credentialData, nodeData)
-        console.log('[ alibabaApiKey ]-295- : ', alibabaApiKey)
 
         const cache = nodeData.inputs?.cache as BaseCache
 

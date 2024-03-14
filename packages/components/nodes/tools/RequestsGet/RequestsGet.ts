@@ -48,6 +48,13 @@ class RequestsGet_Tools implements INode {
                 type: 'json',
                 additionalParams: true,
                 optional: true
+            },
+            {
+                label: 'Query',
+                name: 'query',
+                type: 'json',
+                additionalParams: true,
+                optional: true
             }
         ]
     }
