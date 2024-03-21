@@ -16,11 +16,9 @@
         <flowise-fullchatbot id="flowiseFullchatbot"></flowise-fullchatbot>
         <script>
             window.addEventListener('message', receiveMessage, false)
-            const apiHost = `https://phantom-agent-experimental.cloudladder.net.cn`
             const matchOrigin = new RegExp(`experimental.cloudladder.net.cn$`)
 
             let initChatOptions = {
-                apiHost,
                 theme: {
                     chatWindow: {
                         showTitle: true,
