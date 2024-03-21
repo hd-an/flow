@@ -1,3 +1,4 @@
 **/node_modules
 **/dist
 **/build
+**/public/chat-js/web.js

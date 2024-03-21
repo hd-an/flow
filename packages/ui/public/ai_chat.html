@@ -15,65 +15,33 @@
     <body>
         <flowise-fullchatbot id="flowiseFullchatbot"></flowise-fullchatbot>
         <script>
-            function changeText() {
-                let flowiseFullchatbotEl = document.querySelector(`#flowiseFullchatbot`)
+            window.addEventListener('message', receiveMessage, false)
+            const apiHost = `https://phantom-agent-experimental.cloudladder.net.cn`
+            const matchOrigin = new RegExp(`experimental.cloudladder.net.cn$`)
 
-                if (!flowiseFullchatbotEl.shadowRoot.querySelector('div'))
-                    return setTimeout(() => {
-                        changeText()
-                    }, 15)
-
-                const poweredBy = [...flowiseFullchatbotEl.shadowRoot.querySelectorAll('span')]
-                    .reverse()
-                    .find((item) => item.innerText.startsWith('Powered by'))
-
-                poweredBy.innerText = `Powered By 北京尚云数智慧科技有限公司`
-            }
-
-            window.onload = changeText
-        </script>
-        <script type="module">
-            import Chatbot from 'https://registry.npmmirror.com/flowise-embed/1.2.0/files/dist/web.js'
-
-            const queryData = new URLSearchParams(window.location.search)
-
-            const chatflowid = queryData.get('chatflowid')
-            const apiHost = queryData.get('apiHost') ?? 'https://phantom-agent-experimental.cloudladder.net.cn'
-
-            Chatbot.initFull({
-                chatflowid,
+            let initChatOptions = {
                 apiHost,
                 theme: {
-                    button: {
-                        backgroundColor: '#3B81F6',
-                        right: 20,
-                        bottom: 20,
-                        size: 'medium',
-                        iconColor: 'white'
-                        // customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
-                    },
                     chatWindow: {
                         showTitle: true,
                         title: '尚云数智Bot',
-                        // titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+                        titleAvatarSrc: './messages.svg',
                         welcomeMessage: '你好呀!',
                         backgroundColor: '#ffffff',
-                        // height: 700,
-                        // width: 400,
-                        // fontSize: 16,
+                        fontSize: 16,
                         poweredByTextColor: '#303235',
-                        // botMessage: {
-                        // 	backgroundColor: '#f7f8ff',
-                        // 	textColor: '#303235',
-                        // 	showAvatar: true,
-                        // 	avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png',
-                        // },
-                        // userMessage: {
-                        // 	backgroundColor: '#3B81F6',
-                        // 	textColor: '#ffffff',
-                        // 	showAvatar: true,
-                        // 	avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png',
-                        // },
+                        botMessage: {
+                            backgroundColor: '#f7f8ff',
+                            textColor: '#303235',
+                            showAvatar: true,
+                            avatarSrc: './parroticon.png'
+                        },
+                        userMessage: {
+                            backgroundColor: '#3B81F6',
+                            textColor: '#ffffff',
+                            showAvatar: true,
+                            avatarSrc: './usericon.png'
+                        },
                         textInput: {
                             placeholder: '请输入',
                             backgroundColor: '#ffffff',
@@ -82,6 +50,66 @@
                         }
                     }
                 }
+            }
+
+            function deepAssign(target, source) {
+                for (let key in source) {
+                    if (source[key] != null && typeof source[key] === 'object') {
+                        if (
+                            !target.hasOwnProperty(key) ||
+                            typeof target[key] !== 'object' ||
+                            Array.isArray(target[key]) !== Array.isArray(source[key])
+                        ) {
+                            target[key] = Array.isArray(source[key]) ? [] : {}
+                        }
+                        deepAssign(target[key], source[key])
+                    } else {
+                        target[key] = source[key]
+                    }
+                }
+                return target
+            }
+
+            function setPropertyByPath(obj, path, value) {
+                const keys = path.split('.')
+                let current = obj
+
+                for (let i = 0; i < keys.length - 1; i++) {
+                    if (!current.hasOwnProperty(keys[i]) || typeof current[keys[i]] !== 'object') {
+                        current[keys[i]] = {}
+                    }
+                    current = current[keys[i]]
+                }
+
+                current[keys[keys.length - 1]] = value
+
+                return obj
+            }
+
+            function receiveMessage(event) {
+                const origin = event.origin
+
+                if (!matchOrigin.test(origin)) return
+                const data = event.data
+
+                deepAssign(initChatOptions, event.data)
+
+                window.removeEventListener('message', receiveMessage, false)
+            }
+
+            const queryData = new URLSearchParams(window.location.search)
+
+            queryData.forEach((value, key) => {
+                setPropertyByPath(initChatOptions, key, value)
+            })
+        </script>
+        <script type="module">
+            import Chatbot from './chat-js/web.js'
+
+            setTimeout(() => {
+                Chatbot.initFull(initChatOptions)
+                initChatOptions = void 0
+                window.removeEventListener('message', receiveMessage, false)
             })
         </script>
     </body>
