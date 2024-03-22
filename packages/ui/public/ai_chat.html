@@ -223,6 +223,10 @@
                     current = current[keys[i]]
                 }
 
+                try {
+                    if (typeof current[keys[keys.length - 1]] !== 'string') value = JSON.parse(value)
+                } catch (error) {}
+
                 current[keys[keys.length - 1]] = value
 
                 return obj
