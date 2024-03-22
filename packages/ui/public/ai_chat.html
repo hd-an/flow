@@ -9,18 +9,160 @@
                 margin: 0;
                 padding: 0;
             }
+            .loading,
+            .loading > div {
+                position: relative;
+                box-sizing: border-box;
+            }
+
+            .loading {
+                display: block;
+                font-size: 0;
+                color: #1677ff;
+            }
+
+            .loading.la-dark {
+                color: #333;
+            }
+
+            .loading > div {
+                display: inline-block;
+                float: none;
+                background-color: currentColor;
+                border: 0 solid currentColor;
+            }
+
+            /* .loading {
+                width: 45px;
+                height: 36px;
+            } */
+
+            .loading > div {
+                width: 6px;
+                height: 72px;
+                margin: 6px;
+                border-radius: 3px;
+                margin-top: 0;
+                margin-bottom: 0;
+                animation-name: line-scale-party;
+                animation-iteration-count: infinite;
+            }
+
+            .loading > div:nth-child(1) {
+                animation-duration: 0.43s;
+                animation-delay: -0.23s;
+            }
+
+            .loading > div:nth-child(2) {
+                animation-duration: 0.62s;
+                animation-delay: -0.32s;
+            }
+
+            .loading > div:nth-child(3) {
+                animation-duration: 0.43s;
+                animation-delay: -0.44s;
+            }
+
+            .loading > div:nth-child(4) {
+                animation-duration: 0.8s;
+                animation-delay: -0.31s;
+            }
+
+            .loading > div:nth-child(5) {
+                animation-duration: 0.74s;
+                animation-delay: -0.24s;
+            }
+
+            .loading.la-sm {
+                width: 20px;
+                height: 16px;
+            }
+
+            .loading.la-sm > div {
+                width: 2px;
+                height: 16px;
+                margin: 1px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .loading.la-2x {
+                width: 80px;
+                height: 64px;
+            }
+
+            .loading.la-2x > div {
+                width: 8px;
+                height: 64px;
+                margin: 4px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .loading.la-3x {
+                width: 120px;
+                height: 96px;
+            }
+
+            .loading.la-3x > div {
+                width: 12px;
+                height: 96px;
+                margin: 6px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            @keyframes line-scale-party {
+                0% {
+                    transform: scaleY(1);
+                }
+
+                50% {
+                    transform: scaleY(0.3);
+                }
+
+                100% {
+                    transform: scaleY(1);
+                }
+            }
+            #chat-spin {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #chat-spin > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                flex-direction: column;
+                font-size: 15px;
+                color: rgba(22, 119, 255, 0.81);
+            }
         </style>
     </head>
 
     <body>
-        <flowise-fullchatbot id="flowiseFullchatbot"></flowise-fullchatbot>
+        <div id="chat-spin">
+            <div class="center">
+                <div class="loading">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                加载中 ...
+            </div>
+        </div>
         <script>
             window.addEventListener('message', receiveMessage, false)
-            const apiHost = `https://phantom-agent-experimental.cloudladder.net.cn`
             const matchOrigin = new RegExp(`experimental.cloudladder.net.cn$`)
 
             let initChatOptions = {
-                apiHost,
                 theme: {
                     chatWindow: {
                         showTitle: true,
@@ -64,7 +206,7 @@
                         }
                         deepAssign(target[key], source[key])
                     } else {
-                        target[key] = source[key]
+                        if (source[key]) target[key] = source[key]
                     }
                 }
                 return target
@@ -97,7 +239,7 @@
                 window.removeEventListener('message', receiveMessage, false)
             }
 
-            const queryData = new URLSearchParams(window.location.search)
+            let queryData = new URLSearchParams(window.location.search)
 
             queryData.forEach((value, key) => {
                 setPropertyByPath(initChatOptions, key, value)
@@ -106,11 +248,21 @@
         <script type="module">
             import Chatbot from './chat-js/web.js'
 
-            setTimeout(() => {
+            function init() {
+                const element = document.createElement('flowise-fullchatbot')
+
+                document.body.replaceChild(element, document.body.firstElementChild)
+
                 Chatbot.initFull(initChatOptions)
-                initChatOptions = void 0
+                queryData = uniqueKey = initChatOptions = void 0
                 window.removeEventListener('message', receiveMessage, false)
-            })
+            }
+
+            if (typeof window.parent.postMessage === 'function') {
+                window.parent.postMessage({ uniqueKey: queryData.get('key') }, '*')
+
+                setTimeout(init, 150)
+            } else init()
         </script>
     </body>
 </html>
