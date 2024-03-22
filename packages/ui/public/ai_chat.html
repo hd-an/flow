@@ -206,7 +206,11 @@
                         }
                         deepAssign(target[key], source[key])
                     } else {
-                        if (source[key]) target[key] = source[key]
+                        if (
+                            ['[object Undefined]', '[object Null]'].includes(Object.prototype.toString.call(source[key])) ||
+                            (typeof source[key] == 'string' && !source[key].trim())
+                        ) {
+                        } else target[key] = source[key]
                     }
                 }
                 return target
@@ -236,7 +240,6 @@
                 const origin = event.origin
 
                 if (!matchOrigin.test(origin)) return
-                const data = event.data
 
                 deepAssign(initChatOptions, event.data)
 
@@ -258,7 +261,7 @@
                 document.body.replaceChild(element, document.body.firstElementChild)
 
                 Chatbot.initFull(initChatOptions)
-                queryData = uniqueKey = initChatOptions = void 0
+                queryData = initChatOptions = void 0
                 window.removeEventListener('message', receiveMessage, false)
             }
 
