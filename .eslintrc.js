@@ -14,7 +14,7 @@ module.exports = {
         }
     },
     parser: '@typescript-eslint/parser',
-    ignorePatterns: ['**/node_modules', '**/dist', '**/build', '**/package-lock.json', '**/public/chat-js/web.js'],
+    ignorePatterns: ['**/node_modules', '**/dist', '**/build', '**/package-lock.json', '**/public/chat-js'],
     plugins: ['unused-imports'],
     rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
